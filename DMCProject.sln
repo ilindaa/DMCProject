@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMCProject.Server", "DMCProject.Server\DMCProject.Server.csproj", "{32180B51-70CA-42C7-AAC1-8FCDA2E7D924}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "dmcproject.client", "dmcproject.client\dmcproject.client.esproj", "{D1B5BE81-12FE-43A6-B7F1-90AB527CC457}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32180B51-70CA-42C7-AAC1-8FCDA2E7D924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32180B51-70CA-42C7-AAC1-8FCDA2E7D924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32180B51-70CA-42C7-AAC1-8FCDA2E7D924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32180B51-70CA-42C7-AAC1-8FCDA2E7D924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1B5BE81-12FE-43A6-B7F1-90AB527CC457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1B5BE81-12FE-43A6-B7F1-90AB527CC457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1B5BE81-12FE-43A6-B7F1-90AB527CC457}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D1B5BE81-12FE-43A6-B7F1-90AB527CC457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1B5BE81-12FE-43A6-B7F1-90AB527CC457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1B5BE81-12FE-43A6-B7F1-90AB527CC457}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CF18B1C6-61E5-49FA-9097-61DC3634373E}
+	EndGlobalSection
+EndGlobal
