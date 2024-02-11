@@ -1,56 +1,98 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import React, { FC, Fragment, useEffect, useState } from "react";
+import "./App.css";
+import { createApi } from "unsplash-js";
+import { Link } from "react-router-dom";
+import * as dotenv from "dotenv";
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
-}
+// const test = dotenv.config({ path: "../../.env" });
+// console.log(test);
+// console.log(process.env.REACT_APP_UNSPLASH_API_KEY);
 
-function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
+// DEMO CODE FROM UNSPLASH API FOR TESTING PURPOSES
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
+type Photo = {
+    id: number;
+    width: number;
+    height: number;
+    urls: { large: string; regular: string; raw: string; small: string };
+    color: string | null;
+    user: {
+        username: string;
+        name: string;
+    };
+};
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tabelLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
+const api = createApi({
+    // Don't forget to set your access token here!
+    // See https://unsplash.com/developers
+    accessKey: `${process.env.REACT_APP_UNSPLASH_API_KEY}`,
+});
+
+const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
+    const { user, urls } = photo;
 
     return (
-        <div>
-            <h1 id="tabelLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
+        <Fragment>
+            <img className="img" src={urls.regular} />
+            <a
+                className="credit"
+                target="_blank"
+                href={`https://unsplash.com/@${user.username}`}
+            >
+                {user.name}
+            </a>
+        </Fragment>
     );
+};
 
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
+const Body: FC = () => {
+    const [data, setPhotosResponse] = useState(null);
+
+    useEffect(() => {
+        api.search
+            .getPhotos({ query: "pomeranian", orientation: "landscape" })
+            .then(result => {
+                setPhotosResponse(result);
+            })
+            .catch(() => {
+                console.log("something went wrong!");
+            });
+    }, []);
+
+    if (data === null) {
+        return <div>Loading...</div>;
+    } else if (data.errors) {
+        return (
+            <div>
+                <div>{data.errors[0]}</div>
+                <div>PS: Make sure to set your access token!</div>
+            </div>
+        );
+    } else {
+        return (
+            <div className="feed">
+                <ul className="columnUl">
+                    {data.response.results.map(photo => (
+                        <li key={photo.id} className="li">
+                            <PhotoComp photo={photo} />
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
     }
+};
+
+function App() {
+    return (
+        <main className="root">
+            <h2>Testing Unsplash API</h2>
+            <Link to="login">Login</Link>
+            <br/>
+            <Link to="register">Register</Link>
+            <Body />
+        </main>
+    );
 }
 
 export default App;
