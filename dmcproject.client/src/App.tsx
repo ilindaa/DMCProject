@@ -1,12 +1,7 @@
-/*import React, { FC, Fragment, useEffect, useState } from "react";*/
+import React, { FC, Fragment, useEffect, useState } from "react";
 import "./App.css";
-/*import { createApi } from "unsplash-js";*/
+import { createApi } from "unsplash-js";
 import { Link } from "react-router-dom";
-/*import * as dotenv from "dotenv";
-
-const test = dotenv.config({ path: "../../.env" });
-console.log(test);
-console.log(process.env.REACT_APP_UNSPLASH_API_KEY);
 
 // DEMO CODE FROM UNSPLASH API FOR TESTING PURPOSES
 
@@ -25,7 +20,7 @@ type Photo = {
 const api = createApi({
     // Don't forget to set your access token here!
     // See https://unsplash.com/developers
-    accessKey: `${process.env.REACT_APP_UNSPLASH_API_KEY}`,
+    accessKey: `${import.meta.env.VITE_UNSPLASH_API_KEY}`, // Access key in .env file
 });
 
 const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
@@ -82,7 +77,6 @@ const Body: FC = () => {
         );
     }
 };
-*/
 function App() {
     return (
         <main className="root">
@@ -90,7 +84,7 @@ function App() {
             <Link to="login">Login</Link>
             <br/> {/* Line break here temporarily for now */}
             <Link to="register">Register</Link>
-            {/*<Body />*/}
+            <Body />
         </main>
     );
 }
