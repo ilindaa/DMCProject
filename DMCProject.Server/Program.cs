@@ -1,3 +1,8 @@
+using DMCProject.Server;
+
+Testing test1 = new Testing();
+test1.Main();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

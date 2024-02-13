@@ -80,7 +80,7 @@ const Body: FC = () => {
 function App() {
     return (
         <main className="root">
-            <h2>Testing Unsplash API</h2>
+            <h2>Art Reference Tool</h2>
             <Link to="login">Login</Link>
             <br/> {/* Line break here temporarily for now */}
             <Link to="register">Register</Link>
