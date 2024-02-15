@@ -6,15 +6,15 @@ const Register = () => {
             <h1>Register</h1>
             <Link to="/">Back</Link>
             <div>
-                <form id="registerForm">
+                <form action="../../DMCProject.Server/Program.cs" method="post" id="registerForm">
                     <label htmlFor="email">Email</label>
-                    <input type="text" id="email" required></input>
+                    <input type="text" id="email" name="email" required></input>
 
                     <label htmlFor="password">Password</label>
-                    <input type="text" id="password" required></input>
+                    <input type="text" id="password" name="password" required></input>
 
                     <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input type="text" id="confirmPassword" required></input>
+                    <input type="text" id="confirmPassword" name="confirmPassword" required></input>
 
                     <button type="submit">Register</button>
                 </form>

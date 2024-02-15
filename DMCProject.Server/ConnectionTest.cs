@@ -1,14 +1,9 @@
-﻿using System;
-using System.Data;
-using System.Media;
-using MySql.Data;
-using MySql.Data.MySqlClient;
-using DotNetEnv;
+﻿using MySql.Data.MySqlClient;
 
 namespace DMCProject.Server
 {
-    public class Testing { 
-        public void Main() {
+    public class ConnectionTest { 
+        public MySqlConnection ConnectDB() {
 
             DotNetEnv.Env.Load();
 
@@ -21,17 +16,20 @@ namespace DMCProject.Server
             MySqlConnection conn = new MySqlConnection(connStr);
 
             try {
-/*                Console.WriteLine("Connecting to MySQL...");*/
                 System.Diagnostics.Debug.WriteLine("Connecting to MySQL...");
                 conn.Open();
                 System.Diagnostics.Debug.WriteLine("Connected!");
             } catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("ERROR: " + ex.ToString());
-/*                Console.WriteLine(ex.ToString());*/
             }
+
+            return conn;
+        }
+
+        public void CloseDB(MySqlConnection conn) {
             conn.Close();
-            Console.WriteLine("Done");
+            System.Diagnostics.Debug.WriteLine("Connection closed!");
         }
     }
 }

@@ -1,7 +1,8 @@
 using DMCProject.Server;
+/*using MySql.Data.MySqlClient;
 
-Testing test1 = new Testing();
-test1.Main();
+ConnectionTest test = new ConnectionTest();
+MySqlConnection conn = test.ConnectDB();*/
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,3 +34,6 @@ app.MapControllers();
 app.MapFallbackToFile("/index.html");
 
 app.Run();
+
+/* Closing the connection */
+/*test.CloseDB(conn);*/
