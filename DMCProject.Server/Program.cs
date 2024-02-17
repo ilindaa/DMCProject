@@ -4,7 +4,22 @@ using DMCProject.Server;
 ConnectionTest test = new ConnectionTest();
 MySqlConnection conn = test.ConnectDB();*/
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:7035/")
+                          .AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                      });
+});
 
 // Add services to the container.
 
@@ -27,9 +42,20 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapControllerRoute(
+   name: "Account",
+   pattern: "/api/{controller=Account}/{action=Register}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "/api/{controller=Account}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("/index.html");
 

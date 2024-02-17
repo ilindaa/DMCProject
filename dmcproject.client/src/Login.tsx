@@ -6,7 +6,7 @@ const Login = () => {
             <h1>Login</h1>
             <Link to="/">Back</Link>
             <div>
-                <form action="../../DMCProject.Server/Program.cs" method="post" id="loginForm">
+                <form action="../../DMCProject.Server/Controllers/AccountController.cs" method="post" id="loginForm">
                     <label htmlFor="email">Email</label>
                     <input type="text" id="email" name="email" required></input>
 
