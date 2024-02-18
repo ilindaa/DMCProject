@@ -19,8 +19,7 @@ namespace DMCProject.Server
                 System.Diagnostics.Debug.WriteLine("Connecting to MySQL...");
                 conn.Open();
                 System.Diagnostics.Debug.WriteLine("Connected!");
-            } catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 System.Diagnostics.Debug.WriteLine("ERROR: " + ex.ToString());
             }
 

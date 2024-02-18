@@ -1,8 +1,4 @@
 using DMCProject.Server;
-/*using MySql.Data.MySqlClient;
-
-ConnectionTest test = new ConnectionTest();
-MySqlConnection conn = test.ConnectDB();*/
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -64,6 +60,3 @@ app.MapControllerRoute(
 app.MapFallbackToFile("/index.html");
 
 app.Run();
-
-/* Closing the connection */
-/*test.CloseDB(conn);*/

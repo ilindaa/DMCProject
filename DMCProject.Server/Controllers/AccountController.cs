@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using MySql.Data.MySqlClient;
 
 namespace DMCProject.Server.Controllers
 {
@@ -27,10 +28,16 @@ namespace DMCProject.Server.Controllers
                 string email = jo["email"].ToString();
                 string password = jo["password"].ToString();
                 string confirmPassword = jo["confirmPassword"].ToString();
-                System.Diagnostics.Debug.WriteLine(jo);
-                System.Diagnostics.Debug.WriteLine(email);
-                System.Diagnostics.Debug.WriteLine(password);
-                System.Diagnostics.Debug.WriteLine(confirmPassword);
+
+                ConnectionTest test = new ConnectionTest();
+                MySqlConnection conn = test.ConnectDB();
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "INSERT INTO Account (Email, Password) VALUES (@value1, @value2)";
+                // Add parameters with their values (protects against SQL injection)
+                cmd.Parameters.AddWithValue("@value1", email);
+                cmd.Parameters.AddWithValue("@value2", password);
+                cmd.ExecuteNonQuery();
+                test.CloseDB(conn);
             }
         }
 
@@ -48,6 +55,9 @@ namespace DMCProject.Server.Controllers
                 System.Diagnostics.Debug.WriteLine(jo);
                 System.Diagnostics.Debug.WriteLine(email);
                 System.Diagnostics.Debug.WriteLine(password);
+                ConnectionTest test = new ConnectionTest();
+                MySqlConnection conn = test.ConnectDB();
+                test.CloseDB(conn);
             }
         }
     }
