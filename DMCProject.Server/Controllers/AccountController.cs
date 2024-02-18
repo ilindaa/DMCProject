@@ -21,7 +21,8 @@ namespace DMCProject.Server.Controllers
         [Route("Register")]
         public void Register([FromBody] JsonElement jsonData)
         {
-            if (jsonData.ValueKind == JsonValueKind.Object) {
+            if (jsonData.ValueKind == JsonValueKind.Object)
+            {
                 System.Diagnostics.Debug.WriteLine("Object");
                 System.Diagnostics.Debug.WriteLine(jsonData);
                 JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
@@ -52,11 +53,22 @@ namespace DMCProject.Server.Controllers
                 JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
                 string email = jo["email"].ToString();
                 string password = jo["password"].ToString();
-                System.Diagnostics.Debug.WriteLine(jo);
-                System.Diagnostics.Debug.WriteLine(email);
-                System.Diagnostics.Debug.WriteLine(password);
+
                 ConnectionTest test = new ConnectionTest();
                 MySqlConnection conn = test.ConnectDB();
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT * FROM Account WHERE Email=@value1 AND Password=@value2";
+                cmd.Parameters.AddWithValue("@value1", email);
+                cmd.Parameters.AddWithValue("@value2", password);
+                // ExecuteScalar returns a single value (result)
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("The account exists!");
+                } else
+                {
+                    System.Diagnostics.Debug.WriteLine("The account does not exist or the password input is incorrect!");
+                }
                 test.CloseDB(conn);
             }
         }
