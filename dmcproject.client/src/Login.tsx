@@ -38,10 +38,10 @@ const Login = () => {
             <div>
                 <form id="loginForm">
                     <label htmlFor="email">Email</label>
-                    <input type="text" id="email" name="email" required></input>
+                    <input type="email" id="email" name="email" maxLength={50} required></input>
 
                     <label htmlFor="password">Password</label>
-                    <input type="text" id="password" name="password" required></input>
+                    <input type="password" id="password" name="password" minLength={8} maxLength={30} required></input>
 
                     <button type="submit">Log In</button>
                 </form>

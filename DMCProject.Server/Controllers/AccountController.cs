@@ -23,7 +23,6 @@ namespace DMCProject.Server.Controllers
         {
             if (jsonData.ValueKind == JsonValueKind.Object)
             {
-                System.Diagnostics.Debug.WriteLine("Object");
                 System.Diagnostics.Debug.WriteLine(jsonData);
                 JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
                 string email = jo["email"].ToString();
@@ -33,11 +32,25 @@ namespace DMCProject.Server.Controllers
                 ConnectionTest test = new ConnectionTest();
                 MySqlConnection conn = test.ConnectDB();
                 MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = "INSERT INTO Account (Email, Password) VALUES (@value1, @value2)";
-                // Add parameters with their values (protects against SQL injection)
+                // Check if an account with the email exists before registering
+                cmd.CommandText = "SELECT * FROM Account WHERE Email=@value1";
                 cmd.Parameters.AddWithValue("@value1", email);
-                cmd.Parameters.AddWithValue("@value2", password);
-                cmd.ExecuteNonQuery();
+                // ExecuteScalar returns a single value (result)
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error: An account with this email already exists! Please log into your account.");
+                }
+                else
+                {
+                    // An account with the email does not exist so register the account
+                    cmd.CommandText = "INSERT INTO Account (Email, Password) VALUES (@value2, @value3)";
+                    // Add parameters with their values (protects against SQL injection)
+                    cmd.Parameters.AddWithValue("@value2", email);
+                    cmd.Parameters.AddWithValue("@value3", password);
+                    cmd.ExecuteNonQuery();
+                    System.Diagnostics.Debug.WriteLine("Registered!");
+                }
                 test.CloseDB(conn);
             }
         }
@@ -48,7 +61,6 @@ namespace DMCProject.Server.Controllers
         {
             if (jsonData.ValueKind == JsonValueKind.Object)
             {
-                System.Diagnostics.Debug.WriteLine("Object");
                 System.Diagnostics.Debug.WriteLine(jsonData);
                 JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
                 string email = jo["email"].ToString();
@@ -57,6 +69,7 @@ namespace DMCProject.Server.Controllers
                 ConnectionTest test = new ConnectionTest();
                 MySqlConnection conn = test.ConnectDB();
                 MySqlCommand cmd = conn.CreateCommand();
+                // Check if the email and the password exists in Account
                 cmd.CommandText = "SELECT * FROM Account WHERE Email=@value1 AND Password=@value2";
                 cmd.Parameters.AddWithValue("@value1", email);
                 cmd.Parameters.AddWithValue("@value2", password);
@@ -64,10 +77,10 @@ namespace DMCProject.Server.Controllers
                 object result = cmd.ExecuteScalar();
                 if (result != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("The account exists!");
+                    System.Diagnostics.Debug.WriteLine("Logged in!");
                 } else
                 {
-                    System.Diagnostics.Debug.WriteLine("The account does not exist or the password input is incorrect!");
+                    System.Diagnostics.Debug.WriteLine("Error: The account does not exist or the password you inputted is incorrect!");
                 }
                 test.CloseDB(conn);
             }
