@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing.Printing;
+using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DMCProject.Server.Controllers
 {
@@ -16,17 +18,37 @@ namespace DMCProject.Server.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public void Register()
+        public void Register([FromBody] JsonElement jsonData)
         {
-            System.Diagnostics.Debug.WriteLine("Test");
+            if (jsonData.ValueKind == JsonValueKind.Object) {
+                System.Diagnostics.Debug.WriteLine("Object");
+                System.Diagnostics.Debug.WriteLine(jsonData);
+                JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
+                string email = jo["email"].ToString();
+                string password = jo["password"].ToString();
+                string confirmPassword = jo["confirmPassword"].ToString();
+                System.Diagnostics.Debug.WriteLine(jo);
+                System.Diagnostics.Debug.WriteLine(email);
+                System.Diagnostics.Debug.WriteLine(password);
+                System.Diagnostics.Debug.WriteLine(confirmPassword);
+            }
         }
 
-        /*      public void Login()
-                {
-                    string email = HttpContext.Request.Query["email"].ToString();
-                    string password = HttpContext.Request.Query["password"].ToString();
-                    System.Diagnostics.Debug.WriteLine(email);
-                    System.Diagnostics.Debug.WriteLine(password);
-                }*/
+        [HttpPost]
+        [Route("Login")]
+        public void Login([FromBody] JsonElement jsonData)
+        {
+            if (jsonData.ValueKind == JsonValueKind.Object)
+            {
+                System.Diagnostics.Debug.WriteLine("Object");
+                System.Diagnostics.Debug.WriteLine(jsonData);
+                JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
+                string email = jo["email"].ToString();
+                string password = jo["password"].ToString();
+                System.Diagnostics.Debug.WriteLine(jo);
+                System.Diagnostics.Debug.WriteLine(email);
+                System.Diagnostics.Debug.WriteLine(password);
+            }
+        }
     }
 }

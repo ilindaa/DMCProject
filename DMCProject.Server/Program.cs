@@ -6,9 +6,9 @@ MySqlConnection conn = test.ConnectDB();*/
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-
 var builder = WebApplication.CreateBuilder(args);
 
+// Handle CORS here
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -44,6 +44,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+// UseCors() has to be in between UseRouting() and UseAuthorization()
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
@@ -53,6 +54,9 @@ app.MapControllers();
 app.MapControllerRoute(
    name: "Account",
    pattern: "/api/{controller=Account}/{action=Register}/{id?}");
+app.MapControllerRoute(
+   name: "Login",
+   pattern: "/api/{controller=Account}/{action=Login}/{id?}");
 app.MapControllerRoute(
     name: "default",
     pattern: "/api/{controller=Account}/{action=Index}/{id?}");

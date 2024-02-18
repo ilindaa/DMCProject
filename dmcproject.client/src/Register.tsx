@@ -2,16 +2,25 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 const Register = () => {
+    // useEffect gets called after the fragment loads on the page
     useEffect(() => {
         const registerForm = document.getElementById("registerForm");
-        registerForm.addEventListener("submit", function(event) {
+
+        registerForm.addEventListener("submit", function (event) {
+            // Stops the page from refreshing
             event.preventDefault();
+            // Store the form data as a FormData object then turn it into a string (JsonElement)
             const formData = new FormData(registerForm);
-            console.log(formData);
+            const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
+            console.log(jsonData);
+            // Fetch the data to the server and send it to be handled in AccountController.cs
             try {
                 fetch("https://localhost:7035/api/Account/Register", {
                     method: "POST",
-                    body: formData
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: jsonData
                 }).then(response => {
                     console.log(response);
                 })
@@ -40,6 +49,7 @@ const Register = () => {
                     <button type="submit">Register</button>
                 </form>
             </div>
+            <p>Have an account? <Link to="../login">Login</Link>.</p>
         </>
 )
 }

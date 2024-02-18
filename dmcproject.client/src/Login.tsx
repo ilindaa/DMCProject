@@ -1,12 +1,42 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Login = () => {
+    // useEffect gets called after the fragment loads on the page
+    useEffect(() => {
+        const loginForm = document.getElementById("loginForm");
+
+        loginForm.addEventListener("submit", function (event) {
+            // Stops the page from refreshing
+            event.preventDefault();
+            // Store the form data as a FormData object then turn it into a string (JsonElement)
+            const formData = new FormData(loginForm);
+            const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
+            console.log(jsonData);
+            // Fetch the data to the server and send it to be handled in AccountController.cs
+            try {
+                fetch("https://localhost:7035/api/Account/Login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: jsonData
+                }).then(response => {
+                    console.log(response);
+                })
+            } catch (error) {
+                console.log(error);
+            }
+            console.log("Submitted!");
+        })
+    }, []);
+
     return (
         <>
             <h1>Login</h1>
             <Link to="/">Back</Link>
             <div>
-                <form action="../../DMCProject.Server/Controllers/AccountController.cs" method="post" id="loginForm">
+                <form id="loginForm">
                     <label htmlFor="email">Email</label>
                     <input type="text" id="email" name="email" required></input>
 
@@ -16,7 +46,7 @@ const Login = () => {
                     <button type="submit">Log In</button>
                 </form>
             </div>
-            <p>Don't have an account? <Link to="register">Register</Link>!</p>
+            <p>Don't have an account? <Link to="../register">Register</Link>.</p>
         </>
     );
 };
