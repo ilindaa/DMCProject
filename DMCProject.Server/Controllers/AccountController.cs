@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using MySql.Data.MySqlClient;
+using System.Text.Json;
 
 namespace DMCProject.Server.Controllers
 {
@@ -11,6 +12,10 @@ namespace DMCProject.Server.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : Controller {
+        private const string SessionLogin = "_Login"; // Is the user logged in (1) or not (0)?
+        private const string SessionId = "_Id"; // AccountID
+        private const string SessionAdmin = "_Admin"; // Is the account an admin (1) or employee (0)?
+
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult Index()
         {
@@ -73,11 +78,18 @@ namespace DMCProject.Server.Controllers
                 cmd.CommandText = "SELECT * FROM Account WHERE Email=@value1 AND Password=@value2";
                 cmd.Parameters.AddWithValue("@value1", email);
                 cmd.Parameters.AddWithValue("@value2", password);
-                // ExecuteScalar returns a single value (result)
-                object result = cmd.ExecuteScalar();
-                if (result != null)
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                if (rdr.Read())
                 {
+                    HttpContext.Session.SetInt32(SessionLogin, 1);
+                    HttpContext.Session.SetInt32(SessionId, Convert.ToInt32(rdr["AccountID"]));
+                    HttpContext.Session.SetInt32(SessionAdmin, Convert.ToInt32(rdr["Admin"]));
+                    System.Diagnostics.Debug.WriteLine(rdr["AccountID"]);
+                    System.Diagnostics.Debug.WriteLine(rdr["Admin"]);
                     System.Diagnostics.Debug.WriteLine("Logged in!");
+                    System.Diagnostics.Debug.WriteLine("SessionLogin: " + HttpContext.Session.GetInt32(SessionLogin));
+                    System.Diagnostics.Debug.WriteLine("SessionId: " + HttpContext.Session.GetInt32(SessionId));
+                    System.Diagnostics.Debug.WriteLine("SessionAdmin: " + HttpContext.Session.GetInt32(SessionAdmin));
                 } else
                 {
                     System.Diagnostics.Debug.WriteLine("Error: The account does not exist or the password you inputted is incorrect!");

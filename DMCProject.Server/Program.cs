@@ -17,6 +17,17 @@ builder.Services.AddCors(options =>
                       });
 });
 
+// Add distributed memory cache for session
+builder.Services.AddDistributedMemoryCache();
+
+// Configure session options
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(2); // Set session timeout (2 minutes)
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -42,6 +53,9 @@ app.UseRouting();
 
 // UseCors() has to be in between UseRouting() and UseAuthorization()
 app.UseCors(MyAllowSpecificOrigins);
+
+// UseSession() has to be after UseRouting() and before mapping
+app.UseSession();
 
 app.UseAuthorization();
 
