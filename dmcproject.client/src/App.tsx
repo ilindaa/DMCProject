@@ -77,6 +77,7 @@ const Body: FC = () => {
         );
     }
 };
+
 function App() {
     return (
         <main className="root">
@@ -84,6 +85,28 @@ function App() {
             <Link to="login">Login</Link>
             <br/> {/* Line break here temporarily for now */}
             <Link to="register">Register</Link>
+            <br /> {/* Line break here temporarily for now */}
+            <br /> {/* Line break here temporarily for now */}
+            <div className="tab">
+                <button className="tabLinks">Content 1</button>
+                <button className="tabLinks">Content 2</button>
+                <button className="tabLinks">Content 3</button>
+            </div>
+
+            <div id="Content1" className="tabContent">
+                <h3>Content 1</h3>
+                <p>Form about Content 1.</p>
+            </div>
+
+            <div id="Content2" className="tabContent">
+                <h3>Content 2</h3>
+                <p>Form about Content 2.</p>
+            </div>
+
+            <div id="Content3" className="tabContent">
+                <h3>Content 3</h3>
+                <p>Form about Content 3.</p>
+            </div>
             <Body />
         </main>
     );
