@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
-const Register = () => {
+const RegisterForm: FC = () => {
     // useEffect gets called after the fragment loads on the page
     useEffect(() => {
         const registerForm = document.getElementById("registerForm");
@@ -24,7 +24,7 @@ const Register = () => {
                 }).then(response => {
                     console.log(response);
                 })
-            } catch(error) {
+            } catch (error) {
                 console.log(error);
             }
             console.log("Submitted!");
@@ -62,6 +62,15 @@ const Register = () => {
                 </form>
             </div>
             <p>Have an account? <Link to="../login">Login</Link>.</p>
+        </>
+    );
+
+}
+
+function Register() {
+    return (
+        <>
+            <RegisterForm />
         </>
 )
 }

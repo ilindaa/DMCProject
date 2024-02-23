@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
-const Login = () => {
+const LoginForm: FC = () => {
     // useEffect gets called after the fragment loads on the page
     useEffect(() => {
         const loginForm = document.getElementById("loginForm");
@@ -33,7 +33,7 @@ const Login = () => {
 
     return (
         <>
-            <h1>Login</h1>
+            <h1> Login</h1>
             <Link to="/">Back</Link>
             <div>
                 <form id="loginForm">
@@ -47,6 +47,15 @@ const Login = () => {
                 </form>
             </div>
             <p>Don't have an account? <Link to="../register">Register</Link>.</p>
+        </>
+    );
+
+}
+
+function Login() {
+    return (
+        <>
+            <LoginForm />
         </>
     );
 };

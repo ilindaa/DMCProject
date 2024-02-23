@@ -78,35 +78,66 @@ const Body: FC = () => {
     }
 };
 
-function App() {
+// Set the active tab when the tab is clicked
+function activeTabs(tabName: string, event?: React.MouseEvent) {
+    const tabLinks = document.getElementsByClassName("tabLinks");
+    const tabContent = document.getElementsByClassName("tabContent");
+
+    // Note: The number of tabs = the number of tab contents
+    for (let i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+        tabContent[i].style.display = "none";
+    }
+
+    document.getElementById(tabName).style.display = "block";
+
+    if (event) {
+        event.currentTarget.className += " active";
+        event.preventDefault();
+    }
+}
+
+const AppContent: FC = () => {
+    useEffect(() => {
+        // Set the default tab and add the active class to it
+        activeTabs("tab1");
+        document.querySelector(".tabs").firstChild.firstChild.className += " active";
+    }, []);
+
     return (
-        <main className="root">
+        <>
             <h2>Art Reference Tool</h2>
             <Link to="login">Login</Link>
-            <br/> {/* Line break here temporarily for now */}
+            <br /> {/* Line break here temporarily for now */}
             <Link to="register">Register</Link>
             <br /> {/* Line break here temporarily for now */}
             <br /> {/* Line break here temporarily for now */}
-            <div className="tab">
-                <button className="tabLinks">Content 1</button>
-                <button className="tabLinks">Content 2</button>
-                <button className="tabLinks">Content 3</button>
-            </div>
 
-            <div id="Content1" className="tabContent">
-                <h3>Content 1</h3>
-                <p>Form about Content 1.</p>
+            <div className="tabContainer">
+                <ul className="tabs">
+                    <li className="tabItem">
+                        <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab1", event) }>Tab 1</a>
+                    </li>
+                    <li className="tabItem">
+                        <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab2", event) }>Tab 2</a>
+                    </li>
+                </ul>
+                {/* Tab Content */}
+                <div id="tab1" className="tabContent">
+                    <h3>Tab Content 1</h3>
+                </div>
+                <div id="tab2" className="tabContent">
+                    <h3>Tab Content 2</h3>
+                </div>
             </div>
+        </>
+    );
+}
 
-            <div id="Content2" className="tabContent">
-                <h3>Content 2</h3>
-                <p>Form about Content 2.</p>
-            </div>
-
-            <div id="Content3" className="tabContent">
-                <h3>Content 3</h3>
-                <p>Form about Content 3.</p>
-            </div>
+function App() {
+    return (
+        <main className="root">
+            <AppContent />
             <Body />
         </main>
     );
