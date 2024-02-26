@@ -107,6 +107,8 @@ const AppContent: FC = () => {
     return (
         <>
             <h2>Art Reference Tool</h2>
+            <Link to="add-content">Add Content</Link>
+            <br /> {/* Line break here temporarily for now */}
             <Link to="login">Login</Link>
             <br /> {/* Line break here temporarily for now */}
             <Link to="register">Register</Link>
@@ -116,7 +118,7 @@ const AppContent: FC = () => {
             <div className="tabContainer">
                 <ul className="tabs">
                     <li className="tabItem">
-                        <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab1", event) }>Tab 1</a>
+                        <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab1", event) }>Human Anatomy</a>
                     </li>
                     <li className="tabItem">
                         <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab2", event) }>Tab 2</a>
@@ -124,10 +126,23 @@ const AppContent: FC = () => {
                 </ul>
                 {/* Tab Content */}
                 <div id="tab1" className="tabContent">
-                    <h3>Tab Content 1</h3>
+                    <h3>Human Anatomy</h3>
+                    <form>
+                        <input type="hidden" value="1"></input>
+                        <label htmlFor="category" id="category">Category</label>
+                        <select name="category" required>
+                            <option value="humanFigure">Figure</option>
+                            <option value="hands">Hands</option>
+                            <option value="feet">Feet</option>
+                            <option value="portraits">Portraits</option>
+                        </select>
+                        <button type="submit">Submit</button>
+                    </form>
                 </div>
                 <div id="tab2" className="tabContent">
                     <h3>Tab Content 2</h3>
+                    <form>
+                    </form>
                 </div>
             </div>
         </>

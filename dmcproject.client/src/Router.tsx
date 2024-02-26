@@ -3,6 +3,7 @@ import App from './App.tsx';
 import Login from './Login.tsx';
 import Register from './Register.tsx';
 import ErrorPage from './ErrorPage.tsx';
+import AddURContent from './AddURContent.tsx';
 
 const Router = () => {
     const router = createBrowserRouter([
@@ -18,6 +19,10 @@ const Router = () => {
         {
             path: 'register',
             element: <Register />,
+        },
+        {
+            path: 'add-content',
+            element: <AddURContent />,
         },
     ])
     return <RouterProvider router={router} />;
