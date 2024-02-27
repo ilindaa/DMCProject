@@ -63,7 +63,7 @@ app.MapControllers();
 
 app.MapControllerRoute(
    name: "Account",
-   pattern: "/api/{controller=Account}/{action=Register}/{id?}");
+   pattern: "/api/{controller=Account}/{action=SignUp}/{id?}");
 app.MapControllerRoute(
    name: "Login",
    pattern: "/api/{controller=Account}/{action=Login}/{id?}");

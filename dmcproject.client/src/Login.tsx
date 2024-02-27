@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 
 const LoginForm: FC = () => {
     // useEffect gets called after the fragment loads on the page
     useEffect(() => {
         const loginForm = document.getElementById("loginForm");
+        const pMsg = document.getElementById("pMsg");
 
         loginForm.addEventListener("submit", function (event) {
             // Stops the page from refreshing
@@ -23,6 +24,10 @@ const LoginForm: FC = () => {
                     body: jsonData
                 }).then(response => {
                     console.log(response);
+                    return response.text();
+                }).then(msg => {
+                    pMsg.innerText = msg;
+                    loginForm.reset();
                 })
             } catch (error) {
                 console.log(error);
@@ -44,9 +49,10 @@ const LoginForm: FC = () => {
                     <input type="password" id="password" name="password" minLength={8} maxLength={30} required></input>
 
                     <button type="submit">Log In</button>
+                    <p id="pMsg"></p>
                 </form>
             </div>
-            <p>Don't have an account? <Link to="../register">Register</Link>.</p>
+            <p>Don't have an account? <Link to="../sign-up">Sign Up</Link>.</p>
         </>
     );
 

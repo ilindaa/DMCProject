@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -23,9 +22,10 @@ namespace DMCProject.Server.Controllers
         }
 
         [HttpPost]
-        [Route("Register")]
-        public void Register([FromBody] JsonElement jsonData)
+        [Route("SignUp")]
+        public IActionResult SignUp([FromBody] JsonElement jsonData)
         {
+            string msg = "";
             if (jsonData.ValueKind == JsonValueKind.Object)
             {
                 System.Diagnostics.Debug.WriteLine(jsonData);
@@ -37,33 +37,35 @@ namespace DMCProject.Server.Controllers
                 ConnectionTest test = new ConnectionTest();
                 MySqlConnection conn = test.ConnectDB();
                 MySqlCommand cmd = conn.CreateCommand();
-                // Check if an account with the email exists before registering
+                // Check if an account with the email exists before signing up
                 cmd.CommandText = "SELECT * FROM Account WHERE Email=@value1";
                 cmd.Parameters.AddWithValue("@value1", email);
                 // ExecuteScalar returns a single value (result)
                 object result = cmd.ExecuteScalar();
                 if (result != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("Error: An account with this email already exists! Please log into your account.");
+                    msg = "Error: An account with this email already exists! Please log into your account.";
                 }
                 else
                 {
-                    // An account with the email does not exist so register the account
+                    // An account with the email does not exist so sign up the account
                     cmd.CommandText = "INSERT INTO Account (Email, Password) VALUES (@value2, @value3)";
                     // Add parameters with their values (protects against SQL injection)
                     cmd.Parameters.AddWithValue("@value2", email);
                     cmd.Parameters.AddWithValue("@value3", password);
                     cmd.ExecuteNonQuery();
-                    System.Diagnostics.Debug.WriteLine("Registered!");
+                    msg = "Signed up!";
                 }
                 test.CloseDB(conn);
             }
+            return Ok(msg);
         }
 
         [HttpPost]
         [Route("Login")]
-        public void Login([FromBody] JsonElement jsonData)
+        public IActionResult Login([FromBody] JsonElement jsonData)
         {
+            string msg = "";
             if (jsonData.ValueKind == JsonValueKind.Object)
             {
                 System.Diagnostics.Debug.WriteLine(jsonData);
@@ -86,16 +88,17 @@ namespace DMCProject.Server.Controllers
                     HttpContext.Session.SetInt32(SessionAdmin, Convert.ToInt32(rdr["Admin"]));
                     System.Diagnostics.Debug.WriteLine(rdr["AccountID"]);
                     System.Diagnostics.Debug.WriteLine(rdr["Admin"]);
-                    System.Diagnostics.Debug.WriteLine("Logged in!");
                     System.Diagnostics.Debug.WriteLine("SessionLogin: " + HttpContext.Session.GetInt32(SessionLogin));
                     System.Diagnostics.Debug.WriteLine("SessionId: " + HttpContext.Session.GetInt32(SessionId));
                     System.Diagnostics.Debug.WriteLine("SessionAdmin: " + HttpContext.Session.GetInt32(SessionAdmin));
+                    msg = "Logged in!";
                 } else
                 {
-                    System.Diagnostics.Debug.WriteLine("Error: The account does not exist or the password you inputted is incorrect!");
+                    msg = "Error: The account does not exist or the password you inputted was incorrect!";
                 }
                 test.CloseDB(conn);
             }
+            return Ok(msg);
         }
     }
 }

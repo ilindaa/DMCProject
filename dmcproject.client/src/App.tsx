@@ -111,7 +111,7 @@ const AppContent: FC = () => {
             <br /> {/* Line break here temporarily for now */}
             <Link to="login">Login</Link>
             <br /> {/* Line break here temporarily for now */}
-            <Link to="register">Register</Link>
+            <Link to="sign-up">Sign Up</Link>
             <br /> {/* Line break here temporarily for now */}
             <br /> {/* Line break here temporarily for now */}
 

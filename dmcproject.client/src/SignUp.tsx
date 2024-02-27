@@ -1,21 +1,22 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 
-const RegisterForm: FC = () => {
+const SignUpForm: FC = () => {
     // useEffect gets called after the fragment loads on the page
     useEffect(() => {
-        const registerForm = document.getElementById("registerForm");
+        const signUpForm = document.getElementById("signUpForm");
+        const pMsg = document.getElementById("pMsg");
 
-        registerForm.addEventListener("submit", function (event) {
+        signUpForm.addEventListener("submit", function (event) {
             // Stops the page from refreshing
             event.preventDefault();
             // Store the form data as a FormData object then turn it into a string (JsonElement)
-            const formData = new FormData(registerForm);
+            const formData = new FormData(signUpForm);
             const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
             console.log(jsonData);
             // Fetch the data to the server and send it to be handled in AccountController.cs
             try {
-                fetch("https://localhost:7035/api/Account/Register", {
+                fetch("https://localhost:7035/api/Account/SignUp", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -23,6 +24,10 @@ const RegisterForm: FC = () => {
                     body: jsonData
                 }).then(response => {
                     console.log(response);
+                    return response.text();
+                }).then(msg => {
+                    pMsg.innerText = msg;
+                    signUpForm.reset();
                 })
             } catch (error) {
                 console.log(error);
@@ -45,10 +50,10 @@ const RegisterForm: FC = () => {
 
     return (
         <>
-            <h1>Register</h1>
+            <h1>Sign Up</h1>
             <Link to="/">Back</Link>
             <div>
-                <form id="registerForm">
+                <form id="signUpForm">
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" name="email" maxLength={50} required></input>
 
@@ -58,7 +63,8 @@ const RegisterForm: FC = () => {
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" minLength={8} maxLength={30} required></input>
 
-                    <button type="submit">Register</button>
+                    <button type="submit">Sign Up</button>
+                    <p id="pMsg"></p>
                 </form>
             </div>
             <p>Have an account? <Link to="../login">Login</Link>.</p>
@@ -67,12 +73,12 @@ const RegisterForm: FC = () => {
 
 }
 
-function Register() {
+function SignUp() {
     return (
         <>
-            <RegisterForm />
+            <SignUpForm />
         </>
 )
 }
 
-export default Register;
+export default SignUp;
