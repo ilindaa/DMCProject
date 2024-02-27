@@ -1,4 +1,5 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { createElement, FC, Fragment, useEffect, useState } from "react";
+import { createRoot } from 'react-dom/client';
 import "./App.css";
 import { createApi } from "unsplash-js";
 import { Link } from "react-router-dom";
@@ -40,12 +41,12 @@ const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
     );
 };
 
-const Body: FC = () => {
+const Body: React.FC<{ queryStr: string, orientationStr: string }> = ({ queryStr, orientationStr }) => {
     const [data, setPhotosResponse] = useState(null);
 
     useEffect(() => {
         api.search
-            .getPhotos({ query: "pomeranian", orientation: "landscape" })
+            .getPhotos({ query: queryStr, orientation: orientationStr })
             .then(result => {
                 setPhotosResponse(result);
             })
@@ -97,11 +98,32 @@ function activeTabs(tabName: string, event?: React.MouseEvent) {
     }
 }
 
+function updateBodyDiv() {
+    const contentForm = document.getElementById("contentForm");
+    const category = document.getElementById("category") as HTMLSelectElement;
+
+    const bodyDiv = document.getElementById("bodyDiv");
+    bodyDiv.innerHTML = ""; // Remove all the body content
+
+    // Create a react element: Body FC with its parameters and add the child to the bodyDiv (parent)
+    const body = createRoot(bodyDiv);
+    body.render(<Body queryStr={ category.value as string } orientationStr="landscape" />);
+
+    contentForm.reset();
+}
+
 const AppContent: FC = () => {
     useEffect(() => {
         // Set the default tab and add the active class to it
         activeTabs("tab1");
         document.querySelector(".tabs").firstChild.firstChild.className += " active";
+
+        const contentForm = document.getElementById("contentForm");
+        contentForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            updateBodyDiv();
+        });
+
     }, []);
 
     return (
@@ -123,24 +145,32 @@ const AppContent: FC = () => {
                     <li className="tabItem">
                         <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab2", event) }>Tab 2</a>
                     </li>
+                    <li className="tabItem">
+                        <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab3", event) }>Tab 3</a>
+                    </li>
                 </ul>
                 {/* Tab Content */}
                 <div id="tab1" className="tabContent">
                     <h3>Human Anatomy</h3>
-                    <form>
+                    <form id="contentForm">
                         <input type="hidden" value="1"></input>
-                        <label htmlFor="category" id="category">Category</label>
-                        <select name="category" required>
-                            <option value="humanFigure">Figure</option>
-                            <option value="hands">Hands</option>
-                            <option value="feet">Feet</option>
-                            <option value="portraits">Portraits</option>
+                        <label htmlFor="category">Category</label>
+                        <select name="category" id="category" required>
+                            <option value="Full Body">Figure (Full Body)</option>
+                            <option value="Hands">Hands</option>
+                            <option value="Feet">Feet</option>
+                            <option value="Portraits">Portraits</option>
                         </select>
                         <button type="submit">Submit</button>
                     </form>
                 </div>
                 <div id="tab2" className="tabContent">
                     <h3>Tab Content 2</h3>
+                    <form>
+                    </form>
+                </div>
+                <div id="tab3" className="tabContent">
+                    <h3>Tab Content 3</h3>
                     <form>
                     </form>
                 </div>
@@ -153,7 +183,8 @@ function App() {
     return (
         <main className="root">
             <AppContent />
-            <Body />
+            <div id="bodyDiv">
+            </div>
         </main>
     );
 }
