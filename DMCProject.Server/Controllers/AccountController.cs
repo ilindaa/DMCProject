@@ -49,10 +49,9 @@ namespace DMCProject.Server.Controllers
                 else
                 {
                     // An account with the email does not exist so sign up the account
-                    cmd.CommandText = "INSERT INTO Account (Email, Password) VALUES (@value2, @value3)";
+                    cmd.CommandText = "INSERT INTO Account (Email, Password) VALUES (@value1, @value2)";
                     // Add parameters with their values (protects against SQL injection)
-                    cmd.Parameters.AddWithValue("@value2", email);
-                    cmd.Parameters.AddWithValue("@value3", password);
+                    cmd.Parameters.AddWithValue("@value2", password);
                     cmd.ExecuteNonQuery();
                     msg = "Signed up!";
                 }

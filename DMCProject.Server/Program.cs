@@ -62,7 +62,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapControllerRoute(
-   name: "Account",
+   name: "SignUp",
    pattern: "/api/{controller=Account}/{action=SignUp}/{id?}");
 app.MapControllerRoute(
    name: "Login",
