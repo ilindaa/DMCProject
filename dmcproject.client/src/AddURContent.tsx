@@ -11,13 +11,25 @@ const AddURContentForm: FC = () => {
         addURContentForm.addEventListener("submit", function (event) {
             // Stops the page from refreshing
             event.preventDefault();
+
+            // FileReader to read in the image and then add it to the formData and is with the jsonData
+            const fileInput = document.getElementById("uploadImage") as HTMLInputElement;
+            const file = fileInput.files[0];
+
             // Store the form data as a FormData object then turn it into a string (JsonElement)
             const formData = new FormData(addURContentForm);
+            formData.append('file', file);
+
+            const reader = new FileReader();
+            reader.onload = function () {
+                formData.append('fileData', reader.result as string);
+            }
+
             const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
             console.log(jsonData);
-            // Fetch the data to the server and send it to be handled in AccountController.cs
+            // Fetch the data to the server and send it to be handled in UserRefContentController.cs
             try {
-                fetch("https://localhost:7035/api/Account/Login", {
+                fetch("https://localhost:7035/api/UserRefContent/AddURContent", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

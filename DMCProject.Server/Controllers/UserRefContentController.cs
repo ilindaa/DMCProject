@@ -36,12 +36,12 @@ namespace DMCProject.Server.Controllers
                 MySqlConnection conn = test.ConnectDB();
                 MySqlCommand cmd = conn.CreateCommand();
 
-                cmd.CommandText = "INSERT INTO AddURContent (FirstName, MiddleName, LastName, ImagePath, ImageCategory) VALUES (@value1, @value2, @value3, @value4, @value5)";
+/*                cmd.CommandText = "INSERT INTO AddURContent (FirstName, MiddleName, LastName, ImagePath, ImageCategory) VALUES (@value1, @value2, @value3, @value4, @value5)";
                 cmd.Parameters.AddWithValue("@value1", firstName);
                 cmd.Parameters.AddWithValue("@value2", middleName);
                 cmd.Parameters.AddWithValue("@value3", lastName);
                 cmd.Parameters.AddWithValue("@value4", category);
-                cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();*/
                 test.CloseDB(conn);
             }
         }
