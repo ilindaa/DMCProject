@@ -1,4 +1,3 @@
-/*import React from 'react';*/
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
 
@@ -8,22 +7,28 @@ const AddURContentForm: FC = () => {
         const addURContentForm = document.getElementById("addURContentForm");
         const pMsg = document.getElementById("pMsg");
 
+        // FileReader to read in the image and then add it to the formData and is with the jsonData
+        const fileInput = document.getElementById("uploadImage");
+        let result = null;
+
+        // Runs each time the fileInput changes
+        fileInput.addEventListener("change", function (event) {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function () {
+                result = reader.result;
+                console.log(result);
+            };
+            reader.readAsDataURL(file);
+        });
+
         addURContentForm.addEventListener("submit", function (event) {
             // Stops the page from refreshing
             event.preventDefault();
 
-            // FileReader to read in the image and then add it to the formData and is with the jsonData
-            const fileInput = document.getElementById("uploadImage") as HTMLInputElement;
-            const file = fileInput.files[0];
-
             // Store the form data as a FormData object then turn it into a string (JsonElement)
             const formData = new FormData(addURContentForm);
-            formData.append('file', file);
-
-            const reader = new FileReader();
-            reader.onload = function () {
-                formData.append('fileData', reader.result as string);
-            }
+            formData.set("uploadImage", result);
 
             const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
             console.log(jsonData);
