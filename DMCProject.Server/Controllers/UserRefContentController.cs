@@ -41,6 +41,7 @@ namespace DMCProject.Server.Controllers
                 System.Diagnostics.Debug.WriteLine(uploadImage);
                 string filePath = handleImage(uploadImage);
 
+                // Insert into AddURContent table
                 cmd.CommandText = "INSERT INTO AddURContent (FirstName, MiddleName, LastName, FilePath, ImageCategory) VALUES (@value1, @value2, @value3, @value4, @value5)";
                 cmd.Parameters.AddWithValue("@value1", firstName);
                 cmd.Parameters.AddWithValue("@value2", middleName);
@@ -49,7 +50,16 @@ namespace DMCProject.Server.Controllers
                 cmd.Parameters.AddWithValue("@value5", category);
                 cmd.ExecuteNonQuery();
 
-                msg = "Your submission was submitted for review!";
+                // Select the last insert id
+                cmd.CommandText = "SELECT LAST_INSERT_ID()";
+                int lastIId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                // Insert into the ReviewURContent table
+                cmd.CommandText = "INSERT INTO ReviewURContent (AddURContentID) VALUES (@value6)";
+                cmd.Parameters.AddWithValue("@value6", lastIId);
+                cmd.ExecuteNonQuery();
+
+                msg = "Submitted for review!";
                 System.Diagnostics.Debug.WriteLine(msg);
 
                 test.CloseDB(conn);
