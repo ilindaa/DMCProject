@@ -10,7 +10,7 @@ namespace DMCProject.Server.Controllers
     [EnableCors("_myAllowSpecificOrigins")]
     [ApiController]
     [Route("api/[controller]")]
-    public class UserRefContentController : Controller {
+    public class UserRefContentController : SessionController {
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult Index()
@@ -41,7 +41,7 @@ namespace DMCProject.Server.Controllers
                 System.Diagnostics.Debug.WriteLine(uploadImage);
                 string filePath = handleImage(uploadImage);
 
-                // Insert into AddURContent table
+                // Insert into the AddURContent table
                 cmd.CommandText = "INSERT INTO AddURContent (FirstName, MiddleName, LastName, FilePath, ImageCategory) VALUES (@value1, @value2, @value3, @value4, @value5)";
                 cmd.Parameters.AddWithValue("@value1", firstName);
                 cmd.Parameters.AddWithValue("@value2", middleName);
@@ -52,11 +52,14 @@ namespace DMCProject.Server.Controllers
 
                 // Select the last insert id
                 cmd.CommandText = "SELECT LAST_INSERT_ID()";
-                int lastIId = Convert.ToInt32(cmd.ExecuteScalar());
+                int lastInsertId = Convert.ToInt32(cmd.ExecuteScalar());
 
+/*                int sessionId = -1;*/
                 // Insert into the ReviewURContent table
                 cmd.CommandText = "INSERT INTO ReviewURContent (AddURContentID) VALUES (@value6)";
-                cmd.Parameters.AddWithValue("@value6", lastIId);
+                /*                cmd.CommandText = "INSERT INTO ReviewURContent (AddURContentID, AccountID) VALUES (@value6, @value7)";*/
+                cmd.Parameters.AddWithValue("@value6", lastInsertId);
+/*                cmd.Parameters.AddWithValue("@value7", sessionId);*/
                 cmd.ExecuteNonQuery();
 
                 msg = "Submitted for review!";

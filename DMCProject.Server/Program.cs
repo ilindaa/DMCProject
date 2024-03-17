@@ -23,7 +23,7 @@ builder.Services.AddDistributedMemoryCache();
 // Configure session options
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(2); // Set session timeout (2 minutes)
+    options.IdleTimeout = TimeSpan.FromMinutes(15); // Set session timeout (15 minutes)
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

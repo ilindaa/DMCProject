@@ -10,10 +10,7 @@ namespace DMCProject.Server.Controllers
     [EnableCors("_myAllowSpecificOrigins")]
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : Controller {
-        private const string SessionLogin = "_Login"; // Is the user logged in (1) or not (0)?
-        private const string SessionId = "_Id"; // AccountID
-        private const string SessionAdmin = "_Admin"; // Is the account an admin (1) or employee (0)?
+    public class AccountController : SessionController {
 
         [ApiExplorerSettings(IgnoreApi = true)]
         public ActionResult Index()
@@ -82,14 +79,7 @@ namespace DMCProject.Server.Controllers
                 MySqlDataReader rdr = cmd.ExecuteReader();
                 if (rdr.Read())
                 {
-                    HttpContext.Session.SetInt32(SessionLogin, 1);
-                    HttpContext.Session.SetInt32(SessionId, Convert.ToInt32(rdr["AccountID"]));
-                    HttpContext.Session.SetInt32(SessionAdmin, Convert.ToInt32(rdr["Admin"]));
-                    System.Diagnostics.Debug.WriteLine(rdr["AccountID"]);
-                    System.Diagnostics.Debug.WriteLine(rdr["Admin"]);
-                    System.Diagnostics.Debug.WriteLine("SessionLogin: " + HttpContext.Session.GetInt32(SessionLogin));
-                    System.Diagnostics.Debug.WriteLine("SessionId: " + HttpContext.Session.GetInt32(SessionId));
-                    System.Diagnostics.Debug.WriteLine("SessionAdmin: " + HttpContext.Session.GetInt32(SessionAdmin));
+                    setSession(rdr);
                     msg = "Logged in!";
                 } else
                 {
