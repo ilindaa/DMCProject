@@ -128,14 +128,17 @@ const AppContent: FC = () => {
 
     return (
         <>
+            {/* Line breaks below temporarily for now */}
             <h2>Art Reference Tool</h2>
             <Link to="add-content">Add Content</Link>
-            <br /> {/* Line break here temporarily for now */}
+            <br />
             <Link to="login">Login</Link>
-            <br /> {/* Line break here temporarily for now */}
+            <br />
             <Link to="sign-up">Sign Up</Link>
-            <br /> {/* Line break here temporarily for now */}
-            <br /> {/* Line break here temporarily for now */}
+            <br /> 
+            <Link to="admin-page">Admin</Link>
+            <br />
+            <br />
 
             <div className="tabContainer">
                 <ul className="tabs">

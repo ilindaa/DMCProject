@@ -57,6 +57,9 @@ const AddURContentForm: FC = () => {
     return (
         <>
             <Link to="/">Back</Link>
+            {/* Temporary line break and plan to make this conditional rendering here (depending on if logged in as an admin or user) */}
+            <br />
+            <Link to="../admin-page">Back to Admin</Link>
             <p>Please fill out the correct information about the <strong>original owner of the image</strong>. Then upload the image or provide a URL link to the image. <strong><u>All submissions are moderated</u></strong>.</p>
             <form id="addURContentForm">
                 <label htmlFor="firstName">First Name</label>

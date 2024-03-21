@@ -4,6 +4,10 @@ import Login from './Login.tsx';
 import SignUp from './SignUp.tsx';
 import ErrorPage from './ErrorPage.tsx';
 import AddURContent from './AddURContent.tsx';
+import ApproveURContent from './ApproveURContent.tsx';
+import EditURContent from './EditURContent.tsx';
+import DeleteURContent from './DeleteURContent.tsx';
+import AdminPage from './AdminPage.tsx';
 
 const Router = () => {
     const router = createBrowserRouter([
@@ -24,6 +28,22 @@ const Router = () => {
             path: 'add-content',
             element: <AddURContent />,
         },
+        {
+            path: 'approve-content',
+            element: <ApproveURContent />,
+        },
+        {
+            path: 'edit-content',
+            element: <EditURContent />,
+        },
+        {
+            path: 'delete-content',
+            element: <DeleteURContent />,
+        }, 
+        {
+            path: 'admin-page',
+            element: <AdminPage />,
+        }
     ])
     return <RouterProvider router={router} />;
 }
