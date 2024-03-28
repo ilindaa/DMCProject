@@ -39,7 +39,7 @@ const Edit: FC = () => {
             formData.set("uploadImage", result);
 
             const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
-            console.log(jsonData);
+            console.log("jsonData: " + jsonData);
 
             // Fetch the data to the server and send it to be handled in UserRefContentController.cs
             try {

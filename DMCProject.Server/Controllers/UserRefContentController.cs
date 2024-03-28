@@ -139,6 +139,43 @@ namespace DMCProject.Server.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpGet]
+        [Route("GetReviewURContent")]
+        public IActionResult GetReviewURContent()
+        {
+            ConnectionTest test = new ConnectionTest();
+            MySqlConnection conn = test.ConnectDB();
+            MySqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandText = "SELECT ReviewURContent.ReviewURContentID, ReviewURContent.Review, AddURContent.* FROM ReviewURContent JOIN AddURContent USING(AddURContentID)";
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            List<MyDataTwo> dataList = new List<MyDataTwo>();
+
+            while (rdr.Read())
+            {
+                MyDataTwo data = new MyDataTwo();
+                data.reviewURContentID = Convert.ToInt32(rdr["reviewURContentID"]);
+                data.review = Convert.ToInt32(rdr["review"]);
+                data.addURContentID = Convert.ToInt32(rdr["AddURContentID"]);
+                data.firstName = rdr["FirstName"].ToString();
+                data.middleName = rdr["MiddleName"].ToString();
+                data.lastName = rdr["LastName"].ToString();
+                data.filePath = rdr["FilePath"].ToString();
+                data.imageCategory = rdr["ImageCategory"].ToString();
+                dataList.Add(data);
+            }
+
+            System.Diagnostics.Debug.WriteLine(dataList);
+
+            test.CloseDB(conn);
+
+            string json = JsonConvert.SerializeObject(dataList);
+
+            return Content(json, "application/json");
+        }
+
+        // Add IActionResult?
         [HttpPost]
         [Route("DeleteURContent")]
         public void DeleteURContent([FromBody] JsonElement jsonData)
@@ -220,12 +257,56 @@ namespace DMCProject.Server.Controllers
             return Ok(msg);
         }
 
+        // Add IActionResult?
+        [HttpPost]
+        [Route("ReviewURContent")]
+        public void ReviewURContent([FromBody] JsonElement jsonData)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine(jsonData);
+                JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
+                int id = Convert.ToInt32(jo["reviewUrContentId"]);
+                int review = Convert.ToInt32(jo["review"]);
+
+                System.Diagnostics.Debug.WriteLine("Id: " + id);
+                System.Diagnostics.Debug.WriteLine("Review: " + review);
+
+                ConnectionTest test = new ConnectionTest();
+                MySqlConnection conn = test.ConnectDB();
+                MySqlCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = "UPDATE ReviewURContent SET Review=@value1 WHERE ReviewURContentID=@value2";
+                cmd.Parameters.AddWithValue("@value1", review);
+                cmd.Parameters.AddWithValue("@value2", id);
+                cmd.ExecuteNonQuery();
+
+                System.Diagnostics.Debug.WriteLine("ReviewURContent table was updated for " + id + "!");
+                test.CloseDB(conn);
+            } catch (Exception error)
+            {
+                System.Diagnostics.Debug.WriteLine(error);
+            }
+        }
+
         // End
     }
 
     // Other classes
     public class MyData
     {
+        public int addURContentID;
+        public string firstName;
+        public string middleName;
+        public string lastName;
+        public string filePath;
+        public string imageCategory;
+    }
+
+    public class MyDataTwo
+    {
+        public int reviewURContentID;
+        public int review;
         public int addURContentID;
         public string firstName;
         public string middleName;
