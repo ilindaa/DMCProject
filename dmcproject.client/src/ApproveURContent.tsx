@@ -34,10 +34,14 @@ function createTable(jsonData: string) {
     const dataObject: MyData[] = JSON.parse(jsonData);
     const dataTableBody = document.getElementById("dataTableBody");
 
+    clearTable();
+
 /*    const columnLength = Object.keys(dataObject).length;*/
 /*  console.log(dataObject[0]["addURContentID"]);*/
     for (let i = 0; i < dataObject.length; i++) {
         const tr = document.createElement("tr");
+        tr.dataset.index = dataObject[i]["addURContentID"].toString();
+
         dataTableBody.appendChild(tr);
 
         const td1 = document.createElement("td");
@@ -63,6 +67,20 @@ function createTable(jsonData: string) {
     } 
 }
 
+function clearTable() {
+    const dataTableBody = document.getElementById("dataTableBody");
+    dataTableBody.innerHTML = `
+                    <tr>
+                        <th>AddURContentID</th>
+                        <th>FirstName</th>
+                        <th>MiddleName</th>
+                        <th>LastName</th>
+                        <th>FilePath</th>
+                        <th>ImageCategory</th>
+                    </tr>`;
+    console.log("Cleared!");
+}
+
 interface MyData {
     addURContentID: number;
     firstName: string;
@@ -78,14 +96,6 @@ function ApproveURContent() {
         <div id="tableDiv">
             <table id="dataTable">
                 <tbody id="dataTableBody">
-                    <tr>
-                        <th>AddURContentID</th>
-                        <th>FirstName</th>
-                        <th>MiddleName</th>
-                        <th>LastName</th>
-                        <th>FilePath</th>
-                        <th>ImageCategory</th>
-                    </tr>
                 </tbody>
             </table>
         </div>
