@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-/*import { FC, useEffect } from "react";*/
+import { FC, useEffect } from "react";
 
 function EditURContent() {
     return (<>

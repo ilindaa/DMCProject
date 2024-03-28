@@ -85,6 +85,7 @@ namespace DMCProject.Server.Controllers
                 {
                     msg = "Error: The account does not exist or the password you inputted was incorrect!";
                 }
+                rdr.Close();
                 test.CloseDB(conn);
             }
             return Ok(msg);

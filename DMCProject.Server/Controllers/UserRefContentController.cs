@@ -135,6 +135,35 @@ namespace DMCProject.Server.Controllers
 
             return Content(json, "application/json");
         }
+
+        [HttpPost]
+        [Route("DeleteURContent")]
+        public void DeleteURContent([FromBody] JsonElement jsonData)
+        {
+            int id = Convert.ToInt32(System.Text.Json.JsonSerializer.Deserialize<string>(jsonData));
+
+            ConnectionTest test = new ConnectionTest();
+            MySqlConnection conn = test.ConnectDB();
+            MySqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandText = "SELECT * FROM AddURContent WHERE AddURContentID=@value1";
+            cmd.Parameters.AddWithValue("@value1", id);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.Read())
+            {
+                rdr.Close();
+                cmd.CommandText = "DELETE FROM ReviewURContent WHERE AddURContentID=@value1";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = "DELETE FROM AddURContent WHERE AddURContentID=@value1";
+                cmd.ExecuteNonQuery();
+                System.Diagnostics.Debug.WriteLine("Deleted row " + id + " from ReviewURContent and AddURContent tables!");
+            } else
+            {
+                System.Diagnostics.Debug.WriteLine("Error: The AddURContentID " + id + " doesn't exist!");
+            }
+
+            test.CloseDB(conn);
+        }
     }
 
     public class MyData
