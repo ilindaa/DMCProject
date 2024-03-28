@@ -29,6 +29,7 @@ const AddURContentForm: FC = () => {
             // Store the form data as a FormData object then turn it into a string (JsonElement)
             const formData = new FormData(addURContentForm);
             formData.set("uploadImage", result);
+            console.log("formData: " + formData);
 
             const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
             console.log(jsonData);
@@ -78,15 +79,15 @@ const AddURContentForm: FC = () => {
                 <br></br> {/* temporary */}
 
                 <label htmlFor="uploadImage">Upload an Image</label>
-                <input type="file" id="uploadImage" name="uploadImage" accept=".png, .jpeg, .jpg"></input>
+                <input type="file" id="uploadImage" name="uploadImage" accept=".png, .jpeg, .jpg" required></input>
 
 {/*                <br></br> */}{/* temporary */}{/*
                 <label htmlFor="urlLinkImage">Image URL Link</label>
                 <input type="url" id="urlLinkImage" name="urlLinkImage" maxLength={50}></input>*/}
 
                 <br></br> {/* temporary */}
-                <label htmlFor="category" id="category">Category of Image</label>
-                <select name="category" required>
+                <label htmlFor="category">Category of Image</label>
+                <select id="category" name="category" required>
                     <option value="Figure">Figure</option>
                     <option value="Hands">Hands</option>
                     <option value="Feet">Feet</option>

@@ -10,6 +10,12 @@ const Delete: FC = () => {
     return (<>
         <h1>Delete Content</h1>
         <Link to="../admin-page">Back to Admin</Link>
+        <div id="tableDiv">
+            <table id="dataTable">
+                <tbody id="dataTableBody">
+                </tbody>
+            </table>
+        </div>
     </>);
 }
 
@@ -139,12 +145,6 @@ interface MyData {
 function DeleteURContent() {
     return (<>
         <Delete />
-        <div id="tableDiv">
-            <table id="dataTable">
-                <tbody id="dataTableBody">
-                </tbody>
-            </table>
-        </div>
     </>);
 }
 

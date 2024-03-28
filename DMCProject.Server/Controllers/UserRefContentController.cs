@@ -79,9 +79,8 @@ namespace DMCProject.Server.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        public String handleImage(string dataUrl)
+        public String handleImage(string dataUrl, string filePath = "")
         {
-            string filePath = "";
             try
             {
                 // Split the dataUrl to get the base64
@@ -90,7 +89,11 @@ namespace DMCProject.Server.Controllers
                 // Convert the base64 string to a byte array
                 byte[] bytes = Convert.FromBase64String(base64Str);
 
-                filePath = Path.Combine("customPictures", Guid.NewGuid().ToString() + ".png");
+                // If the filePath is the default parameter, create a new filePath; otherwise overwrite the existing filePath
+                if (filePath == "")
+                {
+                    filePath = Path.Combine("customPictures", Guid.NewGuid().ToString() + ".png");
+                }
 
                 // Write the byte array to a filePath
                 System.IO.File.WriteAllBytes(filePath, bytes);
@@ -148,10 +151,12 @@ namespace DMCProject.Server.Controllers
 
             cmd.CommandText = "SELECT * FROM AddURContent WHERE AddURContentID=@value1";
             cmd.Parameters.AddWithValue("@value1", id);
+            // Figure out how to delete the filepath later of the image (another command here to get the filePath) and then do File.Delete(filePath)
             MySqlDataReader rdr = cmd.ExecuteReader();
             if (rdr.Read())
             {
                 rdr.Close();
+/*                cmd.CommandText = "SELECT FilePath FROM AddURContent WHERE AddURContentID=@value1";*/
                 cmd.CommandText = "DELETE FROM ReviewURContent WHERE AddURContentID=@value1";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText = "DELETE FROM AddURContent WHERE AddURContentID=@value1";
@@ -164,8 +169,61 @@ namespace DMCProject.Server.Controllers
 
             test.CloseDB(conn);
         }
+
+        [HttpPost]
+        [Route("EditURContent")]
+        public IActionResult EditURContent([FromBody] JsonElement jsonData)
+        {
+            string msg = "";
+            if (jsonData.ValueKind == JsonValueKind.Object)
+            {
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine(jsonData);
+                    JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
+                    string firstName = jo["firstName"].ToString();
+                    string middleName = jo["middleName"].ToString();
+                    string lastName = jo["lastName"].ToString();
+                    string uploadImage = jo["uploadImage"].ToString();
+                    string category = jo["category"].ToString();
+                    int id = Convert.ToInt32(jo["addUrContentId"]);
+                    string keepFilePath = jo["filePath"].ToString();
+
+                    ConnectionTest test = new ConnectionTest();
+                    MySqlConnection conn = test.ConnectDB();
+                    MySqlCommand cmd = conn.CreateCommand();
+
+                    System.Diagnostics.Debug.WriteLine(firstName);
+                    System.Diagnostics.Debug.WriteLine(uploadImage);
+                    string filePath = handleImage(uploadImage, keepFilePath);
+
+                    // Edit (update) the AddURContent table
+                    cmd.CommandText = "UPDATE AddURContent SET FirstName=@value1, MiddleName=@value2, LastName=@value3, FilePath=@value4, ImageCategory=@value5 WHERE AddURContentID=@value6";
+                    cmd.Parameters.AddWithValue("@value1", firstName);
+                    cmd.Parameters.AddWithValue("@value2", middleName);
+                    cmd.Parameters.AddWithValue("@value3", lastName);
+                    cmd.Parameters.AddWithValue("@value4", filePath);
+                    cmd.Parameters.AddWithValue("@value5", category);
+                    cmd.Parameters.AddWithValue("@value6", id);
+                    cmd.ExecuteNonQuery();
+
+                    msg = "AddURContent table was updated for " + id + "!";
+                    System.Diagnostics.Debug.WriteLine(msg);
+
+                    test.CloseDB(conn);
+                }
+                catch (Exception error)
+                {
+                    System.Diagnostics.Debug.WriteLine(error);
+                }
+            }
+            return Ok(msg);
+        }
+
+        // End
     }
 
+    // Other classes
     public class MyData
     {
         public int addURContentID;
