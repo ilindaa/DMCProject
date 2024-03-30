@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const AddURContentForm: FC = () => {
     // useEffect gets called after the fragment loads on the page
@@ -62,48 +64,51 @@ const AddURContentForm: FC = () => {
             <br />
             <Link to="../admin-page">Back to Admin</Link>
             <p>Please fill out the correct information about the <strong>original owner of the image</strong>. Then upload the image or provide a URL link to the image. <strong><u>All submissions are moderated</u></strong>.</p>
-            <form id="addURContentForm">
-                <label htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" maxLength={25} required></input>
+            <Form id="addURContentForm">
+                <Form.Group className="mb-3" controlId="firstName">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control type="text" name="firstName" maxLength={25} required />
+                </Form.Group>
 
-                <br></br> {/* temporary */}
+                <Form.Group className="mb-3" controlId="middleName">
+                    <Form.Label>Middle Name</Form.Label>
+                    <Form.Control type="text" name="middleName" maxLength={25} />
+                </Form.Group>
 
-                <label htmlFor="middleName">Middle Name</label>
-                <input type="text" id="middleName" name="middleName" maxLength={25}></input>
+                <Form.Group className="mb-3" controlId="lastName">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control type="text" name="lastName" maxLength={25} required />
+                </Form.Group>
 
-                <br></br> {/* temporary */}
+                <Form.Group className="mb-3" controlId="uploadImage">
+                    <Form.Label>Upload an Image</Form.Label>
+                    <Form.Control type="file" name="uploadImage" accept=".png, .jpeg, .jpg" required />
+                </Form.Group>
 
-                <label htmlFor="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" maxLength={25} required></input>
+                <Form.Group className="mb-3" controlId="category">
+                    <Form.Label>Category of Image</Form.Label>
+                    <Form.Select name="category" aria-label="Select a category" required>
+                        <option value="Figure">Figure</option>
+                        <option value="Hands">Hands</option>
+                        <option value="Feet">Feet</option>
+                        <option value="Portraits">Portraits</option>
+                    </Form.Select>
+                </Form.Group>
 
-                <br></br> {/* temporary */}
+                <Form.Group className="mb-3" controlId="checkCredit">
+                    <Form.Check name="checkCredit" aria-label="check credit" required />
+                    <Form.Label>By uploading the image, you certify that you have provided the correct information to credit the original owner of the image.<br></br>
+                        You also certify that you are either the original owner of the image or you have received explicit permission to upload the image.</Form.Label>
+                </Form.Group>
 
-                <label htmlFor="uploadImage">Upload an Image</label>
-                <input type="file" id="uploadImage" name="uploadImage" accept=".png, .jpeg, .jpg" required></input>
+                <Form.Group>
+                    <Button type="submit">Upload</Button>
+                </Form.Group>
 
-{/*                <br></br> */}{/* temporary */}{/*
-                <label htmlFor="urlLinkImage">Image URL Link</label>
-                <input type="url" id="urlLinkImage" name="urlLinkImage" maxLength={50}></input>*/}
-
-                <br></br> {/* temporary */}
-                <label htmlFor="category">Category of Image</label>
-                <select id="category" name="category" required>
-                    <option value="Figure">Figure</option>
-                    <option value="Hands">Hands</option>
-                    <option value="Feet">Feet</option>
-                    <option value="Portraits">Portraits</option>
-                </select>
-
-                <br></br> {/* temporary */}
-
-                <input type="checkbox" id="checkCredit" name="checkCredit" required></input>
-                <label htmlFor="checkCredit">By uploading the image, you certify that you have provided the correct information to credit the original owner of the image.<br></br>You also certify that you are either the original owner of the image or you have received explicit permission to upload the image.</label>
-
-                <br></br> {/* temporary */}
-                <p id="pMsg"></p>
-
-                <button type="submit">Upload</button>
-            </form>
+                <Form.Group className="mb-3">
+                    <Form.Text id="pMsg"></Form.Text>
+                </Form.Group>
+            </Form>
         </>
     );
 }

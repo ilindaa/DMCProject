@@ -1,4 +1,4 @@
-namespace DMCProject.Server
+/*namespace DMCProject.Server
 {
     public class WeatherForecast
     {
@@ -11,3 +11,4 @@ namespace DMCProject.Server
         public string? Summary { get; set; }
     }
 }
+*/

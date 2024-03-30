@@ -1,8 +1,10 @@
-import React, { createElement, FC, Fragment, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import { createRoot } from 'react-dom/client';
-import "./App.css";
+/*import "./App.css";*/
 import { createApi } from "unsplash-js";
 import { Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 // DEMO CODE FROM UNSPLASH API FOR TESTING PURPOSES
 
@@ -155,17 +157,21 @@ const AppContent: FC = () => {
                 {/* Tab Content */}
                 <div id="tab1" className="tabContent">
                     <h3>Human Anatomy</h3>
-                    <form id="contentForm">
-                        <input type="hidden" value="1"></input>
-                        <label htmlFor="category">Category</label>
-                        <select name="category" id="category" required>
-                            <option value="Full Body">Figure (Full Body)</option>
-                            <option value="Hands">Hands</option>
-                            <option value="Feet">Feet</option>
-                            <option value="Portraits">Portraits</option>
-                        </select>
-                        <button type="submit">Submit</button>
-                    </form>
+                    <Form id="contentForm">
+                        <Form.Control type="hidden" value="1"></Form.Control>
+                        <Form.Group className="mb-3" controlId="category">
+                            <Form.Label>Category</Form.Label>
+                            <Form.Select name="category" aria-label="Select a category" required>
+                                <option value="Full Body">Figure (Full Body)</option>
+                                <option value="Hands">Hands</option>
+                                <option value="Feet">Feet</option>
+                                <option value="Portraits">Portraits</option>
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group>
+                            <Button variant="primary" type="submit">Submit</Button>
+                        </Form.Group>
+                    </Form>
                 </div>
                 <div id="tab2" className="tabContent">
                     <h3>Tab Content 2</h3>

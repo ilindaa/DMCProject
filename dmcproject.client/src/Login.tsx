@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const LoginForm: FC = () => {
     // useEffect gets called after the fragment loads on the page
@@ -41,16 +43,25 @@ const LoginForm: FC = () => {
             <h1> Login</h1>
             <Link to="/">Back</Link>
             <div>
-                <form id="loginForm">
-                    <label htmlFor="email">Email</label>
-                    <input type="email" id="email" name="email" maxLength={50} required></input>
+                <Form id="loginForm">
+                    <Form.Group className="mb-3" controlId="email">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control type="email" name="email" maxLength={50} placeholder="name@example.com" required />
+                    </Form.Group>
 
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" minLength={8} maxLength={30} required></input>
+                    <Form.Group className="mb-3" controlId="password">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" name="password" minLength={8} maxLength={30} placeholder="Password" required />
+                    </Form.Group>
 
-                    <button type="submit">Log In</button>
-                    <p id="pMsg"></p>
-                </form>
+                    <Form.Group className="mb-3">
+                        <Button variant="primary" type="submit">Log In</Button>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Text id="pMsg"></Form.Text>
+                    </Form.Group>
+                </Form>
             </div>
             <p>Don't have an account? <Link to="../sign-up">Sign Up</Link>.</p>
         </>
