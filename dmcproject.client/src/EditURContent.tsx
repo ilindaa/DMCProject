@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
+import Button from 'react-bootstrap/Button';
+import CloseButton from 'react-bootstrap/CloseButton';
+import Form from 'react-bootstrap/Form';
 
 const Edit: FC = () => {
     useEffect(() => {
@@ -73,42 +76,49 @@ const Edit: FC = () => {
             </table>
         </div>
         <div id="formDiv">
-            <button id="xButton">X</button>
-            <form id="editURContentForm">
-                <input type="hidden" id="addUrContentId" name="addUrContentId" value="-1"></input>
-                <input type="hidden" id="filePath" name="filePath" value="N/A"></input>
+            <CloseButton id="xButton" />
+            <Form id="editURContentForm">
+                <Form.Control type="hidden" id="addUrContentId" name="addUrContentId" value="-1" />
+                <Form.Control type="hidden" id="filePath" name="filePath" value="N/A" />
 
-                <label htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" maxLength={25} required></input>
+                <Form.Group className="mb-3" controlId="firstName">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control type="text" name="firstName" maxLength={25} required />
+                </Form.Group>
 
-                <br></br> {/* temporary */}
+                <Form.Group className="mb-3" controlId="middleName">
+                    <Form.Label>Middle Name</Form.Label>
+                    <Form.Control type="text" name="middleName" maxLength={25} />
+                </Form.Group>
 
-                <label htmlFor="middleName">Middle Name</label>
-                <input type="text" id="middleName" name="middleName" maxLength={25}></input>
+                <Form.Group className="mb-3" controlId="lastName">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control type="text" name="lastName" maxLength={25} required />
+                </Form.Group>
 
-                <br></br> {/* temporary */}
+                <Form.Group className="mb-3" controlId="uploadImage">
+                    <Form.Label>Upload an Image</Form.Label>
+                    <Form.Control type="file" name="uploadImage" accept=".png, .jpeg, .jpg" required />
+                </Form.Group>
 
-                <label htmlFor="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" maxLength={25} required></input>
+                <Form.Group className="mb-3" controlId="category">
+                    <Form.Label>Category of Image</Form.Label>
+                    <Form.Select name="category" aria-label="Select a category" required>
+                        <option value="Figure">Figure</option>
+                        <option value="Hands">Hands</option>
+                        <option value="Feet">Feet</option>
+                        <option value="Portraits">Portraits</option>
+                    </Form.Select>
+                </Form.Group>
 
-                <br></br> {/* temporary */}
+                <Form.Group>
+                    <Button type="submit">Submit</Button>
+                </Form.Group>
 
-                <label htmlFor="uploadImage">Upload an Image</label>
-                <input type="file" id="uploadImage" name="uploadImage" accept=".png, .jpeg, .jpg" required></input>
-
-                <br></br> {/* temporary */}
-                <label htmlFor="category">Category of Image</label>
-                <select id="category" name="category" required>
-                    <option value="Figure">Figure</option>
-                    <option value="Hands">Hands</option>
-                    <option value="Feet">Feet</option>
-                    <option value="Portraits">Portraits</option>
-                </select>
-                <br></br> {/* temporary */}
-                <p id="pMsg"></p>
-
-                <button type="submit">Submit</button>
-            </form>
+                <Form.Group className="mb-3">
+                    <Form.Text id="pMsg"></Form.Text>
+                </Form.Group>
+            </Form>
         </div>
     </>);
 }

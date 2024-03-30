@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
+import Button from 'react-bootstrap/Button';
+import CloseButton from 'react-bootstrap/CloseButton';
+import Form from 'react-bootstrap/Form';
 
 const Approve: FC = () => {
     useEffect(() => {
@@ -57,16 +60,24 @@ const Approve: FC = () => {
             </table>
         </div>
         <div id="formDiv">
-            <button id="xButton">X</button>
-            <form id="approveURContentForm">
-                <p id="pReviewId"></p>
-                <input type="hidden" id="reviewUrContentId" name="reviewUrContentId" value="-1"></input>
-                <input type="radio" id="approve" name="review" value={1}></input>
-                <label htmlFor="approve">Approve</label>
-                <input type="radio" id="reject" name="review" value={0}></input>
-                <label htmlFor="reject">Reject</label>
-                <button>Submit</button>
-            </form>
+            <CloseButton id="xButton" />
+            <Form id="approveURContentForm">
+                <Form.Text id="pReviewId"></Form.Text>
+                <Form.Control type="hidden" id="reviewUrContentId" name="reviewUrContentId" value="-1" />
+                <Form.Group>
+                    <Form.Group controlId="approve">
+                        <Form.Check type="radio" name="review" value={1} required />
+                        <Form.Label>Approve</Form.Label>
+                    </Form.Group>
+                    <Form.Group controlId="reject">
+                        <Form.Check type="radio" name="review" value={0} />
+                        <Form.Label>Reject</Form.Label>
+                    </Form.Group>
+                </Form.Group>
+                <Form.Group>
+                    <Button type="submit">Submit</Button>
+                </Form.Group>
+            </Form>
         </div>
     </>);
 }
@@ -176,7 +187,7 @@ function clearTable() {
 
 function reviewRow(index: string) {
     const pReviewId = document.getElementById("pReviewId");
-    pReviewId.innerText = "Currently Reviewing ReviewURContentID: \"" + index + "\"";
+    pReviewId.innerText = "ReviewURContentID: " + index + " is currently in review.";
 
     const reviewUrContentId = document.getElementById("reviewUrContentId") as HTMLInputElement;
     reviewUrContentId.value = index;
