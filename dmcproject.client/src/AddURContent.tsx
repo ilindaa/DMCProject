@@ -96,9 +96,8 @@ const AddURContentForm: FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="checkCredit">
-                    <Form.Check name="checkCredit" aria-label="check credit" required />
-                    <Form.Label>By uploading the image, you certify that you have provided the correct information to credit the original owner of the image.<br></br>
-                        You also certify that you are either the original owner of the image or you have received explicit permission to upload the image.</Form.Label>
+                    <Form.Check name="checkCredit" label="By uploading the image, you certify that you have provided the correct information to credit the original owner of the image.
+                        You also certify that you are either the original owner of the image or you have received explicit permission to upload the image." aria-label="check credit" required />
                 </Form.Group>
 
                 <Form.Group>

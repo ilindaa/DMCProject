@@ -5,6 +5,8 @@ import { createApi } from "unsplash-js";
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 
 // DEMO CODE FROM UNSPLASH API FOR TESTING PURPOSES
 
@@ -81,45 +83,21 @@ const Body: React.FC<{ queryStr: string, orientationStr: string }> = ({ queryStr
     }
 };
 
-// Set the active tab when the tab is clicked
-function activeTabs(tabName: string, event?: React.MouseEvent) {
-    const tabLinks = document.getElementsByClassName("tabLinks");
-    const tabContent = document.getElementsByClassName("tabContent");
-
-    // Note: The number of tabs = the number of tab contents
-    for (let i = 0; i < tabLinks.length; i++) {
-        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
-        tabContent[i].style.display = "none";
-    }
-
-    document.getElementById(tabName).style.display = "block";
-
-    if (event) {
-        event.currentTarget.className += " active";
-        event.preventDefault();
-    }
-}
-
 function updateBodyDiv() {
-    const contentForm = document.getElementById("contentForm");
     const category = document.getElementById("category") as HTMLSelectElement;
-
+    const displayTitle = document.getElementById("displayTitle");
     const bodyDiv = document.getElementById("bodyDiv");
-    bodyDiv.innerHTML = ""; // Remove all the body content
+
+    displayTitle.innerText = category.value + " (Unsplash)";
+    bodyDiv.replaceChildren(); // Remove all the body content
 
     // Create a react element: Body FC with its parameters and add the child to the bodyDiv (parent)
     const body = createRoot(bodyDiv);
     body.render(<Body queryStr={ category.value as string } orientationStr="landscape" />);
-
-    contentForm.reset();
 }
 
 const AppContent: FC = () => {
     useEffect(() => {
-        // Set the default tab and add the active class to it
-        activeTabs("tab1");
-        document.querySelector(".tabs").firstChild.firstChild.className += " active";
-
         const contentForm = document.getElementById("contentForm");
         contentForm.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -143,46 +121,32 @@ const AppContent: FC = () => {
             <br />
 
             <div className="tabContainer">
-                <ul className="tabs">
-                    <li className="tabItem">
-                        <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab1", event) }>Human Anatomy</a>
-                    </li>
-                    <li className="tabItem">
-                        <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab2", event) }>Tab 2</a>
-                    </li>
-                    <li className="tabItem">
-                        <a href="" className="tabLinks" onClick={ (event) => activeTabs("tab3", event) }>Tab 3</a>
-                    </li>
-                </ul>
-                {/* Tab Content */}
-                <div id="tab1" className="tabContent">
-                    <h3>Human Anatomy</h3>
-                    <Form id="contentForm">
-                        <Form.Control type="hidden" value="1"></Form.Control>
-                        <Form.Group className="mb-3" controlId="category">
-                            <Form.Label>Category</Form.Label>
-                            <Form.Select name="category" aria-label="Select a category" required>
-                                <option value="Full Body">Figure (Full Body)</option>
-                                <option value="Hands">Hands</option>
-                                <option value="Feet">Feet</option>
-                                <option value="Portraits">Portraits</option>
-                            </Form.Select>
-                        </Form.Group>
-                        <Form.Group>
-                            <Button variant="primary" type="submit">Submit</Button>
-                        </Form.Group>
-                    </Form>
-                </div>
-                <div id="tab2" className="tabContent">
-                    <h3>Tab Content 2</h3>
-                    <form>
-                    </form>
-                </div>
-                <div id="tab3" className="tabContent">
-                    <h3>Tab Content 3</h3>
-                    <form>
-                    </form>
-                </div>
+                <Tabs defaultActiveKey="humanAnatomy" id="tabsContent" className="mb-3">
+                    <Tab eventKey="humanAnatomy" title="Human Anatomy">
+                        <h3>Human Anatomy</h3>
+                        <Form id="contentForm">
+                            <Form.Control type="hidden" value="1"></Form.Control>
+                            <Form.Group className="mb-3" controlId="category">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Select name="category" aria-label="Select a category" required>
+                                    <option value="Full Body">Figure (Full Body)</option>
+                                    <option value="Hands">Hands</option>
+                                    <option value="Feet">Feet</option>
+                                    <option value="Portraits">Portraits</option>
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group>
+                                <Button variant="primary" type="submit">Submit</Button>
+                            </Form.Group>
+                        </Form>
+                    </Tab>
+                    <Tab eventKey="tab2" title="Tab 2">
+                        Tab content for Tab 2
+                    </Tab>
+                    <Tab eventKey="tab3" title="Tab 3">
+                        Tab content for Tab 3
+                    </Tab>
+                </Tabs>
             </div>
         </>
     );
@@ -192,6 +156,7 @@ function App() {
     return (
         <main className="root">
             <AppContent />
+            <h1 id="displayTitle"></h1>
             <div id="bodyDiv">
             </div>
         </main>

@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
+import { createRoot } from 'react-dom/client';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 const Delete: FC = () => {
     useEffect(() => {
@@ -11,10 +14,21 @@ const Delete: FC = () => {
         <h1>Delete Content</h1>
         <Link to="../admin-page">Back to Admin</Link>
         <div id="tableDiv">
-            <table id="dataTable">
+            <Table striped bordered hover id="dataTable">
+                <thead>
+                    <tr>
+                        <th>AddURContentID</th>
+                        <th>FirstName</th>
+                        <th>MiddleName</th>
+                        <th>LastName</th>
+                        <th>FilePath</th>
+                        <th>ImageCategory</th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody id="dataTableBody">
                 </tbody>
-            </table>
+            </Table>
         </div>
     </>);
 }
@@ -60,12 +74,10 @@ function createTable(jsonData: string) {
         const td5 = document.createElement("td");
         const td6 = document.createElement("td");
         const td7 = document.createElement("td");
-        const deleteButton = document.createElement("button");
-        deleteButton.innerText = "Delete";
-        deleteButton.dataset.index = dataObject[i]["addURContentID"].toString();
-        deleteButton.addEventListener("click", function () {
-            return deleteRow(deleteButton.dataset.index as string);
-        });
+
+        const deleteRoot = createRoot(td7);
+        const index = dataObject[i]["addURContentID"].toString();
+        deleteRoot.render(<Button data-index={ index } onClick={ () => deleteRow(index) } >Delete</Button>);
 
         td1.innerText = dataObject[i]["addURContentID"].toString();
         td2.innerText = dataObject[i]["firstName"];
@@ -75,7 +87,6 @@ function createTable(jsonData: string) {
         td6.innerText = dataObject[i]["imageCategory"];
 
         tr.append(td1, td2, td3, td4, td5, td6, td7);
-        td7.appendChild(deleteButton);
     }
 }
 
@@ -83,29 +94,11 @@ function clearTable() {
     const dataTableBody = document.getElementById("dataTableBody");
     dataTableBody.replaceChildren();
 
-    const tr = document.createElement("tr");
-    const th1 = document.createElement("th");
-    const th2 = document.createElement("th");
-    const th3 = document.createElement("th");
-    const th4 = document.createElement("th");
-    const th5 = document.createElement("th");
-    const th6 = document.createElement("th");
-    const th7 = document.createElement("th");
-    th1.innerText = "AddURContentID";
-    th2.innerText = "FirstName";
-    th3.innerText = "MiddleName";
-    th4.innerText = "LastName";
-    th5.innerText = "FilePath";
-    th6.innerText = "ImageCategory";
-
-    dataTableBody.appendChild(tr);
-    tr.append(th1, th2, th3, th4, th5, th6, th7);
-
     console.log("Cleared!");
 }
 
 function deleteRow(index: string) {
-    const del = confirm("Are you sure you want to delete AddURContentID: \"" + index + "\"? \nNote: This action cannot be undone.");
+    const del = confirm("Are you sure you want to delete the following AddURContentID? \nAddURContentID: " + index + "\nNote: This action cannot be undone.");
     if (del) {
         const jsonData = JSON.stringify(index);
         /*    const pMsg = document.getElementById("pMsg");*/

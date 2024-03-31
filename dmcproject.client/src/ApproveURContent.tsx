@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
+import { createRoot } from 'react-dom/client';
 import Button from 'react-bootstrap/Button';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Table from 'react-bootstrap/Table';
 
 const Approve: FC = () => {
     useEffect(() => {
@@ -54,30 +57,45 @@ const Approve: FC = () => {
         <Link to="../admin-page">Back to Admin</Link>
         <p>Review Column Key: Approve (1), Reject (0), and In Review (-1)</p>
         <div id="tableDiv">
-            <table id="dataTable">
+            <Table striped bordered hover id="dataTable">
+                <thead>
+                    <tr>
+                        <th>ReviewURContentID</th>
+                        <th>Review</th>
+                        <th>AddURContentID</th>
+                        <th>FirstName</th>
+                        <th>MiddleName</th>
+                        <th>LastName</th>
+                        <th>FilePath</th>
+                        <th>ImageCategory</th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody id="dataTableBody">
                 </tbody>
-            </table>
+            </Table>
         </div>
         <div id="formDiv">
-            <CloseButton id="xButton" />
-            <Form id="approveURContentForm">
-                <Form.Text id="pReviewId"></Form.Text>
-                <Form.Control type="hidden" id="reviewUrContentId" name="reviewUrContentId" value="-1" />
-                <Form.Group>
-                    <Form.Group controlId="approve">
-                        <Form.Check type="radio" name="review" value={1} required />
-                        <Form.Label>Approve</Form.Label>
+            <Modal.Dialog>
+                <Modal.Header>
+                    <Modal.Title id="pReviewId"></Modal.Title>
+                    <CloseButton id="xButton" aria-label="Hide" />
+                </Modal.Header>
+                <Form id="approveURContentForm">
+                    <Form.Control type="hidden" id="reviewUrContentId" name="reviewUrContentId" value="-1" />
+                    <Form.Group>
+                        <Form.Group controlId="approve">
+                            <Form.Check type="radio" label="Approve" name="review" value={1} required />
+                        </Form.Group>
+                        <Form.Group controlId="reject">
+                            <Form.Check type="radio" label="Reject" name="review" value={0} />
+                        </Form.Group>
                     </Form.Group>
-                    <Form.Group controlId="reject">
-                        <Form.Check type="radio" name="review" value={0} />
-                        <Form.Label>Reject</Form.Label>
+                    <Form.Group>
+                        <Button type="submit">Submit</Button>
                     </Form.Group>
-                </Form.Group>
-                <Form.Group>
-                    <Button type="submit">Submit</Button>
-                </Form.Group>
-            </Form>
+                </Form>
+            </Modal.Dialog>
         </div>
     </>);
 }
@@ -119,8 +137,6 @@ function createTable(jsonData: string) {
 
     clearTable();
 
-/*    const columnLength = Object.keys(dataObject).length;*/
-/*  console.log(dataObject[0]["addURContentID"]);*/
     for (let i = 0; i < dataObject.length; i++) {
         const tr = document.createElement("tr");
 
@@ -135,12 +151,10 @@ function createTable(jsonData: string) {
         const td7 = document.createElement("td");
         const td8 = document.createElement("td");
         const td9 = document.createElement("td");
-        const reviewButton = document.createElement("button");
-        reviewButton.innerText = "Review";
-        reviewButton.dataset.index = dataObject[i]["reviewURContentID"].toString();
-        reviewButton.addEventListener("click", function () {
-            return reviewRow(reviewButton.dataset.index as string);
-        });
+
+        const reviewRoot = createRoot(td9);
+        const index = dataObject[i]["addURContentID"].toString();
+        reviewRoot.render(<Button data-index={index} onClick={() => reviewRow(index)} >Review</Button>);
 
         td1.innerText = dataObject[i]["reviewURContentID"].toString();
         td2.innerText = dataObject[i]["review"].toString();
@@ -160,34 +174,12 @@ function clearTable() {
     const dataTableBody = document.getElementById("dataTableBody");
     dataTableBody.replaceChildren();
 
-    const tr = document.createElement("tr");
-    const th1 = document.createElement("th");
-    const th2 = document.createElement("th");
-    const th3 = document.createElement("th");
-    const th4 = document.createElement("th");
-    const th5 = document.createElement("th");
-    const th6 = document.createElement("th");
-    const th7 = document.createElement("th");
-    const th8 = document.createElement("th");
-    const th9 = document.createElement("th");
-    th1.innerText = "ReviewURContentID";
-    th2.innerText = "Review";
-    th3.innerText = "AddURContentID";
-    th4.innerText = "FirstName";
-    th5.innerText = "MiddleName";
-    th6.innerText = "LastName";
-    th7.innerText = "FilePath";
-    th8.innerText = "ImageCategory";
-
-    dataTableBody.appendChild(tr);
-    tr.append(th1, th2, th3, th4, th5, th6, th7, th8, th9);
-
     console.log("Cleared!");
 }
 
 function reviewRow(index: string) {
     const pReviewId = document.getElementById("pReviewId");
-    pReviewId.innerText = "ReviewURContentID: " + index + " is currently in review.";
+    pReviewId.innerText = "Reviewing ReviewURContentID: " + index;
 
     const reviewUrContentId = document.getElementById("reviewUrContentId") as HTMLInputElement;
     reviewUrContentId.value = index;

@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
+import { createRoot } from 'react-dom/client';
 import Button from 'react-bootstrap/Button';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Table from 'react-bootstrap/Table';
 
 const Edit: FC = () => {
     useEffect(() => {
@@ -70,55 +73,71 @@ const Edit: FC = () => {
         <h1>Edit Content</h1>
         <Link to="../admin-page">Back to Admin</Link>
         <div id="tableDiv">
-            <table id="dataTable">
+            <Table striped bordered hover id="dataTable">
+                <thead>
+                    <tr>
+                        <th>AddURContentID</th>
+                        <th>FirstName</th>
+                        <th>MiddleName</th>
+                        <th>LastName</th>
+                        <th>FilePath</th>
+                        <th>ImageCategory</th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody id="dataTableBody">
                 </tbody>
-            </table>
+            </Table>
         </div>
         <div id="formDiv">
-            <CloseButton id="xButton" />
-            <Form id="editURContentForm">
-                <Form.Control type="hidden" id="addUrContentId" name="addUrContentId" value="-1" />
-                <Form.Control type="hidden" id="filePath" name="filePath" value="N/A" />
+            <Modal.Dialog>
+                <Modal.Header>
+                    <Modal.Title id="pAddId"></Modal.Title>
+                    <CloseButton id="xButton" aria-label="Hide"/>
+                </Modal.Header>
+                <Form id="editURContentForm">
+                    <Form.Control type="hidden" id="addUrContentId" name="addUrContentId" value="-1" />
+                    <Form.Control type="hidden" id="filePath" name="filePath" value="N/A" />
 
-                <Form.Group className="mb-3" controlId="firstName">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" name="firstName" maxLength={25} required />
-                </Form.Group>
+                    <Form.Group className="mb-3" controlId="firstName">
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control type="text" name="firstName" maxLength={25} required />
+                    </Form.Group>
 
-                <Form.Group className="mb-3" controlId="middleName">
-                    <Form.Label>Middle Name</Form.Label>
-                    <Form.Control type="text" name="middleName" maxLength={25} />
-                </Form.Group>
+                    <Form.Group className="mb-3" controlId="middleName">
+                        <Form.Label>Middle Name</Form.Label>
+                        <Form.Control type="text" name="middleName" maxLength={25} />
+                    </Form.Group>
 
-                <Form.Group className="mb-3" controlId="lastName">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" name="lastName" maxLength={25} required />
-                </Form.Group>
+                    <Form.Group className="mb-3" controlId="lastName">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control type="text" name="lastName" maxLength={25} required />
+                    </Form.Group>
 
-                <Form.Group className="mb-3" controlId="uploadImage">
-                    <Form.Label>Upload an Image</Form.Label>
-                    <Form.Control type="file" name="uploadImage" accept=".png, .jpeg, .jpg" required />
-                </Form.Group>
+                    <Form.Group className="mb-3" controlId="uploadImage">
+                        <Form.Label>Upload an Image</Form.Label>
+                        <Form.Control type="file" name="uploadImage" accept=".png, .jpeg, .jpg" required />
+                    </Form.Group>
 
-                <Form.Group className="mb-3" controlId="category">
-                    <Form.Label>Category of Image</Form.Label>
-                    <Form.Select name="category" aria-label="Select a category" required>
-                        <option value="Figure">Figure</option>
-                        <option value="Hands">Hands</option>
-                        <option value="Feet">Feet</option>
-                        <option value="Portraits">Portraits</option>
-                    </Form.Select>
-                </Form.Group>
+                    <Form.Group className="mb-3" controlId="category">
+                        <Form.Label>Category of Image</Form.Label>
+                        <Form.Select name="category" aria-label="Select a Category" required>
+                            <option value="Figure">Figure</option>
+                            <option value="Hands">Hands</option>
+                            <option value="Feet">Feet</option>
+                            <option value="Portraits">Portraits</option>
+                        </Form.Select>
+                    </Form.Group>
 
-                <Form.Group>
-                    <Button type="submit">Submit</Button>
-                </Form.Group>
+                    <Form.Group>
+                        <Button type="submit">Submit</Button>
+                    </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Text id="pMsg"></Form.Text>
-                </Form.Group>
-            </Form>
+                    <Form.Group className="mb-3">
+                        <Form.Text id="pMsg"></Form.Text>
+                    </Form.Group>
+                </Form>
+            </Modal.Dialog>
         </div>
     </>);
 }
@@ -194,12 +213,10 @@ function createTable(jsonData: string) {
         const td5 = document.createElement("td");
         const td6 = document.createElement("td");
         const td7 = document.createElement("td");
-        const editButton = document.createElement("button");
-        editButton.innerText = "Edit";
-        editButton.dataset.index = dataObject[i]["addURContentID"].toString();
-        editButton.addEventListener("click", function () {
-            return editRow(dataObject, i, editButton.dataset.index as string);
-        });
+
+        const editRoot = createRoot(td7);
+        const index = dataObject[i]["addURContentID"].toString();
+        editRoot.render(<Button data-index={index} onClick={() => editRow(dataObject, i, index)} >Edit</Button>);
 
         td1.innerText = dataObject[i]["addURContentID"].toString();
         td2.innerText = dataObject[i]["firstName"];
@@ -209,7 +226,6 @@ function createTable(jsonData: string) {
         td6.innerText = dataObject[i]["imageCategory"];
 
         tr.append(td1, td2, td3, td4, td5, td6, td7);
-        td7.appendChild(editButton);
     }
 }
 
@@ -217,29 +233,14 @@ function clearTable() {
     const dataTableBody = document.getElementById("dataTableBody");
     dataTableBody.replaceChildren();
 
-    const tr = document.createElement("tr");
-    const th1 = document.createElement("th");
-    const th2 = document.createElement("th");
-    const th3 = document.createElement("th");
-    const th4 = document.createElement("th");
-    const th5 = document.createElement("th");
-    const th6 = document.createElement("th");
-    const th7 = document.createElement("th");
-    th1.innerText = "AddURContentID";
-    th2.innerText = "FirstName";
-    th3.innerText = "MiddleName";
-    th4.innerText = "LastName";
-    th5.innerText = "FilePath";
-    th6.innerText = "ImageCategory";
-
-    dataTableBody.appendChild(tr);
-    tr.append(th1, th2, th3, th4, th5, th6, th7);
-
     console.log("Cleared!");
 }
 
 function editRow(dataObject: MyData[], rowIndex: number, index: string) {
     const editURContentForm = document.getElementById("editURContentForm");
+    const pAddId = document.getElementById("pAddId");
+    pAddId.innerText = "Editing AddURContentID: " + index;
+
     console.log(editURContentForm);
     console.log("Edit, index: " + index);
     fillForm(dataObject, rowIndex, index);
