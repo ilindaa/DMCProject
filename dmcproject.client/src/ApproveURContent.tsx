@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import Button from 'react-bootstrap/Button';
@@ -54,8 +53,12 @@ const Approve: FC = () => {
     }, []);
     return (<>
         <h1>Approve Content</h1>
-        <Link to="../admin-page">Back to Admin</Link>
-        <p>Review Column Key: Approve (1), Reject (0), and In Review (-1)</p>
+        <ul className="centerText">
+            <li>Review Column Key:</li>
+            <li>Approve (1)</li>
+            <li>Reject (0)</li>
+            <li>No Review (-1)</li>
+        </ul>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
                 <thead>
@@ -75,27 +78,29 @@ const Approve: FC = () => {
                 </tbody>
             </Table>
         </div>
-        <div id="formDiv">
-            <Modal.Dialog>
-                <Modal.Header>
-                    <Modal.Title id="pReviewId"></Modal.Title>
-                    <CloseButton id="xButton" aria-label="Hide" />
-                </Modal.Header>
-                <Form id="approveURContentForm">
-                    <Form.Control type="hidden" id="reviewUrContentId" name="reviewUrContentId" value="-1" />
-                    <Form.Group>
-                        <Form.Group controlId="approve">
-                            <Form.Check type="radio" label="Approve" name="review" value={1} required />
+        <div className="centerDiv">
+            <div id="formDiv" className="formSize">
+                <Modal.Dialog>
+                    <Modal.Header>
+                        <Modal.Title id="pReviewId"></Modal.Title>
+                        <CloseButton id="xButton" className="float-right" aria-label="Hide" />
+                    </Modal.Header>
+                    <Form id="approveURContentForm">
+                        <Form.Control type="hidden" id="reviewUrContentId" name="reviewUrContentId" value="-1" />
+                        <Form.Group className="mb-3">
+                            <Form.Group controlId="approve">
+                                <Form.Check type="radio" label="Approve" name="review" value={1} required />
+                            </Form.Group>
+                            <Form.Group controlId="reject">
+                                <Form.Check type="radio" label="Reject" name="review" value={0} />
+                            </Form.Group>
                         </Form.Group>
-                        <Form.Group controlId="reject">
-                            <Form.Check type="radio" label="Reject" name="review" value={0} />
+                        <Form.Group className="mb-3">
+                            <Button type="submit" className="w-100">Submit</Button>
                         </Form.Group>
-                    </Form.Group>
-                    <Form.Group>
-                        <Button type="submit">Submit</Button>
-                    </Form.Group>
-                </Form>
-            </Modal.Dialog>
+                    </Form>
+                </Modal.Dialog>
+            </div>
         </div>
     </>);
 }
@@ -154,7 +159,7 @@ function createTable(jsonData: string) {
 
         const reviewRoot = createRoot(td9);
         const index = dataObject[i]["addURContentID"].toString();
-        reviewRoot.render(<Button data-index={index} onClick={() => reviewRow(index)} >Review</Button>);
+        reviewRoot.render(<Button className="w-100" data-index={index} onClick={() => reviewRow(index)} >Review</Button>);
 
         td1.innerText = dataObject[i]["reviewURContentID"].toString();
         td2.innerText = dataObject[i]["review"].toString();

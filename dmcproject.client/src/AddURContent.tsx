@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -59,55 +58,56 @@ const AddURContentForm: FC = () => {
 
     return (
         <>
-            <Link to="/">Back</Link>
-            {/* Temporary line break and plan to make this conditional rendering here (depending on if logged in as an admin or user) */}
-            <br />
-            <Link to="../admin-page">Back to Admin</Link>
-            <p>Please fill out the correct information about the <strong>original owner of the image</strong>. Then upload the image or provide a URL link to the image. <strong><u>All submissions are moderated</u></strong>.</p>
-            <Form id="addURContentForm">
-                <Form.Group className="mb-3" controlId="firstName">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" name="firstName" maxLength={25} required />
-                </Form.Group>
+            <h1>Add Content</h1>
+            <div className="centerDiv columnDiv">
+                <p>Please fill out the correct information about the <strong>original owner of the image</strong>.<br />Then upload the image or provide a URL link to the image.<br /><strong><u>All submissions are moderated</u></strong>.</p>
+                <div className="formSize">
+                    <Form id="addURContentForm">
+                        <Form.Group className="mb-3" controlId="firstName">
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control type="text" name="firstName" maxLength={25} required />
+                        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="middleName">
-                    <Form.Label>Middle Name</Form.Label>
-                    <Form.Control type="text" name="middleName" maxLength={25} />
-                </Form.Group>
+                        <Form.Group className="mb-3" controlId="middleName">
+                            <Form.Label>Middle Name</Form.Label>
+                            <Form.Control type="text" name="middleName" maxLength={25} />
+                        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="lastName">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" name="lastName" maxLength={25} required />
-                </Form.Group>
+                        <Form.Group className="mb-3" controlId="lastName">
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control type="text" name="lastName" maxLength={25} required />
+                        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="uploadImage">
-                    <Form.Label>Upload an Image</Form.Label>
-                    <Form.Control type="file" name="uploadImage" accept=".png, .jpeg, .jpg" required />
-                </Form.Group>
+                        <Form.Group className="mb-3" controlId="uploadImage">
+                            <Form.Label>Upload an Image</Form.Label>
+                            <Form.Control type="file" name="uploadImage" accept=".png, .jpeg, .jpg" required />
+                        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="category">
-                    <Form.Label>Category of Image</Form.Label>
-                    <Form.Select name="category" aria-label="Select a category" required>
-                        <option value="Figure">Figure</option>
-                        <option value="Hands">Hands</option>
-                        <option value="Feet">Feet</option>
-                        <option value="Portraits">Portraits</option>
-                    </Form.Select>
-                </Form.Group>
+                        <Form.Group className="mb-3" controlId="category">
+                            <Form.Label>Category of Image</Form.Label>
+                            <Form.Select name="category" aria-label="Select a category" required>
+                                <option value="Figure">Figure</option>
+                                <option value="Hands">Hands</option>
+                                <option value="Feet">Feet</option>
+                                <option value="Portraits">Portraits</option>
+                            </Form.Select>
+                        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="checkCredit">
-                    <Form.Check name="checkCredit" label="By uploading the image, you certify that you have provided the correct information to credit the original owner of the image.
-                        You also certify that you are either the original owner of the image or you have received explicit permission to upload the image." aria-label="check credit" required />
-                </Form.Group>
+                        <Form.Group className="mb-3" controlId="checkCredit">
+                            <Form.Check name="checkCredit" label="By uploading the image, you certify that you have provided the correct information to credit the original owner of the image.
+                                You also certify that you are either the original owner of the image or you have received explicit permission to upload the image." aria-label="check credit" required />
+                        </Form.Group>
 
-                <Form.Group>
-                    <Button type="submit">Upload</Button>
-                </Form.Group>
+                        <Form.Group>
+                            <Button type="submit" className="w-100">Upload</Button>
+                        </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Text id="pMsg"></Form.Text>
-                </Form.Group>
-            </Form>
+                        <Form.Group className="mb-3">
+                            <Form.Text id="pMsg"></Form.Text>
+                        </Form.Group>
+                    </Form>
+                </div>
+            </div>
         </>
     );
 }

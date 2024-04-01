@@ -2,7 +2,6 @@ import React, { FC, Fragment, useEffect, useState } from "react";
 import { createRoot } from 'react-dom/client';
 /*import "./App.css";*/
 import { createApi } from "unsplash-js";
-import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
@@ -108,45 +107,49 @@ const AppContent: FC = () => {
 
     return (
         <>
-            {/* Line breaks below temporarily for now */}
-            <h2>Art Reference Tool</h2>
-            <Link to="add-content">Add Content</Link>
-            <br />
-            <Link to="login">Login</Link>
-            <br />
-            <Link to="sign-up">Sign Up</Link>
-            <br /> 
-            <Link to="admin-page">Admin</Link>
-            <br />
-            <br />
-
-            <div className="tabContainer">
-                <Tabs defaultActiveKey="humanAnatomy" id="tabsContent" className="mb-3">
-                    <Tab eventKey="humanAnatomy" title="Human Anatomy">
-                        <h3>Human Anatomy</h3>
-                        <Form id="contentForm">
-                            <Form.Control type="hidden" value="1"></Form.Control>
-                            <Form.Group className="mb-3" controlId="category">
-                                <Form.Label>Category</Form.Label>
-                                <Form.Select name="category" aria-label="Select a category" required>
-                                    <option value="Full Body">Figure (Full Body)</option>
-                                    <option value="Hands">Hands</option>
-                                    <option value="Feet">Feet</option>
-                                    <option value="Portraits">Portraits</option>
-                                </Form.Select>
-                            </Form.Group>
-                            <Form.Group>
-                                <Button variant="primary" type="submit">Submit</Button>
-                            </Form.Group>
-                        </Form>
-                    </Tab>
-                    <Tab eventKey="tab2" title="Tab 2">
-                        Tab content for Tab 2
-                    </Tab>
-                    <Tab eventKey="tab3" title="Tab 3">
-                        Tab content for Tab 3
-                    </Tab>
-                </Tabs>
+            <h1>Art Reference Tool</h1>
+            <div className="centerDiv columnDiv">
+                <div className="tabContainer">
+                    <Tabs defaultActiveKey="humanAnatomy" id="tabsContent" className="mb-3">
+                        <Tab eventKey="humanAnatomy" title="Human Anatomy">
+                            <h3>Human Anatomy</h3>
+                            <div className="centerDiv">
+                                <div className="formSize homeForm">
+                                    <Form id="contentForm">
+                                        <Form.Control type="hidden" value="1"></Form.Control>
+                                        <Form.Group className="mb-3" controlId="category">
+                                            <Form.Label>Category</Form.Label>
+                                            <Form.Select name="category" aria-label="Select a category" required>
+                                                <option value="Full Body">Figure (Full Body)</option>
+                                                <option value="Hands">Hands</option>
+                                                <option value="Feet">Feet</option>
+                                                <option value="Portraits">Portraits</option>
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                        </Form.Group>
+                                    </Form>
+                                </div>
+                            </div>
+                        </Tab>
+                        <Tab eventKey="tab2" title="Tab 2">
+                            Tab content for Tab 2
+                        </Tab>
+                        <Tab eventKey="tab3" title="Tab 3">
+                            Tab content for Tab 3
+                        </Tab>
+                        <Tab eventKey="tab4" title="Tab 4">
+                            Tab content for Tab 4
+                        </Tab>
+                        <Tab eventKey="tab5" title="Tab 5">
+                            Tab content for Tab 5
+                        </Tab>
+                        <Tab eventKey="tab6" title="Tab 6">
+                            Tab content for Tab 6
+                        </Tab>
+                    </Tabs>
+                </div>
             </div>
         </>
     );

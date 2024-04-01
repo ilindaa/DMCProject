@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import Button from 'react-bootstrap/Button';
@@ -71,7 +70,6 @@ const Edit: FC = () => {
     }, []);
     return (<>
         <h1>Edit Content</h1>
-        <Link to="../admin-page">Back to Admin</Link>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
                 <thead>
@@ -89,7 +87,8 @@ const Edit: FC = () => {
                 </tbody>
             </Table>
         </div>
-        <div id="formDiv">
+        <div className="centerDiv">
+        <div id="formDiv" className="formSize">
             <Modal.Dialog>
                 <Modal.Header>
                     <Modal.Title id="pAddId"></Modal.Title>
@@ -130,7 +129,7 @@ const Edit: FC = () => {
                     </Form.Group>
 
                     <Form.Group>
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit" className="w-100">Submit</Button>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
@@ -138,6 +137,7 @@ const Edit: FC = () => {
                     </Form.Group>
                 </Form>
             </Modal.Dialog>
+            </div>
         </div>
     </>);
 }
@@ -216,7 +216,7 @@ function createTable(jsonData: string) {
 
         const editRoot = createRoot(td7);
         const index = dataObject[i]["addURContentID"].toString();
-        editRoot.render(<Button data-index={index} onClick={() => editRow(dataObject, i, index)} >Edit</Button>);
+        editRoot.render(<Button className="w-100" data-index={index} onClick={() => editRow(dataObject, i, index)} >Edit</Button>);
 
         td1.innerText = dataObject[i]["addURContentID"].toString();
         td2.innerText = dataObject[i]["firstName"];

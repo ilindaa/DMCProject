@@ -1,0 +1,49 @@
+/* Div: center it */
+.centerDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Div: flex column */
+.columnDiv {
+    flex-direction: column;
+}
+
+/* Keep the form width size consistent */
+.formSize {
+    width: 35rem;
+}
+
+.formSize, .tabContainer {
+    background-color: #f5f5f5;
+    border: 1px solid #e2e2e2;
+    border-radius: 0.25rem;
+    padding: 1rem;
+}
+
+.homeForm {
+    border: none;
+}
+
+/* Right-align modal button */
+#xButton {
+    margin-left: auto;
+}
+
+/* Error message (temporary for now) */
+#pMsg {
+    color: red;
+}
+
+h1, .centerText {
+    text-align: center;
+}
+
+.tabContainer h3 {
+    padding-left: 1rem;
+}
+
+ul {
+    list-style-type: none;
+}

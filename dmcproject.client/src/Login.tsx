@@ -40,30 +40,33 @@ const LoginForm: FC = () => {
 
     return (
         <>
-            <h1> Login</h1>
-            <Link to="/">Back</Link>
-            <div>
-                <Form id="loginForm">
-                    <Form.Group className="mb-3" controlId="email">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" name="email" maxLength={50} placeholder="name@example.com" required />
-                    </Form.Group>
+            <div className="centerDiv">
+                <div className="formSize">
+                    <Form id="loginForm">
+                        <h1> Login</h1>
 
-                    <Form.Group className="mb-3" controlId="password">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" name="password" minLength={8} maxLength={30} placeholder="Password" required />
-                    </Form.Group>
+                        <Form.Group className="mb-3" controlId="email">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" name="email" maxLength={50} placeholder="name@example.com" required />
+                        </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Button variant="primary" type="submit">Log In</Button>
-                    </Form.Group>
+                        <Form.Group className="mb-3" controlId="password">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" name="password" minLength={8} maxLength={30} placeholder="Password" required />
+                        </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Text id="pMsg"></Form.Text>
-                    </Form.Group>
-                </Form>
+                        <Form.Group className="mb-3">
+                            <Button variant="primary" type="submit" className="w-100">Log In</Button>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Text id="pMsg"></Form.Text>
+                        </Form.Group>
+
+                        <p>Don't have an account? <Link to="../sign-up">Sign Up</Link>.</p>
+                    </Form>
+                </div>
             </div>
-            <p>Don't have an account? <Link to="../sign-up">Sign Up</Link>.</p>
         </>
     );
 

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import Table from 'react-bootstrap/Table';
@@ -12,7 +11,6 @@ const Delete: FC = () => {
     }, []);
     return (<>
         <h1>Delete Content</h1>
-        <Link to="../admin-page">Back to Admin</Link>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
                 <thead>
@@ -77,7 +75,7 @@ function createTable(jsonData: string) {
 
         const deleteRoot = createRoot(td7);
         const index = dataObject[i]["addURContentID"].toString();
-        deleteRoot.render(<Button data-index={ index } onClick={ () => deleteRow(index) } >Delete</Button>);
+        deleteRoot.render(<Button className="w-100" data-index={ index } onClick={ () => deleteRow(index) } >Delete</Button>);
 
         td1.innerText = dataObject[i]["addURContentID"].toString();
         td2.innerText = dataObject[i]["firstName"];
