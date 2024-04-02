@@ -1,6 +1,5 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
 import { createRoot } from 'react-dom/client';
-/*import "./App.css";*/
 import { createApi } from "unsplash-js";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
