@@ -98,7 +98,7 @@ const AddURContentForm: FC = () => {
                                 You also certify that you are either the original owner of the image or you have received explicit permission to upload the image." aria-label="check credit" required />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className="mb-3">
                             <Button type="submit" className="w-100">Upload</Button>
                         </Form.Group>
 

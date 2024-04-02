@@ -193,7 +193,19 @@ namespace DMCProject.Server.Controllers
             if (rdr.Read())
             {
                 rdr.Close();
-/*                cmd.CommandText = "SELECT FilePath FROM AddURContent WHERE AddURContentID=@value1";*/
+
+                cmd.CommandText = "SELECT FilePath FROM AddURContent WHERE AddURContentID=@value1";
+                string relPath = cmd.ExecuteScalar().ToString();
+                System.Diagnostics.Debug.WriteLine("filePath: " + relPath);
+                string currentPath = Directory.GetCurrentDirectory().ToString();
+                string filePath = Path.Combine(currentPath, relPath);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                    System.Diagnostics.Debug.WriteLine("Image on relative path is deleted: " + relPath + "!");
+                }
+
                 cmd.CommandText = "DELETE FROM ReviewURContent WHERE AddURContentID=@value1";
                 cmd.ExecuteNonQuery();
                 cmd.CommandText = "DELETE FROM AddURContent WHERE AddURContentID=@value1";

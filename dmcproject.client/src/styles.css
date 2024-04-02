@@ -19,7 +19,7 @@
     background-color: #f5f5f5;
     border: 1px solid #e2e2e2;
     border-radius: 0.25rem;
-    padding: 1rem;
+    padding: 1.3rem;
 }
 
 .homeForm {
@@ -33,17 +33,33 @@
 
 /* Error message (temporary for now) */
 #pMsg {
-    color: red;
+    color: #0d6efd;
 }
 
 h1, .centerText {
     text-align: center;
 }
 
+/* Same as the .formSize, .tabContainer padding except only left padding */
 .tabContainer h3 {
-    padding-left: 1rem;
+    padding-left: 1.3rem;
 }
 
 ul {
     list-style-type: none;
+}
+
+/*body {
+    background-image: url("");
+    background-size: 100% 100%;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+}*/
+
+#signUpForm a, #loginForm a {
+    text-decoration: none;
+}
+
+#signUpForm a:hover, #loginForm a:hover {
+    text-decoration: underline;
 }

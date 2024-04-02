@@ -171,7 +171,6 @@ function createTable(jsonData: string) {
         td8.innerText = dataObject[i]["imageCategory"];
 
         tr.append(td1, td2, td3, td4, td5, td6, td7, td8, td9);
-        td9.appendChild(reviewButton);
     } 
 }
 
