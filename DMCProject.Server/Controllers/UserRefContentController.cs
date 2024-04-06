@@ -92,7 +92,7 @@ namespace DMCProject.Server.Controllers
                 // If the filePath is the default parameter, create a new filePath; otherwise overwrite the existing filePath
                 if (filePath == "")
                 {
-                    filePath = Path.Combine("customPictures", Guid.NewGuid().ToString() + ".png");
+                    filePath = Path.Combine("wwwroot/References", Guid.NewGuid().ToString() + ".png");
                 }
 
                 // Write the byte array to a filePath

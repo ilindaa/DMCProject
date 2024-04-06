@@ -6,9 +6,12 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 function NavbarComponent() {
     return (
       <>
-            <Navbar expand="lg" className="bg-body-tertiary" style={{ marginBottom: '3rem' }}>
+            <Navbar expand="lg" bg="primary" data-bs-theme="dark" style={{ marginBottom: '3rem' }}>
                 <Container>
-                  <Navbar.Brand href="/">Art Reference Tool</Navbar.Brand>
+                  <div className="navIconDiv">
+                      <img src="https://localhost:7035/wwwroot/Website/image-multiple.svg" className="favicon"></img>
+                      <Navbar.Brand href="/">Art Reference Tool</Navbar.Brand>
+                  </div>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
                       <Nav className="me-auto">

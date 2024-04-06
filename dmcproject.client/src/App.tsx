@@ -107,6 +107,7 @@ const AppContent: FC = () => {
     return (
         <>
             <h1>Art Reference Tool</h1>
+            {/* <img src="https://localhost:7035/wwwroot/References/a03b2059-33b5-4127-a876-209af3a11187.png"></img> */}
             <div className="centerDiv columnDiv">
                 <div className="tabContainer">
                     <Tabs defaultActiveKey="humanAnatomy" id="tabsContent" className="mb-3">
