@@ -9,7 +9,7 @@ function NavbarComponent() {
             <Navbar expand="lg" bg="primary" data-bs-theme="dark" style={{ marginBottom: '3rem' }}>
                 <Container>
                   <div className="navIconDiv">
-                      <img src="https://localhost:7035/wwwroot/Website/image-multiple.svg" className="favicon"></img>
+                      <Nav.Link href="/"><img src="https://localhost:7035/wwwroot/Website/image-multiple.svg" className="favicon"></img></Nav.Link>
                       <Navbar.Brand href="/">Art Reference Tool</Navbar.Brand>
                   </div>
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
