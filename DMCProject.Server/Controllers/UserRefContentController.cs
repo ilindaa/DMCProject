@@ -23,7 +23,7 @@ namespace DMCProject.Server.Controllers
         [Route("AddURContent")]
         public IActionResult AddURContent([FromBody] JsonElement jsonData)
         {
-            string msg = "";
+            var msg = "";
             if (jsonData.ValueKind == JsonValueKind.Object)
             {
                 try
@@ -223,7 +223,7 @@ namespace DMCProject.Server.Controllers
         [Route("EditURContent")]
         public IActionResult EditURContent([FromBody] JsonElement jsonData)
         {
-            string msg = "";
+            var msg = "";
             if (jsonData.ValueKind == JsonValueKind.Object)
             {
                 try
@@ -301,6 +301,56 @@ namespace DMCProject.Server.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("ImageContent")]
+        public IActionResult ImageContent([FromBody] JsonElement jsonData)
+        {
+            var json = "";
+            if (jsonData.ValueKind == JsonValueKind.Object)
+            {
+                try
+                {
+                    System.Diagnostics.Debug.WriteLine(jsonData);
+                    JObject jo = JsonConvert.DeserializeObject<JObject>(jsonData.GetRawText());
+                    string category = jo["category"].ToString();
+                    System.Diagnostics.Debug.WriteLine(category);
+
+                    ConnectionTest test = new ConnectionTest();
+                    MySqlConnection conn = test.ConnectDB();
+                    MySqlCommand cmd = conn.CreateCommand();
+
+                    cmd.CommandText = "SELECT AddURContent.FirstName, AddURContent.MiddleName, AddURContent.LastName, AddURContent.FilePath FROM AddURContent INNER JOIN ReviewURContent ON AddURContent.AddURContentID = ReviewURContent.AddURContentID WHERE ReviewURContent.Review=@value1 AND AddURContent.ImageCategory=@value2";
+                    cmd.Parameters.AddWithValue("@value1", 1);
+                    cmd.Parameters.AddWithValue("@value2", category);
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    List<MyDataThree> dataList = new List<MyDataThree>();
+
+                    while (rdr.Read())
+                    {
+                        MyDataThree data = new MyDataThree();
+                        data.firstName = rdr["FirstName"].ToString();
+                        data.middleName = rdr["MiddleName"].ToString();
+                        data.lastName = rdr["LastName"].ToString();
+                        data.filePath = rdr["FilePath"].ToString();
+                        dataList.Add(data);
+                        System.Diagnostics.Debug.WriteLine("dataList: " + dataList);
+                    }
+
+                    test.CloseDB(conn);
+
+                    json = JsonConvert.SerializeObject(dataList);
+                    System.Diagnostics.Debug.WriteLine("Json: " + json);
+                }
+                catch (Exception error)
+                {
+                    System.Diagnostics.Debug.WriteLine(error);
+                }
+            }
+
+            return Content(json, "application/json");
+        }
+
         // End
     }
 
@@ -325,5 +375,13 @@ namespace DMCProject.Server.Controllers
         public string lastName;
         public string filePath;
         public string imageCategory;
+    }
+
+    public class MyDataThree
+    {
+        public string firstName;
+        public string middleName;
+        public string lastName;
+        public string filePath;
     }
 }

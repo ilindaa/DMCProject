@@ -200,8 +200,6 @@ function createTable(jsonData: string) {
 
     clearTable();
 
-    /*    const columnLength = Object.keys(dataObject).length;*/
-    /*  console.log(dataObject[0]["addURContentID"]);*/
     for (let i = 0; i < dataObject.length; i++) {
         const tr = document.createElement("tr");
         dataTableBody.appendChild(tr);

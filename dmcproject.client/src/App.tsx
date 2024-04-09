@@ -48,7 +48,7 @@ const Body: React.FC<{ queryStr: string, orientationStr: string }> = ({ queryStr
 
     useEffect(() => {
         api.search
-            .getPhotos({ query: queryStr, orientation: orientationStr })
+            .getPhotos({ query: queryStr, orientation: orientationStr, per_page: 30, order_by: "latest" })
             .then(result => {
                 setPhotosResponse(result);
             })
@@ -84,14 +84,56 @@ const Body: React.FC<{ queryStr: string, orientationStr: string }> = ({ queryStr
 function updateBodyDiv() {
     const category = document.getElementById("category") as HTMLSelectElement;
     const displayTitle = document.getElementById("displayTitle");
+    const dbDisplayTitle = document.getElementById("dbDisplayTitle");
     const bodyDiv = document.getElementById("bodyDiv");
 
     displayTitle.innerText = category.value + " (Unsplash)";
+    dbDisplayTitle.innerText = category.value + " (User Submitted Reference Content)";
     bodyDiv.replaceChildren(); // Remove all the body content
 
     // Create a react element: Body FC with its parameters and add the child to the bodyDiv (parent)
     const body = createRoot(bodyDiv);
     body.render(<Body queryStr={ category.value as string } orientationStr="landscape" />);
+}
+
+function showImages(jsonData: string) {
+    const dataObject: MyDataThree[] = JSON.parse(jsonData);
+    const dbDiv = document.getElementById("dbDiv");
+
+    clearUlListUR();
+
+    if (dataObject.length >= 1) {
+        for (let i = 0; i < dataObject.length; i++) {
+            const ulListUR = document.querySelector(".ulListUR");
+            const li = document.createElement("li");
+            const img = document.createElement("img");
+            const p = document.createElement("p");
+
+            li.classList.add("liUR");
+            img.src = "https://localhost:7035/" + dataObject[i]["filePath"].toString();
+            if (dataObject[i]["middleName"] === null) {
+                p.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["lastName"].toString();
+            } else {
+                p.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["middleName"].toString() + " " + dataObject[i]["lastName"].toString();
+            }
+
+            ulListUR.append(li);
+            li.append(img, p);
+        }
+    } else {
+        const ulListUR = document.querySelector(".ulListUR");
+        const p = document.createElement("p");
+        p.innerText = "There is no user submitted reference content yet. Please check again later!";
+
+        ulListUR.append(p);
+    }
+}
+
+function clearUlListUR() {
+    const ulListUR = document.querySelector(".ulListUR");
+    ulListUR.replaceChildren();
+
+    console.log("Cleared!");
 }
 
 const AppContent: FC = () => {
@@ -100,6 +142,32 @@ const AppContent: FC = () => {
         contentForm.addEventListener("submit", function (event) {
             event.preventDefault();
             updateBodyDiv();
+
+            // Store the form data as a FormData object then turn it into a string (JsonElement)
+            const formData = new FormData(contentForm);
+            console.log("formData: " + formData);
+
+            const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
+            console.log(jsonData);
+            // Fetch the data to the server and send it to be handled in UserRefContentController.cs
+            try {
+                fetch("https://localhost:7035/api/UserRefContent/ImageContent", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: jsonData
+                }).then(response => {
+                    console.log(response);
+                    return response.text();
+                }).then(data => {
+                    console.log(data);
+                    showImages(data);
+                })
+            } catch (error) {
+                console.log(error);
+            }
+            console.log("Submitted!");
         });
 
     }, []);
@@ -120,7 +188,7 @@ const AppContent: FC = () => {
                                         <Form.Group className="mb-3" controlId="category">
                                             <Form.Label>Category</Form.Label>
                                             <Form.Select name="category" aria-label="Select a category" required>
-                                                <option value="Full Body">Figure (Full Body)</option>
+                                                <option value="Figure">Figure (Full Body)</option>
                                                 <option value="Hands">Hands</option>
                                                 <option value="Feet">Feet</option>
                                                 <option value="Portraits">Portraits</option>
@@ -155,12 +223,23 @@ const AppContent: FC = () => {
     );
 }
 
+interface MyDataThree {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    filePath: string;
+}
+
 function App() {
     return (
         <main className="root">
             <AppContent />
             <h1 id="displayTitle"></h1>
             <div id="bodyDiv">
+            </div>
+            <h1 id="dbDisplayTitle"></h1>
+            <div id="dbDiv">
+                <ul className="ulListUR"></ul>
             </div>
         </main>
     );

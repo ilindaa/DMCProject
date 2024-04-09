@@ -51,18 +51,57 @@ h1, .centerText {
     padding-left: 1.3rem;
 }
 
+/* ul's */
 ul {
     list-style-type: none;
+}
+
+.feed > .columnUl > li, .liUR {
+    padding: 1rem !important;
+}
+
+.feed, .dbDiv {
+    width: 100%;
+}
+
+.columnUl, .ulListUR {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.columnUl > li, ulListUR > li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.columnUl > li > img, .ulListUR > li > img {
+    max-height: 20rem;
+    max-width: 30rem;
+}
+
+ul > li > img:hover {
+    cursor: zoom-in;
+}
+
+/* html and body */
+html {
+    height: 100vh;
 }
 
 body {
     min-height: 100vh;
     background: url("https://localhost:7035/wwwroot/Website/volodymyr-hryshchenko-vqfiIoRjXWU-unsplash.jpg") no-repeat center center;
+    background-attachment: fixed;
     background-size: cover;
     background-position: top;
-    backdrop-filter: hue-rotate(-180deg) saturate(1.2) brightness(1.3);
+    backdrop-filter: blur(10px);
 }
 
+/* Sign up and Register */
 #signUpForm a, #loginForm a {
     text-decoration: none;
 }
@@ -71,6 +110,7 @@ body {
     text-decoration: underline;
 }
 
+/* Favicons */
 .navIconDiv {
     display: flex;
     gap: 0.5rem;
