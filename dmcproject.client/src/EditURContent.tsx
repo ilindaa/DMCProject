@@ -121,10 +121,42 @@ const Edit: FC = () => {
                     <Form.Group className="mb-3" controlId="category">
                         <Form.Label>Category of Image</Form.Label>
                         <Form.Select name="category" aria-label="Select a Category" required>
-                            <option value="Figure">Figure</option>
-                            <option value="Hands">Hands</option>
+                            {/*Anatomy*/}
+                            <option value="Eyes">Eyes</option>
                             <option value="Feet">Feet</option>
+                            <option value="Hands">Hands</option>
+                            <option value="Human Body Pose">Human Body Pose</option>
+                            <option value="Human Face Expressions">Human Face Expressions</option>
+                            <option value="Human Hair">Human Hair</option>
                             <option value="Portraits">Portraits</option>
+                            {/*Backgrounds*/}
+                            <option value="Beach">Beach</option>
+                            <option value="Buildings">Buildings</option>
+                            <option value="Landscapes">Landscapes</option>
+                            <option value="Medieval">Medieval</option>
+                            <option value="Mountain">Mountain</option>
+                            <option value="Skyscrapers">Skyscrapers</option>
+                            <option value="Space">Space</option>
+                            <option value="Underwater">Underwater</option>
+                            {/*Still Life*/}
+                            <option value="3D Shapes">3D Shapes</option>
+                            <option value="Fabrics">Fabrics</option>
+                            <option value="Flowers">Flowers</option>
+                            <option value="Objects">Objects</option>
+                            <option value="Paintings">Paintings</option>
+                            <option value="Sculptures">Sculptures</option>
+                            {/*Art Concepts*/}
+                            <option value="Black and White">Black and White</option>
+                            <option value="Color">Color</option>
+                            <option value="Lighting">Dynamic Lighting</option>
+                            <option value="Perspective">Perspective</option>
+                            {/*Animals*/}
+                            <option value="Animals">Animals</option>
+                            <option value="Bird">Bird</option>
+                            <option value="Bug">Bug</option>
+                            <option value="Fish">Fish</option>
+                            <option value="Mammal">Mammal</option>
+                            <option value="Reptile">Reptile</option>
                         </Form.Select>
                     </Form.Group>
 

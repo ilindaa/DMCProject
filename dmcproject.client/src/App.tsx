@@ -55,7 +55,7 @@ const Body: React.FC<{ queryStr: string, orientationStr: string }> = ({ queryStr
 
     useEffect(() => {
         api.search
-            .getPhotos({ query: queryStr, orientation: orientationStr, per_page: 30, order_by: "latest" })
+            .getPhotos({ query: queryStr, orientation: orientationStr, per_page: 30, order_by: "relevant" })
             .then(result => {
                 setPhotosResponse(result);
             })
@@ -179,36 +179,38 @@ const AppContent: FC = () => {
 
         button.addEventListener("click", hideUnhideModal);
 
-        const contentForm = document.getElementById("contentForm");
-        contentForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-            updateBodyDiv();
+        const forms = document.querySelectorAll(".contentForm");
+        forms.forEach(form => {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                updateBodyDiv();
 
-            // Store the form data as a FormData object then turn it into a string (JsonElement)
-            const formData = new FormData(contentForm);
-            console.log("formData: " + formData);
+                // Store the form data as a FormData object then turn it into a string (JsonElement)
+                const formData = new FormData(event.target as HTMLFormElement);
+                console.log("formData: " + formData);
 
-            const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
-            console.log(jsonData);
-            // Fetch the data to the server and send it to be handled in UserRefContentController.cs
-            try {
-                fetch("https://localhost:7035/api/UserRefContent/ImageContent", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: jsonData
-                }).then(response => {
-                    console.log(response);
-                    return response.text();
-                }).then(data => {
-                    console.log(data);
-                    showImages(data);
-                })
-            } catch (error) {
-                console.log(error);
-            }
-            console.log("Submitted!");
+                const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
+                console.log(jsonData);
+                // Fetch the data to the server and send it to be handled in UserRefContentController.cs
+                try {
+                    fetch("https://localhost:7035/api/UserRefContent/ImageContent", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: jsonData
+                    }).then(response => {
+                        console.log(response);
+                        return response.text();
+                    }).then(data => {
+                        console.log(data);
+                        showImages(data);
+                    })
+                } catch (error) {
+                    console.log(error);
+                }
+                console.log("Submitted!");
+            });
         });
 
     }, []);
@@ -225,14 +227,16 @@ const AppContent: FC = () => {
                                 <h3>Human Anatomy</h3>
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
-                                        <Form id="contentForm">
-                                            <Form.Control type="hidden" value="1"></Form.Control>
+                                        <Form id="contentForm" className="contentForm">
                                             <Form.Group className="mb-3" controlId="category">
                                                 <Form.Label>Category</Form.Label>
                                                 <Form.Select name="category" aria-label="Select a category" required>
-                                                    <option value="Figure">Figure (Full Body)</option>
-                                                    <option value="Hands">Hands</option>
+                                                    <option value="Eyes">Eyes</option>
                                                     <option value="Feet">Feet</option>
+                                                    <option value="Hands">Hands</option>
+                                                    <option value="Human Body Pose">Human Body Pose</option>
+                                                    <option value="Human Face Expressions">Human Face Expressions</option>
+                                                    <option value="Human Hair">Human Hair</option>
                                                     <option value="Portraits">Portraits</option>
                                                 </Form.Select>
                                             </Form.Group>
@@ -241,22 +245,99 @@ const AppContent: FC = () => {
                                             </Form.Group>
                                         </Form>
                                     </div>
+                                </div>
+                            </Tab>
+                            <Tab eventKey="backgrounds" title="Backgrounds">
+                                <h3>Backgrounds</h3>
+                                <div className="centerDiv">
+                                    <div className="formSize homeForm">
+                                        <Form id="contentForm" className="contentForm">
+                                            <Form.Group className="mb-3" controlId="category">
+                                                <Form.Label>Category</Form.Label>
+                                                <Form.Select name="category" aria-label="Select a category" required>
+                                                    <option value="Beach">Beach</option>
+                                                    <option value="Buildings">Buildings</option>
+                                                    <option value="Landscapes">Landscapes</option>
+                                                    <option value="Medieval">Medieval</option>
+                                                    <option value="Mountain">Mountain</option>
+                                                    <option value="Skyscrapers">Skyscrapers</option>
+                                                    <option value="Space">Space</option>
+                                                    <option value="Underwater">Underwater</option>
+                                                </Form.Select>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                            </Form.Group>
+                                        </Form>
                                     </div>
+                                </div>
                             </Tab>
-                            <Tab eventKey="tab2" title="Tab 2">
-                                Tab content for Tab 2
+                            <Tab eventKey="stillLife" title="Still Life">
+                                <h3>Still Life</h3>
+                                <div className="centerDiv">
+                                    <div className="formSize homeForm">
+                                        <Form id="contentForm" className="contentForm">
+                                            <Form.Group className="mb-3" controlId="category">
+                                                <Form.Label>Category</Form.Label>
+                                                <Form.Select name="category" aria-label="Select a category" required>
+                                                    <option value="3D Shapes">3D Shapes</option>
+                                                    <option value="Fabrics">Fabrics</option>
+                                                    <option value="Flowers">Flowers</option>
+                                                    <option value="Objects">Objects</option>
+                                                    <option value="Paintings">Paintings</option>
+                                                    <option value="Sculptures">Sculptures</option>
+                                                </Form.Select>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                            </Form.Group>
+                                        </Form>
+                                    </div>
+                                </div>
                             </Tab>
-                            <Tab eventKey="tab3" title="Tab 3">
-                                Tab content for Tab 3
+                            <Tab eventKey="artConcepts" title="Art Concepts">
+                                <h3>Art Concepts</h3>
+                                <div className="centerDiv">
+                                    <div className="formSize homeForm">
+                                        <Form id="contentForm" className="contentForm">
+                                            <Form.Group className="mb-3" controlId="category">
+                                                <Form.Label>Category</Form.Label>
+                                                <Form.Select name="category" aria-label="Select a category" required>
+                                                    <option value="Black and White">Black and White</option>
+                                                    <option value="Color">Color</option>
+                                                    <option value="Lighting">Dynamic Lighting</option>
+                                                    <option value="Perspective">Perspective</option>
+                                                </Form.Select>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                            </Form.Group>
+                                        </Form>
+                                    </div>
+                                </div>
                             </Tab>
-                            <Tab eventKey="tab4" title="Tab 4">
-                                Tab content for Tab 4
-                            </Tab>
-                            <Tab eventKey="tab5" title="Tab 5">
-                                Tab content for Tab 5
-                            </Tab>
-                            <Tab eventKey="tab6" title="Tab 6">
-                                Tab content for Tab 6
+                            <Tab eventKey="animals" title="Animals">
+                                <h3>Animals</h3>
+                                <div className="centerDiv">
+                                    <div className="formSize homeForm">
+                                        <Form id="contentForm" className="contentForm">
+                                            <Form.Group className="mb-3" controlId="category">
+                                                <Form.Label>Category</Form.Label>
+                                                <Form.Select name="category" aria-label="Select a category" required>
+                                                    <option value="Animals">Animals</option>
+                                                    <option value="Bird">Bird</option>
+                                                    <option value="Bug">Bug</option>
+                                                    <option value="Fish">Fish</option>
+                                                    <option value="Mammal">Mammal</option>
+                                                    <option value="Reptile">Reptile</option>
+                                                </Form.Select>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                            </Form.Group>
+                                        </Form>
+                                    </div>
+                                </div>
                             </Tab>
                         </Tabs>
                     </div>
