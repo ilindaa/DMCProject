@@ -6,7 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 function NavbarComponent() {
     return (
       <>
-            <Navbar expand="lg" bg="primary" data-bs-theme="dark" style={{ marginBottom: '3rem' }}>
+            <Navbar expand="lg" bg="primary" data-bs-theme="dark" id="navbar">
                 <Container>
                   <div className="navIconDiv">
                       <Nav.Link href="/"><img src="https://localhost:7035/wwwroot/Website/image-multiple.svg" className="favicon"></img></Nav.Link>

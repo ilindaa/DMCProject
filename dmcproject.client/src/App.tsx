@@ -2,6 +2,7 @@ import React, { FC, Fragment, useEffect, useState } from "react";
 import { createRoot } from 'react-dom/client';
 import { createApi } from "unsplash-js";
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -31,14 +32,20 @@ const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
 
     return (
         <Fragment>
-            <img className="img" src={urls.regular} />
-            <a
-                className="credit"
-                target="_blank"
-                href={`https://unsplash.com/@${user.username}`}
-            >
-                {user.name}
-            </a>
+            <Card style={{ width: '18rem' }}>
+                <Card.Img variant="top" src={urls.regular} />
+                <Card.Body>
+                    <Card.Title>
+                        <a
+                            className="credit"
+                            target="_blank"
+                            href={`https://unsplash.com/@${user.username}`}
+                        >
+                            {user.name}
+                        </a>
+                    </Card.Title>
+                </Card.Body>
+            </Card>
         </Fragment>
     );
 };
@@ -86,6 +93,9 @@ function updateBodyDiv() {
     const displayTitle = document.getElementById("displayTitle");
     const dbDisplayTitle = document.getElementById("dbDisplayTitle");
     const bodyDiv = document.getElementById("bodyDiv");
+    const mainModal = document.getElementById("mainModal");
+
+    mainModal.style.display = "none";
 
     displayTitle.innerText = category.value + " (Unsplash)";
     dbDisplayTitle.innerText = category.value + " (User Submitted Reference Content)";
@@ -98,7 +108,6 @@ function updateBodyDiv() {
 
 function showImages(jsonData: string) {
     const dataObject: MyDataThree[] = JSON.parse(jsonData);
-    const dbDiv = document.getElementById("dbDiv");
 
     clearUlListUR();
 
@@ -106,10 +115,20 @@ function showImages(jsonData: string) {
         for (let i = 0; i < dataObject.length; i++) {
             const ulListUR = document.querySelector(".ulListUR");
             const li = document.createElement("li");
+
+            const div = document.createElement("div");
             const img = document.createElement("img");
+            const div2 = document.createElement("div");
+            const div3 = document.createElement("div");
             const p = document.createElement("p");
 
             li.classList.add("liUR");
+            div.classList.add("card");
+            img.classList.add("card-img-top");
+            div2.classList.add("card-body");
+            div3.classList.add("card-title", "h5");
+            p.classList.add("credit");
+
             img.src = "https://localhost:7035/" + dataObject[i]["filePath"].toString();
             if (dataObject[i]["middleName"] === null) {
                 p.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["lastName"].toString();
@@ -118,7 +137,10 @@ function showImages(jsonData: string) {
             }
 
             ulListUR.append(li);
-            li.append(img, p);
+            li.append(div);
+            div.append(img, div2);
+            div2.append(div3);
+            div3.append(p);
         }
     } else {
         const ulListUR = document.querySelector(".ulListUR");
@@ -136,8 +158,27 @@ function clearUlListUR() {
     console.log("Cleared!");
 }
 
+function hideUnhideModal() {
+    const mainModal = document.getElementById("mainModal");
+    const display = mainModal.style.display;
+
+    if (display == "block") {
+        mainModal.style.display = "none";
+    } else {
+        mainModal.style.display = "block";
+    }
+}
+
 const AppContent: FC = () => {
     useEffect(() => {
+        const navbar = document.querySelector(".me-auto.navbar-nav");
+        const button = document.createElement("button");
+        button.innerText = "Hide/Unhide Tool";
+        button.classList.add("btn", "btn-secondary");
+        navbar.append(button);
+
+        button.addEventListener("click", hideUnhideModal);
+
         const contentForm = document.getElementById("contentForm");
         contentForm.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -174,49 +215,51 @@ const AppContent: FC = () => {
 
     return (
         <>
-            <h1>Art Reference Tool</h1>
-            {/* <img src="https://localhost:7035/wwwroot/References/a03b2059-33b5-4127-a876-209af3a11187.png"></img> */}
-            <div className="centerDiv columnDiv">
-                <div className="tabContainer">
-                    <Tabs defaultActiveKey="humanAnatomy" id="tabsContent" className="mb-3">
-                        <Tab eventKey="humanAnatomy" title="Human Anatomy">
-                            <h3>Human Anatomy</h3>
-                            <div className="centerDiv">
-                                <div className="formSize homeForm">
-                                    <Form id="contentForm">
-                                        <Form.Control type="hidden" value="1"></Form.Control>
-                                        <Form.Group className="mb-3" controlId="category">
-                                            <Form.Label>Category</Form.Label>
-                                            <Form.Select name="category" aria-label="Select a category" required>
-                                                <option value="Figure">Figure (Full Body)</option>
-                                                <option value="Hands">Hands</option>
-                                                <option value="Feet">Feet</option>
-                                                <option value="Portraits">Portraits</option>
-                                            </Form.Select>
-                                        </Form.Group>
-                                        <Form.Group>
-                                            <Button variant="primary" type="submit" className="w-100">Submit</Button>
-                                        </Form.Group>
-                                    </Form>
-                                </div>
-                            </div>
-                        </Tab>
-                        <Tab eventKey="tab2" title="Tab 2">
-                            Tab content for Tab 2
-                        </Tab>
-                        <Tab eventKey="tab3" title="Tab 3">
-                            Tab content for Tab 3
-                        </Tab>
-                        <Tab eventKey="tab4" title="Tab 4">
-                            Tab content for Tab 4
-                        </Tab>
-                        <Tab eventKey="tab5" title="Tab 5">
-                            Tab content for Tab 5
-                        </Tab>
-                        <Tab eventKey="tab6" title="Tab 6">
-                            Tab content for Tab 6
-                        </Tab>
-                    </Tabs>
+            <div id="mainModal">
+                <h1>Art Reference Tool</h1>
+                {/* <img src="https://localhost:7035/wwwroot/References/a03b2059-33b5-4127-a876-209af3a11187.png"></img> */}
+                <div className="centerDiv columnDiv">
+                    <div className="tabContainer">
+                        <Tabs defaultActiveKey="humanAnatomy" id="tabsContent" className="mb-3">
+                            <Tab eventKey="humanAnatomy" title="Human Anatomy">
+                                <h3>Human Anatomy</h3>
+                                <div className="centerDiv">
+                                    <div className="formSize homeForm">
+                                        <Form id="contentForm">
+                                            <Form.Control type="hidden" value="1"></Form.Control>
+                                            <Form.Group className="mb-3" controlId="category">
+                                                <Form.Label>Category</Form.Label>
+                                                <Form.Select name="category" aria-label="Select a category" required>
+                                                    <option value="Figure">Figure (Full Body)</option>
+                                                    <option value="Hands">Hands</option>
+                                                    <option value="Feet">Feet</option>
+                                                    <option value="Portraits">Portraits</option>
+                                                </Form.Select>
+                                            </Form.Group>
+                                            <Form.Group>
+                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                            </Form.Group>
+                                        </Form>
+                                    </div>
+                                    </div>
+                            </Tab>
+                            <Tab eventKey="tab2" title="Tab 2">
+                                Tab content for Tab 2
+                            </Tab>
+                            <Tab eventKey="tab3" title="Tab 3">
+                                Tab content for Tab 3
+                            </Tab>
+                            <Tab eventKey="tab4" title="Tab 4">
+                                Tab content for Tab 4
+                            </Tab>
+                            <Tab eventKey="tab5" title="Tab 5">
+                                Tab content for Tab 5
+                            </Tab>
+                            <Tab eventKey="tab6" title="Tab 6">
+                                Tab content for Tab 6
+                            </Tab>
+                        </Tabs>
+                    </div>
                 </div>
             </div>
         </>

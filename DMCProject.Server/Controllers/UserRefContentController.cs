@@ -23,7 +23,7 @@ namespace DMCProject.Server.Controllers
         [Route("AddURContent")]
         public IActionResult AddURContent([FromBody] JsonElement jsonData)
         {
-            var msg = "";
+            string msg = "";
             if (jsonData.ValueKind == JsonValueKind.Object)
             {
                 try
@@ -223,7 +223,7 @@ namespace DMCProject.Server.Controllers
         [Route("EditURContent")]
         public IActionResult EditURContent([FromBody] JsonElement jsonData)
         {
-            var msg = "";
+            string msg = "";
             if (jsonData.ValueKind == JsonValueKind.Object)
             {
                 try
