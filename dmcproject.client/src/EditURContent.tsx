@@ -122,13 +122,13 @@ const Edit: FC = () => {
                         <Form.Label>Category of Image</Form.Label>
                         <Form.Select name="category" aria-label="Select a Category" required>
                             {/*Anatomy*/}
-                            <option value="Eyes">Eyes</option>
-                            <option value="Feet">Feet</option>
-                            <option value="Hands">Hands</option>
-                            <option value="Human Body Pose">Human Body Pose</option>
-                            <option value="Human Face Expressions">Human Face Expressions</option>
-                            <option value="Human Hair">Human Hair</option>
-                            <option value="Portraits">Portraits</option>
+                            <option value="Human Eyes">Eyes</option>
+                            <option value="Human Feet">Feet</option>
+                            <option value="Human Hands">Hands</option>
+                            <option value="Human Body Pose">Body Pose</option>
+                            <option value="Human Face Expressions">Face Expressions</option>
+                            <option value="Human Hair">Hair</option>
+                            <option value="Human Portraits">Portraits</option>
                             {/*Backgrounds*/}
                             <option value="Beach">Beach</option>
                             <option value="Buildings">Buildings</option>
@@ -140,7 +140,9 @@ const Edit: FC = () => {
                             <option value="Underwater">Underwater</option>
                             {/*Still Life*/}
                             <option value="3D Shapes">3D Shapes</option>
+                            <option value="Clothing">Clothing</option>
                             <option value="Fabrics">Fabrics</option>
+                            <option value="Food">Food</option>
                             <option value="Flowers">Flowers</option>
                             <option value="Objects">Objects</option>
                             <option value="Paintings">Paintings</option>

@@ -3,7 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { createApi } from "unsplash-js";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
@@ -33,7 +35,7 @@ const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
     return (
         <Fragment>
             <Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src={urls.regular} />
+                <Card.Img variant="top" src={urls.regular} onClick={(event: React.MouseEvent) => handleImageModal(event)} />
                 <Card.Body>
                     <Card.Title>
                         <a
@@ -50,12 +52,23 @@ const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
     );
 };
 
-const Body: React.FC<{ queryStr: string, orientationStr: string }> = ({ queryStr, orientationStr }) => {
+function handleImageModal(event: React.MouseEvent) {
+    const imgSrc = (event.target as HTMLImageElement).src;
+    const imgModal = document.getElementById("imgModal");
+    const zoomedImg = document.getElementById("zoomedImg");
+
+    imgModal.style.display = "block";
+    zoomedImg.src = imgSrc;
+
+    console.log("Clicked!" + imgSrc);
+}
+
+const Body: React.FC<{ queryStr: string, orderByStr: string }> = ({ queryStr, orderByStr }) => {
     const [data, setPhotosResponse] = useState(null);
 
     useEffect(() => {
         api.search
-            .getPhotos({ query: queryStr, orientation: orientationStr, per_page: 30, order_by: "relevant" })
+            .getPhotos({ query: queryStr, per_page: 30, order_by: orderByStr })
             .then(result => {
                 setPhotosResponse(result);
             })
@@ -90,6 +103,7 @@ const Body: React.FC<{ queryStr: string, orientationStr: string }> = ({ queryStr
 
 function updateBodyDiv() {
     const category = document.getElementById("category") as HTMLSelectElement;
+    const checkedOrderBy = document.querySelector("input[name='orderBy']:checked").value;
     const displayTitle = document.getElementById("displayTitle");
     const dbDisplayTitle = document.getElementById("dbDisplayTitle");
     const bodyDiv = document.getElementById("bodyDiv");
@@ -103,7 +117,7 @@ function updateBodyDiv() {
 
     // Create a react element: Body FC with its parameters and add the child to the bodyDiv (parent)
     const body = createRoot(bodyDiv);
-    body.render(<Body queryStr={ category.value as string } orientationStr="landscape" />);
+    body.render(<Body queryStr={category.value as string} orderByStr={checkedOrderBy as string} />);
 }
 
 function showImages(jsonData: string) {
@@ -169,10 +183,27 @@ function hideUnhideModal() {
     }
 }
 
+function ImgOrderBy() {
+    return <>
+        <Form.Group className="mb-3">
+            <Form.Label>Image Order By</Form.Label>
+            <Form.Group controlId="relevant">
+                <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
+            </Form.Group>
+            <Form.Group controlId="latest">
+                <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
+            </Form.Group>
+        </Form.Group>
+    </>;
+}
+
 const AppContent: FC = () => {
     useEffect(() => {
         const navbar = document.querySelector(".me-auto.navbar-nav");
         const button = document.createElement("button");
+        const imgModal = document.getElementById("imgModal");
+
+        imgModal.style.display = "none";
         button.innerText = "Hide/Unhide Tool";
         button.classList.add("btn", "btn-secondary");
         navbar.append(button);
@@ -217,6 +248,12 @@ const AppContent: FC = () => {
 
     return (
         <>
+            <Modal.Dialog id="imgModal">
+                <Modal.Header>
+                    <CloseButton id="xButton" aria-label="Hide" />
+                </Modal.Header>
+                <img src="" id="zoomedImg"></img>
+            </Modal.Dialog>
             <div id="mainModal">
                 <h1>Art Reference Tool</h1>
                 {/* <img src="https://localhost:7035/wwwroot/References/a03b2059-33b5-4127-a876-209af3a11187.png"></img> */}
@@ -231,15 +268,16 @@ const AppContent: FC = () => {
                                             <Form.Group className="mb-3" controlId="category">
                                                 <Form.Label>Category</Form.Label>
                                                 <Form.Select name="category" aria-label="Select a category" required>
-                                                    <option value="Eyes">Eyes</option>
-                                                    <option value="Feet">Feet</option>
-                                                    <option value="Hands">Hands</option>
-                                                    <option value="Human Body Pose">Human Body Pose</option>
-                                                    <option value="Human Face Expressions">Human Face Expressions</option>
-                                                    <option value="Human Hair">Human Hair</option>
-                                                    <option value="Portraits">Portraits</option>
+                                                    <option value="Human Eyes">Eyes</option>
+                                                    <option value="Human Feet">Feet</option>
+                                                    <option value="Human Hands">Hands</option>
+                                                    <option value="Human Body Pose">Body Pose</option>
+                                                    <option value="Human Face Expressions">Face Expressions</option>
+                                                    <option value="Human Hair">Hair</option>
+                                                    <option value="Human Portraits">Portraits</option>
                                                 </Form.Select>
                                             </Form.Group>
+                                            <ImgOrderBy />
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -265,6 +303,15 @@ const AppContent: FC = () => {
                                                     <option value="Underwater">Underwater</option>
                                                 </Form.Select>
                                             </Form.Group>
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Image Order By</Form.Label>
+                                                <Form.Group controlId="relevant">
+                                                    <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
+                                                </Form.Group>
+                                                <Form.Group controlId="latest">
+                                                    <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
+                                                </Form.Group>
+                                            </Form.Group>
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -281,13 +328,16 @@ const AppContent: FC = () => {
                                                 <Form.Label>Category</Form.Label>
                                                 <Form.Select name="category" aria-label="Select a category" required>
                                                     <option value="3D Shapes">3D Shapes</option>
+                                                    <option value="Clothing">Clothing</option>
                                                     <option value="Fabrics">Fabrics</option>
+                                                    <option value="Food">Food</option>
                                                     <option value="Flowers">Flowers</option>
                                                     <option value="Objects">Objects</option>
                                                     <option value="Paintings">Paintings</option>
                                                     <option value="Sculptures">Sculptures</option>
                                                 </Form.Select>
                                             </Form.Group>
+                                            <ImgOrderBy />
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -309,6 +359,7 @@ const AppContent: FC = () => {
                                                     <option value="Perspective">Perspective</option>
                                                 </Form.Select>
                                             </Form.Group>
+                                            <ImgOrderBy />
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -332,6 +383,7 @@ const AppContent: FC = () => {
                                                     <option value="Reptile">Reptile</option>
                                                 </Form.Select>
                                             </Form.Group>
+                                            <ImgOrderBy />
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>

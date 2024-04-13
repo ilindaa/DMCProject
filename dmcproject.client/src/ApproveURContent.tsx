@@ -89,7 +89,7 @@ const Approve: FC = () => {
                         <Form.Control type="hidden" id="reviewUrContentId" name="reviewUrContentId" value="-1" />
                         <Form.Group className="mb-3">
                             <Form.Group controlId="approve">
-                                <Form.Check type="radio" label="Approve" name="review" value={1} required />
+                                <Form.Check type="radio" label="Approve" name="review" value={1} defaultChecked required />
                             </Form.Group>
                             <Form.Group controlId="reject">
                                 <Form.Check type="radio" label="Reject" name="review" value={0} />
