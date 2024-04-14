@@ -8,7 +8,6 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import Example from "./imageModal.tsx";
 
 // DEMO CODE FROM UNSPLASH API FOR TESTING PURPOSES
 
@@ -56,12 +55,22 @@ const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
 function handleImageModal(event: React.MouseEvent) {
     const imgSrc = (event.target as HTMLImageElement).src;
     const imgModal = document.getElementById("imgModal");
+    const imgModalBg = document.getElementById("imgModalBg");
     const zoomedImg = document.getElementById("zoomedImg");
 
     imgModal.style.display = "block";
+    imgModalBg.style.display = "block";
     zoomedImg.src = imgSrc;
 
     console.log("Clicked!" + imgSrc);
+}
+
+function hideImageModal() {
+    const imgModal = document.getElementById("imgModal");
+    const imgModalBg = document.getElementById("imgModalBg");
+
+    imgModal.style.display = "none";
+    imgModalBg.style.display = "none";
 }
 
 const Body: React.FC<{ queryStr: string, orderByStr: string }> = ({ queryStr, orderByStr }) => {
@@ -203,8 +212,18 @@ const AppContent: FC = () => {
         const navbar = document.querySelector(".me-auto.navbar-nav");
         const button = document.createElement("button");
         const imgModal = document.getElementById("imgModal");
+        const imgModalBg = document.getElementById("imgModalBg");
+        const xButton = document.getElementById("xButton");
 
-        imgModal.style.display = "none";
+        /* Image pop up modal */
+        imgModal.addEventListener("click", function (event) {
+            console.log("Stop Propagation");
+            event.stopPropagation();
+        })
+        imgModalBg.addEventListener("click", hideImageModal);
+        xButton.addEventListener("click", hideImageModal);
+
+        /* Art Ref. Tool modal */
         button.innerText = "Hide/Unhide Tool";
         button.classList.add("btn", "btn-secondary");
         navbar.append(button);
@@ -249,13 +268,14 @@ const AppContent: FC = () => {
 
     return (
         <>
-            <Example />
-            <Modal.Dialog id="imgModal">
-                <Modal.Header>
-                    <CloseButton id="xButton" aria-label="Hide" />
-                </Modal.Header>
-                <img src="" id="zoomedImg"></img>
-            </Modal.Dialog>
+            <div id="imgModalBg">
+                <Modal.Dialog id="imgModal">
+                    <Modal.Header data-bs-theme="dark">
+                        <CloseButton id="xButton" aria-label="Hide" />
+                    </Modal.Header>
+                    <img src="" id="zoomedImg"></img>
+                </Modal.Dialog>
+            </div>
             <div id="mainModal">
                 <h1>Art Reference Tool</h1>
                 {/* <img src="https://localhost:7035/wwwroot/References/a03b2059-33b5-4127-a876-209af3a11187.png"></img> */}

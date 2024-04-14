@@ -35,6 +35,13 @@
 /* Right-align modal button */
 #xButton {
     margin-left: auto;
+    height: 32px;
+    width: 32px;
+}
+
+/* Margin (Navbar area) */
+h1, .formSize {
+    margin-top: 2rem;
 }
 
 h1, .centerText {
@@ -46,9 +53,9 @@ h1, .centerText {
     padding-left: 1.3rem;
 }
 
-/* Navbar, Main modal */
-#mainModal, #navbar {
-    margin-bottom: 3rem;
+/* Main modal */
+#mainModal {
+    padding-bottom: 3rem;
 }
 
 /* ul's */
@@ -78,6 +85,7 @@ ul {
     align-items: center;
 }
 
+/* Image max-height and max-width */
 .card-img-top {
     max-height: auto;
     max-width: 20rem;
@@ -87,6 +95,45 @@ ul {
 .admin-img {
     max-height: auto;
     max-width: 12.5rem;
+}
+
+/* Modal: https://www.w3schools.com/howto/howto_css_modal_images.asp */
+#imgModal, #imgModalBg {
+    display: none;
+    position: sticky;
+    z-index: 1;
+    left: 0;
+    top: 0;
+}
+
+#imgModal {
+    width: 70%;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+#imgModalBg {
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.65);
+}
+
+#zoomedImg {
+    margin: auto;
+    display: block;
+    max-width: 100%;
+    max-height: calc(100vh - 64px);
 }
 
 /* html and body */
