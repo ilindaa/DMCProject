@@ -1,5 +1,6 @@
 import { FC, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
+import AlertDismissible from "./alerts.tsx";
 import Button from 'react-bootstrap/Button';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
@@ -10,6 +11,11 @@ const Approve: FC = () => {
     useEffect(() => {
 
         getData();
+
+        const alertNotif = document.getElementById("alertNotif");
+        const pMsg = document.getElementById("pMsg");
+
+        alertNotif.style.display = "none";
 
         const xButton = document.getElementById("xButton");
         xButton.addEventListener("click", function () {
@@ -36,7 +42,8 @@ const Approve: FC = () => {
                     console.log(response);
                     return response.text();
                 }).then(msg => {
-                    console.log(msg);
+                    alertNotif.style.display = "block";
+                    pMsg.innerText = msg;
                     approveURContentForm.reset();
                     hideFormDiv();
                 }).catch(error => {
@@ -52,6 +59,7 @@ const Approve: FC = () => {
 
     }, []);
     return (<>
+        <AlertDismissible variant="info" message="" />
         <h1>Approve Content</h1>
         <ul className="centerText">
             <li>Review Column Key:</li>

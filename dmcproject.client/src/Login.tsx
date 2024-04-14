@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FC, useEffect } from "react";
+import AlertDismissible from "./alerts.tsx";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -7,7 +8,10 @@ const LoginForm: FC = () => {
     // useEffect gets called after the fragment loads on the page
     useEffect(() => {
         const loginForm = document.getElementById("loginForm");
+        const alertNotif = document.getElementById("alertNotif");
         const pMsg = document.getElementById("pMsg");
+
+        alertNotif.style.display = "none";
 
         loginForm.addEventListener("submit", function (event) {
             // Stops the page from refreshing
@@ -28,6 +32,7 @@ const LoginForm: FC = () => {
                     console.log(response);
                     return response.text();
                 }).then(msg => {
+                    alertNotif.style.display = "block";
                     pMsg.innerText = msg;
                     loginForm.reset();
                 })
@@ -40,6 +45,7 @@ const LoginForm: FC = () => {
 
     return (
         <>
+            <AlertDismissible variant="info" message="" />
             <div className="centerDiv">
                 <div className="formSize">
                     <Form id="loginForm">
@@ -57,10 +63,6 @@ const LoginForm: FC = () => {
 
                         <Form.Group className="mb-3">
                             <Button variant="primary" type="submit" className="w-100">Log In</Button>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Text id="pMsg"></Form.Text>
                         </Form.Group>
 
                         <p>Don't have an account? <Link to="../sign-up">Sign Up</Link>.</p>

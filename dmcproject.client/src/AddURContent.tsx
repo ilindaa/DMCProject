@@ -1,4 +1,5 @@
 import { FC, useEffect } from "react";
+import AlertDismissible from "./alerts.tsx";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -6,7 +7,10 @@ const AddURContentForm: FC = () => {
     // useEffect gets called after the fragment loads on the page
     useEffect(() => {
         const addURContentForm = document.getElementById("addURContentForm");
+        const alertNotif = document.getElementById("alertNotif");
         const pMsg = document.getElementById("pMsg");
+
+        alertNotif.style.display = "none";
 
         // FileReader to read in the image and then add it to the formData and is with the jsonData
         const fileInput = document.getElementById("uploadImage");
@@ -46,6 +50,7 @@ const AddURContentForm: FC = () => {
                     console.log(response);
                     return response.text();
                 }).then(msg => {
+                    alertNotif.style.display = "block";
                     pMsg.innerText = msg;
                     addURContentForm.reset();
                 })
@@ -58,6 +63,7 @@ const AddURContentForm: FC = () => {
 
     return (
         <>
+            <AlertDismissible variant="info" message="" />
             <h1>Add Content</h1>
             <div className="centerDiv columnDiv">
                 <p>Please fill out the correct information about the <strong>original owner of the image</strong>.<br />Then upload the image or provide a URL link to the image.<br /><strong><u>All submissions are moderated</u></strong>.</p>
@@ -134,10 +140,6 @@ const AddURContentForm: FC = () => {
 
                         <Form.Group className="mb-3">
                             <Button type="submit" className="w-100">Upload</Button>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Text id="pMsg"></Form.Text>
                         </Form.Group>
                     </Form>
                 </div>

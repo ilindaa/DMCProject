@@ -1,15 +1,20 @@
 import { FC, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
-import Table from 'react-bootstrap/Table';
+import AlertDismissible from "./alerts.tsx";
 import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
 
 const Delete: FC = () => {
     useEffect(() => {
 
         getData();
 
+        const alertNotif = document.getElementById("alertNotif");
+        alertNotif.style.display = "none";
+
     }, []);
     return (<>
+        <AlertDismissible variant="info" message="" />
         <h1>Delete Content</h1>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
@@ -99,7 +104,8 @@ function deleteRow(index: string) {
     const del = confirm("Are you sure you want to delete the following AddURContentID? \nAddURContentID: " + index + "\nNote: This action cannot be undone.");
     if (del) {
         const jsonData = JSON.stringify(index);
-        /*    const pMsg = document.getElementById("pMsg");*/
+        const alertNotif = document.getElementById("alertNotif");
+        const pMsg = document.getElementById("pMsg");
 
         try {
             fetch("https://localhost:7035/api/UserRefContent/DeleteURContent", {
@@ -112,7 +118,8 @@ function deleteRow(index: string) {
                 console.log(response);
                 return response.text();
             }).then(msg => {
-                console.log(msg);
+                alertNotif.style.display = "block";
+                pMsg.innerText = msg;
             }).catch(error => {
                 console.log(error);
             })

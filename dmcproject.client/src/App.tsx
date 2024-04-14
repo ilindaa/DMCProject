@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Example from "./imageModal.tsx";
 
 // DEMO CODE FROM UNSPLASH API FOR TESTING PURPOSES
 
@@ -248,6 +249,7 @@ const AppContent: FC = () => {
 
     return (
         <>
+            <Example />
             <Modal.Dialog id="imgModal">
                 <Modal.Header>
                     <CloseButton id="xButton" aria-label="Hide" />

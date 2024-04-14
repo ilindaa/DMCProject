@@ -175,11 +175,11 @@ namespace DMCProject.Server.Controllers
             return Content(json, "application/json");
         }
 
-        // Add IActionResult?
         [HttpPost]
         [Route("DeleteURContent")]
-        public void DeleteURContent([FromBody] JsonElement jsonData)
+        public IActionResult DeleteURContent([FromBody] JsonElement jsonData)
         {
+            string msg = "";
             int id = Convert.ToInt32(System.Text.Json.JsonSerializer.Deserialize<string>(jsonData));
 
             ConnectionTest test = new ConnectionTest();
@@ -210,13 +210,17 @@ namespace DMCProject.Server.Controllers
                 cmd.ExecuteNonQuery();
                 cmd.CommandText = "DELETE FROM AddURContent WHERE AddURContentID=@value1";
                 cmd.ExecuteNonQuery();
-                System.Diagnostics.Debug.WriteLine("Deleted row " + id + " from ReviewURContent and AddURContent tables!");
+
+                msg = "Deleted row " + id + " from ReviewURContent and AddURContent tables!";
+                System.Diagnostics.Debug.WriteLine(msg);
+
+                test.CloseDB(conn);
             } else
             {
-                System.Diagnostics.Debug.WriteLine("Error: The AddURContentID " + id + " doesn't exist!");
+                msg = "Error: DeleteURContent table could not be updated or the AddURContentID " + id + " doesn't exist!";
+                System.Diagnostics.Debug.WriteLine(msg);
             }
-
-            test.CloseDB(conn);
+            return Ok(msg);
         }
 
         [HttpPost]
@@ -244,17 +248,28 @@ namespace DMCProject.Server.Controllers
 
                     System.Diagnostics.Debug.WriteLine(firstName);
                     System.Diagnostics.Debug.WriteLine(uploadImage);
-                    string filePath = handleImage(uploadImage, keepFilePath);
 
-                    // Edit (update) the AddURContent table
-                    cmd.CommandText = "UPDATE AddURContent SET FirstName=@value1, MiddleName=@value2, LastName=@value3, FilePath=@value4, ImageCategory=@value5 WHERE AddURContentID=@value6";
+                    cmd.CommandText = "";
                     cmd.Parameters.AddWithValue("@value1", firstName);
                     cmd.Parameters.AddWithValue("@value2", middleName);
                     cmd.Parameters.AddWithValue("@value3", lastName);
-                    cmd.Parameters.AddWithValue("@value4", filePath);
                     cmd.Parameters.AddWithValue("@value5", category);
                     cmd.Parameters.AddWithValue("@value6", id);
-                    cmd.ExecuteNonQuery();
+
+                    /* If the image is not equal to the string called null (from json), overwrite the file path with new image */
+                    if (uploadImage != "null")
+                    {
+                        string filePath = handleImage(uploadImage, keepFilePath);
+                        cmd.Parameters.AddWithValue("@value4", filePath);
+
+                        // Edit (update) the AddURContent table
+                        cmd.CommandText = "UPDATE AddURContent SET FirstName=@value1, MiddleName=@value2, LastName=@value3, FilePath=@value4, ImageCategory=@value5 WHERE AddURContentID=@value6";
+                        cmd.ExecuteNonQuery();
+                    } else /* Only overwrite the other fields (keep the image the same) */
+                    {
+                        cmd.CommandText = "UPDATE AddURContent SET FirstName=@value1, MiddleName=@value2, LastName=@value3, ImageCategory=@value5 WHERE AddURContentID=@value6";
+                        cmd.ExecuteNonQuery();
+                    }
 
                     msg = "AddURContent table was updated for " + id + "!";
                     System.Diagnostics.Debug.WriteLine(msg);
@@ -263,17 +278,19 @@ namespace DMCProject.Server.Controllers
                 }
                 catch (Exception error)
                 {
+                    msg = "Error: AddURContent table could not be updated.";
                     System.Diagnostics.Debug.WriteLine(error);
                 }
             }
             return Ok(msg);
         }
 
-        // Add IActionResult?
+        /* ApproveURContent backend */
         [HttpPost]
         [Route("ReviewURContent")]
-        public void ReviewURContent([FromBody] JsonElement jsonData)
+        public IActionResult ReviewURContent([FromBody] JsonElement jsonData)
         {
+            string msg = "";
             try
             {
                 System.Diagnostics.Debug.WriteLine(jsonData);
@@ -293,12 +310,17 @@ namespace DMCProject.Server.Controllers
                 cmd.Parameters.AddWithValue("@value2", id);
                 cmd.ExecuteNonQuery();
 
-                System.Diagnostics.Debug.WriteLine("ReviewURContent table was updated for " + id + "!");
+                msg = "ReviewURContent table was updated for " + id + "!";
+                System.Diagnostics.Debug.WriteLine(msg);
+
                 test.CloseDB(conn);
-            } catch (Exception error)
+            }
+            catch (Exception error)
             {
+                msg = "Error: ReviewURContent table could not be updated.";
                 System.Diagnostics.Debug.WriteLine(error);
             }
+            return Ok(msg);
         }
 
         [HttpPost]

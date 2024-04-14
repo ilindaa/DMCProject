@@ -1,5 +1,6 @@
 import { FC, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
+import AlertDismissible from "./alerts.tsx";
 import Button from 'react-bootstrap/Button';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
@@ -11,6 +12,11 @@ const Edit: FC = () => {
 
         getData();
 
+        const alertNotif = document.getElementById("alertNotif");
+        const pMsg = document.getElementById("pMsg");
+
+        alertNotif.style.display = "none";
+
         const xButton = document.getElementById("xButton");
         xButton.addEventListener("click", function () {
             return hideFormDiv();
@@ -18,14 +24,13 @@ const Edit: FC = () => {
         hideFormDiv();
 
         const editURContentForm = document.getElementById("editURContentForm");
-        const pMsg = document.getElementById("pMsg");
 
         // FileReader to read in the image and then add it to the formData and is with the jsonData
         const fileInput = document.getElementById("uploadImage");
         let result = null;
 
         // Runs each time the fileInput changes
-        fileInput.addEventListener("change", function (event) {
+        fileInput.addEventListener("change", function () {
             const file = fileInput.files[0];
             const reader = new FileReader();
             reader.onload = function () {
@@ -58,6 +63,7 @@ const Edit: FC = () => {
                     console.log(response);
                     return response.text();
                 }).then(msg => {
+                    alertNotif.style.display = "block";
                     pMsg.innerText = msg;
                     editURContentForm.reset();
                     hideFormDiv();
@@ -69,6 +75,7 @@ const Edit: FC = () => {
         })
     }, []);
     return (<>
+        <AlertDismissible variant="info" message="" />
         <h1>Edit Content</h1>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
@@ -113,9 +120,11 @@ const Edit: FC = () => {
                         <Form.Control type="text" name="lastName" maxLength={25} required />
                     </Form.Group>
 
+                    {/* Changed this so that it's not required - so if the user doesn't upload nothing gets changed in the database */}
                     <Form.Group className="mb-3" controlId="uploadImage">
                         <Form.Label>Upload an Image</Form.Label>
-                        <Form.Control type="file" name="uploadImage" accept=".png, .jpeg, .jpg" required />
+                        <Form.Control type="file" name="uploadImage" accept=".png, .jpeg, .jpg" />
+                        <Form.Text>Leave this field empty to only update the other fields and not the image.</Form.Text>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="category">
