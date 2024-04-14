@@ -211,12 +211,12 @@ const AppContent: FC = () => {
     useEffect(() => {
         const navbar = document.querySelector(".me-auto.navbar-nav");
         const button = document.createElement("button");
-        const imgModal = document.getElementById("imgModal");
+        const zoomedImg = document.getElementById("zoomedImg");
         const imgModalBg = document.getElementById("imgModalBg");
         const xButton = document.getElementById("xButton");
 
         /* Image pop up modal */
-        imgModal.addEventListener("click", function (event) {
+        zoomedImg.addEventListener("click", function (event) {
             console.log("Stop Propagation");
             event.stopPropagation();
         })
