@@ -79,9 +79,14 @@ ul {
 }
 
 .card-img-top {
-    max-height: 20rem;
-    max-width: 30rem;
+    max-height: auto;
+    max-width: 20rem;
     cursor: zoom-in;
+}
+
+.admin-img {
+    max-height: auto;
+    max-width: 12.5rem;
 }
 
 /* html and body */

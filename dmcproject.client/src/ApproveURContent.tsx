@@ -77,7 +77,7 @@ const Approve: FC = () => {
                         <th>FirstName</th>
                         <th>MiddleName</th>
                         <th>LastName</th>
-                        <th>FilePath</th>
+                        <th>Image</th>
                         <th>ImageCategory</th>
                         <th></th>
                     </tr>
@@ -169,16 +169,24 @@ function createTable(jsonData: string) {
         const index = dataObject[i]["addURContentID"].toString();
         reviewRoot.render(<Button className="w-100" data-index={index} onClick={() => reviewRow(index)} >Review</Button>);
 
+        const img = document.createElement("img");
+        img.classList.add("admin-img");
+        img.src = "https://localhost:7035/" + dataObject[i]["filePath"].toString();
+        const a = document.createElement("a");
+        a.href = img.src;
+        a.target = "_blank";
+
         td1.innerText = dataObject[i]["reviewURContentID"].toString();
         td2.innerText = dataObject[i]["review"].toString();
         td3.innerText = dataObject[i]["addURContentID"].toString();
         td4.innerText = dataObject[i]["firstName"];
         td5.innerText = dataObject[i]["middleName"];
         td6.innerText = dataObject[i]["lastName"];
-        td7.innerText = dataObject[i]["filePath"];
         td8.innerText = dataObject[i]["imageCategory"];
 
         tr.append(td1, td2, td3, td4, td5, td6, td7, td8, td9);
+        td7.append(a);
+        a.append(img);
     } 
 }
 

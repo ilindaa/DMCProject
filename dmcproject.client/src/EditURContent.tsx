@@ -85,7 +85,7 @@ const Edit: FC = () => {
                         <th>FirstName</th>
                         <th>MiddleName</th>
                         <th>LastName</th>
-                        <th>FilePath</th>
+                        <th>Image</th>
                         <th>ImageCategory</th>
                         <th></th>
                     </tr>
@@ -259,14 +259,22 @@ function createTable(jsonData: string) {
         const index = dataObject[i]["addURContentID"].toString();
         editRoot.render(<Button className="w-100" data-index={index} onClick={() => editRow(dataObject, i, index)} >Edit</Button>);
 
+        const img = document.createElement("img");
+        img.classList.add("admin-img");
+        img.src = "https://localhost:7035/" + dataObject[i]["filePath"].toString();
+        const a = document.createElement("a");
+        a.href = img.src;
+        a.target = "_blank";
+
         td1.innerText = dataObject[i]["addURContentID"].toString();
         td2.innerText = dataObject[i]["firstName"];
         td3.innerText = dataObject[i]["middleName"];
         td4.innerText = dataObject[i]["lastName"];
-        td5.innerText = dataObject[i]["filePath"];
         td6.innerText = dataObject[i]["imageCategory"];
 
         tr.append(td1, td2, td3, td4, td5, td6, td7);
+        td5.append(a);
+        a.append(img);
     }
 }
 
