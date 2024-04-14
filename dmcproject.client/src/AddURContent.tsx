@@ -64,7 +64,7 @@ const AddURContentForm: FC = () => {
     return (
         <>
             <AlertDismissible variant="info" message="" />
-            <h1>Add Content</h1>
+            <h1 className="underNav">Add Content</h1>
             <div className="centerDiv columnDiv">
                 <p>Please fill out the correct information about the <strong>original owner of the image</strong>.<br />Then upload the image or provide a URL link to the image.<br /><strong><u>All submissions are moderated</u></strong>.</p>
                 <div className="formSize">
@@ -150,7 +150,9 @@ const AddURContentForm: FC = () => {
 
 function AddURContent() {
     return (
-        <AddURContentForm />
+        <main className="root">
+            <AddURContentForm />
+        </main>
   );
 }
 

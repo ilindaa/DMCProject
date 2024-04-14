@@ -76,7 +76,7 @@ const Edit: FC = () => {
     }, []);
     return (<>
         <AlertDismissible variant="info" message="" />
-        <h1>Edit Content</h1>
+        <h1 className="underNav">Edit Content</h1>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
                 <thead>
@@ -305,9 +305,9 @@ interface MyData {
     imageCategory: string;
 }
 function EditURContent() {
-    return (<>
+    return (<main className="root">
         <Edit />
-    </>);
+    </main>);
 }
 
 export default EditURContent;

@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
 }
 
 /* Div: flex column */
@@ -37,11 +38,6 @@
     margin-left: auto;
     height: 32px;
     width: 32px;
-}
-
-/* Margin (Navbar area) */
-h1, .formSize {
-    margin-top: 2rem;
 }
 
 h1, .centerText {
@@ -75,6 +71,7 @@ ul {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     text-align: center;
 }
@@ -87,7 +84,6 @@ ul {
 
 /* Image max-height and max-width */
 .card-img-top {
-    max-height: auto;
     max-width: 20rem;
     cursor: zoom-in;
 }
@@ -123,6 +119,7 @@ ul {
 }
 
 #imgModalBg {
+    width: 100%;
     height: 100vh;
     left: 0;
     top: 0;
@@ -136,7 +133,11 @@ ul {
     max-height: calc(100vh - 64px);
 }
 
-/* html and body */
+/* underNav (margin spacing), html, body, #root, .root */
+.underNav, #alertNotif {
+    margin-top: 2rem;
+}
+
 html {
     height: 100vh;
 }
@@ -147,7 +148,7 @@ body {
     background-attachment: fixed;
     background-size: cover;
     background-position: top;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12.5px);
 }
 
 /* Sign up and Register and Home Links */
@@ -169,4 +170,13 @@ body {
 .favicon {
     height: 2rem;
     width: 2rem;
+}
+
+/* Text */
+.placeholderText, #pMsg {
+    font-weight: 500;
+}
+
+.placeholderText {
+    font-size: 1.25rem;
 }

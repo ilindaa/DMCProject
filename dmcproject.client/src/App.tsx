@@ -9,7 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-// DEMO CODE FROM UNSPLASH API FOR TESTING PURPOSES
+// DEMO CODE FROM UNSPLASH API DOCS
 
 type Photo = {
     id: number;
@@ -121,8 +121,11 @@ function updateBodyDiv() {
 
     mainModal.style.display = "none";
 
+    displayTitle.classList.add("underNav");
+    dbDisplayTitle.classList.add("underNav");
+
     displayTitle.innerText = category.value + " (Unsplash)";
-    dbDisplayTitle.innerText = category.value + " (User Submitted Reference Content)";
+    dbDisplayTitle.innerText = category.value + " (User Submissions)";
     bodyDiv.replaceChildren(); // Remove all the body content
 
     // Create a react element: Body FC with its parameters and add the child to the bodyDiv (parent)
@@ -130,6 +133,7 @@ function updateBodyDiv() {
     body.render(<Body queryStr={category.value as string} orderByStr={checkedOrderBy as string} />);
 }
 
+/* Shows the images in the database, handles the creating elements and etc. */
 function showImages(jsonData: string) {
     const dataObject: MyDataThree[] = JSON.parse(jsonData);
 
@@ -154,6 +158,10 @@ function showImages(jsonData: string) {
             p.classList.add("credit");
 
             img.src = "https://localhost:7035/" + dataObject[i]["filePath"].toString();
+            img.addEventListener("click", function (event: React.MouseEvent) {
+                handleImageModal(event);
+            });
+
             if (dataObject[i]["middleName"] === null) {
                 p.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["lastName"].toString();
             } else {
@@ -169,7 +177,8 @@ function showImages(jsonData: string) {
     } else {
         const ulListUR = document.querySelector(".ulListUR");
         const p = document.createElement("p");
-        p.innerText = "There is no user submitted reference content yet. Please check again later!";
+        p.classList.add("placeholderText");
+        p.innerText = "There are no approved user submissions yet. Please check again later!";
 
         ulListUR.append(p);
     }
@@ -277,8 +286,7 @@ const AppContent: FC = () => {
                 </Modal.Dialog>
             </div>
             <div id="mainModal">
-                <h1>Art Reference Tool</h1>
-                {/* <img src="https://localhost:7035/wwwroot/References/a03b2059-33b5-4127-a876-209af3a11187.png"></img> */}
+                <h1 className="underNav">Art Reference Tool</h1>
                 <div className="centerDiv columnDiv">
                     <div className="tabContainer">
                         <Tabs defaultActiveKey="humanAnatomy" id="tabsContent" className="mb-3">

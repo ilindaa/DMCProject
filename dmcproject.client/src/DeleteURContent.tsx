@@ -15,7 +15,7 @@ const Delete: FC = () => {
     }, []);
     return (<>
         <AlertDismissible variant="info" message="" />
-        <h1>Delete Content</h1>
+        <h1 className="underNav">Delete Content</h1>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
                 <thead>
@@ -149,9 +149,9 @@ interface MyData {
 }
 
 function DeleteURContent() {
-    return (<>
+    return (<main className="root">
         <Delete />
-    </>);
+    </main>);
 }
 
 export default DeleteURContent;

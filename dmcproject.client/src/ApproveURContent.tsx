@@ -60,7 +60,7 @@ const Approve: FC = () => {
     }, []);
     return (<>
         <AlertDismissible variant="info" message="" />
-        <h1>Approve Content</h1>
+        <h1 className="underNav">Approve Content</h1>
         <ul className="centerText">
             <li>Review Column Key:</li>
             <li>Approve (1)</li>
@@ -220,9 +220,9 @@ interface MyDataTwo {
 }
 
 function ApproveURContent() {
-    return (<>
+    return (<main className="root">
         <Approve />
-    </>);
+    </main>);
 }
 
 export default ApproveURContent;

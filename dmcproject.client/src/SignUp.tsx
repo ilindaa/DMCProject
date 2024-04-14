@@ -59,7 +59,7 @@ const SignUpForm: FC = () => {
         <>
             <AlertDismissible variant="info" message="" />
             <div className="centerDiv">
-                <div className="formSize">
+                <div className="formSize underNav">
                     <Form id="signUpForm">
                         <h1>Sign Up</h1>
 
@@ -93,9 +93,9 @@ const SignUpForm: FC = () => {
 
 function SignUp() {
     return (
-        <>
+        <main className="root">
             <SignUpForm />
-        </>
+        </main>
 )
 }
 

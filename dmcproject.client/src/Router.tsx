@@ -39,11 +39,7 @@ const Router = () => {
         {
             path: 'delete-content',
             element: <DeleteURContent />,
-        }, 
-        {
-            path: 'admin-page',
-            element: <AdminPage />,
-        }
+        },
     ])
     return <RouterProvider router={router} />;
 }

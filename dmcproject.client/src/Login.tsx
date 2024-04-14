@@ -47,9 +47,9 @@ const LoginForm: FC = () => {
         <>
             <AlertDismissible variant="info" message="" />
             <div className="centerDiv">
-                <div className="formSize">
+                <div className="formSize underNav">
                     <Form id="loginForm">
-                        <h1> Login</h1>
+                        <h1>Login</h1>
 
                         <Form.Group className="mb-3" controlId="email">
                             <Form.Label>Email</Form.Label>
@@ -76,9 +76,9 @@ const LoginForm: FC = () => {
 
 function Login() {
     return (
-        <>
+        <main className="root">
             <LoginForm />
-        </>
+        </main>
     );
 };
 
