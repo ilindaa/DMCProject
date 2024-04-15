@@ -204,21 +204,6 @@ function hideUnhideModal() {
     }
 }
 
-/* All the forms have the same second input type */
-function ImgOrderBy() {
-    return <>
-        <Form.Group className="mb-3">
-            <Form.Label>Image Order By</Form.Label>
-            <Form.Group controlId="relevant">
-                <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
-            </Form.Group>
-            <Form.Group controlId="latest">
-                <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
-            </Form.Group>
-        </Form.Group>
-    </>;
-}
-
 const AppContent: FC = () => {
     useEffect(() => {
         const navbar = document.querySelector(".me-auto.navbar-nav");
@@ -286,8 +271,8 @@ const AppContent: FC = () => {
 
     return (
         <>
-            {/* Note: The forms and their inputs have the same ids since they all use the same fetch GET
-                (I don't see a point in changing it atm) and I just get the form and their inputs by their index */}
+            {/* Note: The forms and their inputs have the different ids but the same name since they
+                use the same fetch GET and I get the form and their inputs by their index */}
             <div id="imgModalBg">
                 <Modal.Dialog id="imgModal">
                     <Modal.Header data-bs-theme="dark">
@@ -306,7 +291,7 @@ const AppContent: FC = () => {
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
                                         <Form id="contentForm0" className="contentForm">
-                                            <Form.Group className="mb-3" controlId="category">
+                                            <Form.Group className="mb-3" controlId="category0">
                                                 <Form.Label>Category</Form.Label>
                                                 {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
@@ -319,7 +304,15 @@ const AppContent: FC = () => {
                                                     <option value="Human Portraits">Portraits</option>
                                                 </Form.Select>
                                             </Form.Group>
-                                            <ImgOrderBy />
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Image Order By</Form.Label>
+                                                <Form.Group controlId="relevant0">
+                                                    <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
+                                                </Form.Group>
+                                                <Form.Group controlId="latest0">
+                                                    <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
+                                                </Form.Group>
+                                            </Form.Group>
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -332,7 +325,7 @@ const AppContent: FC = () => {
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
                                         <Form id="contentForm1" className="contentForm">
-                                            <Form.Group className="mb-3" controlId="category">
+                                            <Form.Group className="mb-3" controlId="category1">
                                                 <Form.Label>Category</Form.Label>
                                                 {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
@@ -346,7 +339,15 @@ const AppContent: FC = () => {
                                                     <option value="Underwater">Underwater</option>
                                                 </Form.Select>
                                             </Form.Group>
-                                            <ImgOrderBy />
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Image Order By</Form.Label>
+                                                <Form.Group controlId="relevant1">
+                                                    <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
+                                                </Form.Group>
+                                                <Form.Group controlId="latest1">
+                                                    <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
+                                                </Form.Group>
+                                            </Form.Group>
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -359,7 +360,7 @@ const AppContent: FC = () => {
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
                                         <Form id="contentForm2" className="contentForm">
-                                            <Form.Group className="mb-3" controlId="category">
+                                            <Form.Group className="mb-3" controlId="category2">
                                                 <Form.Label>Category</Form.Label>
                                                 {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
@@ -373,7 +374,15 @@ const AppContent: FC = () => {
                                                     <option value="Sculptures">Sculptures</option>
                                                 </Form.Select>
                                             </Form.Group>
-                                            <ImgOrderBy />
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Image Order By</Form.Label>
+                                                <Form.Group controlId="relevant2">
+                                                    <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
+                                                </Form.Group>
+                                                <Form.Group controlId="latest2">
+                                                    <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
+                                                </Form.Group>
+                                            </Form.Group>
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -386,7 +395,7 @@ const AppContent: FC = () => {
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
                                         <Form id="contentForm3" className="contentForm">
-                                            <Form.Group className="mb-3" controlId="category">
+                                            <Form.Group className="mb-3" controlId="category3">
                                                 <Form.Label>Category</Form.Label>
                                                 {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
@@ -396,7 +405,15 @@ const AppContent: FC = () => {
                                                     <option value="Perspective">Perspective</option>
                                                 </Form.Select>
                                             </Form.Group>
-                                            <ImgOrderBy />
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Image Order By</Form.Label>
+                                                <Form.Group controlId="relevant3">
+                                                    <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
+                                                </Form.Group>
+                                                <Form.Group controlId="latest3">
+                                                    <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
+                                                </Form.Group>
+                                            </Form.Group>
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -409,7 +426,7 @@ const AppContent: FC = () => {
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
                                         <Form id="contentForm4" className="contentForm">
-                                            <Form.Group className="mb-3" controlId="category">
+                                            <Form.Group className="mb-3" controlId="category4">
                                                 <Form.Label>Category</Form.Label>
                                                 {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
@@ -421,7 +438,15 @@ const AppContent: FC = () => {
                                                     <option value="Reptile">Reptile</option>
                                                 </Form.Select>
                                             </Form.Group>
-                                            <ImgOrderBy />
+                                            <Form.Group className="mb-3">
+                                                <Form.Label>Image Order By</Form.Label>
+                                                <Form.Group controlId="relevant4">
+                                                    <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
+                                                </Form.Group>
+                                                <Form.Group controlId="latest4">
+                                                    <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
+                                                </Form.Group>
+                                            </Form.Group>
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
