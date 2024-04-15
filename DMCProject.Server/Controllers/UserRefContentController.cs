@@ -72,6 +72,7 @@ namespace DMCProject.Server.Controllers
                 }
                 catch (Exception error)
                 {
+                    msg = "Error: There was an issue with submitting the content.";
                     System.Diagnostics.Debug.WriteLine(error);
                 }
             }

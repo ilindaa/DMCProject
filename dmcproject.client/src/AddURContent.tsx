@@ -52,6 +52,13 @@ const AddURContentForm: FC = () => {
                 }).then(msg => {
                     alertNotif.style.display = "block";
                     pMsg.innerText = msg;
+                    if (pMsg.innerText.includes("Error:")) {
+                        alertNotif.classList.remove("alert-success");
+                        alertNotif.classList.add("alert-danger");
+                    } else {
+                        alertNotif.classList.remove("alert-danger");
+                        alertNotif.classList.add("alert-success");
+                    }
                     addURContentForm.reset();
                 })
             } catch (error) {
@@ -63,7 +70,7 @@ const AddURContentForm: FC = () => {
 
     return (
         <>
-            <AlertDismissible variant="info" message="" />
+            <AlertDismissible variant="success" message="" />
             <h1 className="underNav">Add Content</h1>
             <div className="centerDiv columnDiv">
                 <p>Please fill out the correct information about the <strong>original owner of the image</strong>.<br />Then upload the image or provide a URL link to the image.<br /><strong><u>All submissions are moderated</u></strong>.</p>

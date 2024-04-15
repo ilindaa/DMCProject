@@ -34,6 +34,13 @@ const SignUpForm: FC = () => {
                 }).then(msg => {
                     alertNotif.style.display = "block";
                     pMsg.innerText = msg;
+                    if (pMsg.innerText.includes("Error:")) {
+                        alertNotif.classList.remove("alert-success");
+                        alertNotif.classList.add("alert-danger");
+                    } else {
+                        alertNotif.classList.remove("alert-danger");
+                        alertNotif.classList.add("alert-success");
+                    }
                     signUpForm.reset();
                 })
             } catch (error) {
@@ -57,7 +64,7 @@ const SignUpForm: FC = () => {
 
     return (
         <>
-            <AlertDismissible variant="info" message="" />
+            <AlertDismissible variant="success" message="" />
             <div className="centerDiv">
                 <div className="formSize underNav">
                     <Form id="signUpForm">

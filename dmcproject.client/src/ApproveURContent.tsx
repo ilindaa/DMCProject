@@ -44,6 +44,13 @@ const Approve: FC = () => {
                 }).then(msg => {
                     alertNotif.style.display = "block";
                     pMsg.innerText = msg;
+                    if (pMsg.innerText.includes("Error:")) {
+                        alertNotif.classList.remove("alert-success");
+                        alertNotif.classList.add("alert-danger");
+                    } else {
+                        alertNotif.classList.remove("alert-danger");
+                        alertNotif.classList.add("alert-success");
+                    }
                     approveURContentForm.reset();
                     hideFormDiv();
                 }).catch(error => {
@@ -59,7 +66,7 @@ const Approve: FC = () => {
 
     }, []);
     return (<>
-        <AlertDismissible variant="info" message="" />
+        <AlertDismissible variant="success" message="" />
         <h1 className="underNav">Approve Content</h1>
         <ul className="centerText">
             <li>Review Column Key:</li>

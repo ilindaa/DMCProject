@@ -60,10 +60,10 @@ app.UseRouting();
 // UseCors() has to be in between UseRouting() and UseAuthorization()
 app.UseCors(MyAllowSpecificOrigins);
 
+app.UseAuthorization();
+
 // UseSession() has to be after UseRouting() and before mapping
 app.UseSession();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

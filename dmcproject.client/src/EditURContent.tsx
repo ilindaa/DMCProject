@@ -65,6 +65,13 @@ const Edit: FC = () => {
                 }).then(msg => {
                     alertNotif.style.display = "block";
                     pMsg.innerText = msg;
+                    if (pMsg.innerText.includes("Error:")) {
+                        alertNotif.classList.remove("alert-success");
+                        alertNotif.classList.add("alert-danger");
+                    } else {
+                        alertNotif.classList.remove("alert-danger");
+                        alertNotif.classList.add("alert-success");
+                    }
                     editURContentForm.reset();
                     hideFormDiv();
                 })
@@ -75,7 +82,7 @@ const Edit: FC = () => {
         })
     }, []);
     return (<>
-        <AlertDismissible variant="info" message="" />
+        <AlertDismissible variant="success" message="" />
         <h1 className="underNav">Edit Content</h1>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
