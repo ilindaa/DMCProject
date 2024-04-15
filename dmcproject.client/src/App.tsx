@@ -111,9 +111,11 @@ const Body: React.FC<{ queryStr: string, orderByStr: string }> = ({ queryStr, or
     }
 };
 
-function updateBodyDiv() {
-    const category = document.getElementById("category") as HTMLSelectElement;
-    const checkedOrderBy = document.querySelector("input[name='orderBy']:checked").value;
+/* Get the specific form and then get the category and checkedOrderBy value */
+function updateBodyDiv(formId: string) {
+    const inputs = document.getElementById(formId).elements;
+    const category = inputs[0].value;
+    const checkedOrderBy = inputs[1].value;
     const displayTitle = document.getElementById("displayTitle");
     const dbDisplayTitle = document.getElementById("dbDisplayTitle");
     const bodyDiv = document.getElementById("bodyDiv");
@@ -124,13 +126,13 @@ function updateBodyDiv() {
     displayTitle.classList.add("underNav");
     dbDisplayTitle.classList.add("underNav");
 
-    displayTitle.innerText = category.value + " (Unsplash)";
-    dbDisplayTitle.innerText = category.value + " (User Submissions)";
+    displayTitle.innerText = category + " (Unsplash)";
+    dbDisplayTitle.innerText = category + " (User Submissions)";
     bodyDiv.replaceChildren(); // Remove all the body content
 
     // Create a react element: Body FC with its parameters and add the child to the bodyDiv (parent)
     const body = createRoot(bodyDiv);
-    body.render(<Body queryStr={category.value as string} orderByStr={checkedOrderBy as string} />);
+    body.render(<Body queryStr={category as string} orderByStr={checkedOrderBy as string} />);
 }
 
 /* Shows the images in the database, handles the creating elements and etc. */
@@ -202,6 +204,7 @@ function hideUnhideModal() {
     }
 }
 
+/* All the forms have the same second input type */
 function ImgOrderBy() {
     return <>
         <Form.Group className="mb-3">
@@ -240,13 +243,19 @@ const AppContent: FC = () => {
         button.addEventListener("click", hideUnhideModal);
 
         const forms = document.querySelectorAll(".contentForm");
-        forms.forEach(form => {
-            form.addEventListener("submit", function (event) {
+
+        for (let i = 0; i < forms.length; i++) {
+            forms[i].addEventListener("submit", function (event) {
+                const formId = "contentForm" + i;
+                console.log(formId);
+                const form = document.getElementById(formId);
+                console.log(form);
+
+                updateBodyDiv(formId);
                 event.preventDefault();
-                updateBodyDiv();
 
                 // Store the form data as a FormData object then turn it into a string (JsonElement)
-                const formData = new FormData(event.target as HTMLFormElement);
+                const formData = new FormData(form);
                 console.log("formData: " + formData);
 
                 const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
@@ -271,12 +280,14 @@ const AppContent: FC = () => {
                 }
                 console.log("Submitted!");
             });
-        });
+        }
 
     }, []);
 
     return (
         <>
+            {/* Note: The forms and their inputs have the same ids since they all use the same fetch GET
+                (I don't see a point in changing it atm) and I just get the form and their inputs by their index */}
             <div id="imgModalBg">
                 <Modal.Dialog id="imgModal">
                     <Modal.Header data-bs-theme="dark">
@@ -294,9 +305,10 @@ const AppContent: FC = () => {
                                 <h3>Human Anatomy</h3>
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
-                                        <Form id="contentForm" className="contentForm">
+                                        <Form id="contentForm0" className="contentForm">
                                             <Form.Group className="mb-3" controlId="category">
                                                 <Form.Label>Category</Form.Label>
+                                                {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
                                                     <option value="Human Eyes">Eyes</option>
                                                     <option value="Human Feet">Feet</option>
@@ -319,9 +331,10 @@ const AppContent: FC = () => {
                                 <h3>Backgrounds</h3>
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
-                                        <Form id="contentForm" className="contentForm">
+                                        <Form id="contentForm1" className="contentForm">
                                             <Form.Group className="mb-3" controlId="category">
                                                 <Form.Label>Category</Form.Label>
+                                                {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
                                                     <option value="Beach">Beach</option>
                                                     <option value="Buildings">Buildings</option>
@@ -333,15 +346,7 @@ const AppContent: FC = () => {
                                                     <option value="Underwater">Underwater</option>
                                                 </Form.Select>
                                             </Form.Group>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label>Image Order By</Form.Label>
-                                                <Form.Group controlId="relevant">
-                                                    <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
-                                                </Form.Group>
-                                                <Form.Group controlId="latest">
-                                                    <Form.Check type="radio" label="Latest" name="orderBy" value="latest" />
-                                                </Form.Group>
-                                            </Form.Group>
+                                            <ImgOrderBy />
                                             <Form.Group>
                                                 <Button variant="primary" type="submit" className="w-100">Submit</Button>
                                             </Form.Group>
@@ -353,9 +358,10 @@ const AppContent: FC = () => {
                                 <h3>Still Life</h3>
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
-                                        <Form id="contentForm" className="contentForm">
+                                        <Form id="contentForm2" className="contentForm">
                                             <Form.Group className="mb-3" controlId="category">
                                                 <Form.Label>Category</Form.Label>
+                                                {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
                                                     <option value="3D Shapes">3D Shapes</option>
                                                     <option value="Clothing">Clothing</option>
@@ -379,9 +385,10 @@ const AppContent: FC = () => {
                                 <h3>Art Concepts</h3>
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
-                                        <Form id="contentForm" className="contentForm">
+                                        <Form id="contentForm3" className="contentForm">
                                             <Form.Group className="mb-3" controlId="category">
                                                 <Form.Label>Category</Form.Label>
+                                                {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
                                                     <option value="Black and White">Black and White</option>
                                                     <option value="Color">Color</option>
@@ -401,9 +408,10 @@ const AppContent: FC = () => {
                                 <h3>Animals</h3>
                                 <div className="centerDiv">
                                     <div className="formSize homeForm">
-                                        <Form id="contentForm" className="contentForm">
+                                        <Form id="contentForm4" className="contentForm">
                                             <Form.Group className="mb-3" controlId="category">
                                                 <Form.Label>Category</Form.Label>
+                                                {/* Select Update: AddURContent.tsx, EditURContent.tsx, App.tsx */}
                                                 <Form.Select name="category" aria-label="Select a category" required>
                                                     <option value="Animals">Animals</option>
                                                     <option value="Bird">Bird</option>
