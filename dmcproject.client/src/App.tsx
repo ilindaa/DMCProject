@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import TopButton from './topButton.tsx';
 
 // DEMO CODE FROM UNSPLASH API DOCS
 
@@ -480,6 +481,7 @@ function App() {
             <div id="dbDiv">
                 <ul className="ulListUR"></ul>
             </div>
+            <TopButton />
         </main>
     );
 }

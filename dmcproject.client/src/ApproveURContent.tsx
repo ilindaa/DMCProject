@@ -6,6 +6,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
+import TopButton from './topButton.tsx';
 
 const Approve: FC = () => {
     useEffect(() => {
@@ -229,6 +230,7 @@ interface MyDataTwo {
 function ApproveURContent() {
     return (<main className="root">
         <Approve />
+        <TopButton />
     </main>);
 }
 

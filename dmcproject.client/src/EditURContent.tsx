@@ -6,6 +6,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
+import TopButton from './topButton.tsx';
 
 const Edit: FC = () => {
     useEffect(() => {
@@ -320,6 +321,7 @@ interface MyData {
 function EditURContent() {
     return (<main className="root">
         <Edit />
+        <TopButton />
     </main>);
 }
 

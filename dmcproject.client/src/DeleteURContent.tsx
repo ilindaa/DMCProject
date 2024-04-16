@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import AlertDismissible from "./alerts.tsx";
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
+import TopButton from './topButton.tsx';
 
 const Delete: FC = () => {
     useEffect(() => {
@@ -158,6 +159,7 @@ interface MyData {
 function DeleteURContent() {
     return (<main className="root">
         <Delete />
+        <TopButton />
     </main>);
 }
 

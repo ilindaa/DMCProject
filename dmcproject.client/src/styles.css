@@ -180,3 +180,20 @@ body {
 .placeholderText {
     font-size: 1.25rem;
 }
+
+/* Top Button */
+.topButtonDiv {
+    display: flex;
+    justify-content: right;
+    position: sticky;
+    bottom: 1rem;
+    padding-right: 1rem;
+}
+
+#topButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+}
