@@ -77,6 +77,7 @@ function hideImageModal() {
 const Body: React.FC<{ queryStr: string, orderByStr: string }> = ({ queryStr, orderByStr }) => {
     const [data, setPhotosResponse] = useState(null);
 
+    console.log("orderByStr: " + orderByStr);
     useEffect(() => {
         api.search
             .getPhotos({ query: queryStr, per_page: 30, order_by: orderByStr })
@@ -116,7 +117,13 @@ const Body: React.FC<{ queryStr: string, orderByStr: string }> = ({ queryStr, or
 function updateBodyDiv(formId: string) {
     const inputs = document.getElementById(formId).elements;
     const category = inputs[0].value;
-    const checkedOrderBy = inputs[1].value;
+    let checkedOrderBy = null;
+    if (inputs[1].checked) {
+        checkedOrderBy = inputs[1].value;
+    } else {
+        checkedOrderBy = inputs[2].value;
+    }
+    console.log("checkOrderBy: " + checkedOrderBy);
     const displayTitle = document.getElementById("displayTitle");
     const dbDisplayTitle = document.getElementById("dbDisplayTitle");
     const bodyDiv = document.getElementById("bodyDiv");
