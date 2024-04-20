@@ -21,12 +21,12 @@ const Delete: FC = () => {
             <Table striped bordered hover id="dataTable">
                 <thead>
                     <tr>
-                        <th>AddURContentID</th>
-                        <th>FirstName</th>
-                        <th>MiddleName</th>
-                        <th>LastName</th>
+{/*                        <th>AddURContentID</th>*/}
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
                         <th>Image</th>
-                        <th>ImageCategory</th>
+                        <th>Image Category</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -71,7 +71,7 @@ function createTable(jsonData: string) {
         const tr = document.createElement("tr");
         dataTableBody.appendChild(tr);
 
-        const td1 = document.createElement("td");
+/*        const td1 = document.createElement("td");*/
         const td2 = document.createElement("td");
         const td3 = document.createElement("td");
         const td4 = document.createElement("td");
@@ -90,13 +90,13 @@ function createTable(jsonData: string) {
         a.href = img.src;
         a.target = "_blank";
 
-        td1.innerText = dataObject[i]["addURContentID"].toString();
+/*        td1.innerText = dataObject[i]["addURContentID"].toString();*/
         td2.innerText = dataObject[i]["firstName"];
         td3.innerText = dataObject[i]["middleName"];
         td4.innerText = dataObject[i]["lastName"];
         td6.innerText = dataObject[i]["imageCategory"];
 
-        tr.append(td1, td2, td3, td4, td5, td6, td7);
+        tr.append(/*td1,*/ td2, td3, td4, td5, td6, td7);
         td5.append(a);
         a.append(img);
     }

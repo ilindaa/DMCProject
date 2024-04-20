@@ -69,24 +69,18 @@ const Approve: FC = () => {
     return (<>
         <AlertDismissible variant="success" message="" />
         <h1 className="underNav">Approve Content</h1>
-        <ul className="centerText">
-            <li>Review Column Key:</li>
-            <li>Approve (1)</li>
-            <li>Reject (0)</li>
-            <li>No Review (-1)</li>
-        </ul>
         <div id="tableDiv">
             <Table striped bordered hover id="dataTable">
                 <thead>
                     <tr>
-                        <th>ReviewURContentID</th>
-                        <th>Review</th>
-                        <th>AddURContentID</th>
-                        <th>FirstName</th>
-                        <th>MiddleName</th>
-                        <th>LastName</th>
+{/*                        <th>ReviewURContentID</th>*/}
+                        <th>Review Status</th>
+{/*                        <th>AddURContentID</th>*/}
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
                         <th>Image</th>
-                        <th>ImageCategory</th>
+                        <th>Image Category</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -163,9 +157,9 @@ function createTable(jsonData: string) {
 
         dataTableBody.appendChild(tr);
 
-        const td1 = document.createElement("td");
+/*        const td1 = document.createElement("td");*/
         const td2 = document.createElement("td");
-        const td3 = document.createElement("td");
+/*        const td3 = document.createElement("td");*/
         const td4 = document.createElement("td");
         const td5 = document.createElement("td");
         const td6 = document.createElement("td");
@@ -184,15 +178,22 @@ function createTable(jsonData: string) {
         a.href = img.src;
         a.target = "_blank";
 
-        td1.innerText = dataObject[i]["reviewURContentID"].toString();
-        td2.innerText = dataObject[i]["review"].toString();
-        td3.innerText = dataObject[i]["addURContentID"].toString();
+/*        td1.innerText = dataObject[i]["reviewURContentID"].toString();*/
+        /* If the review status is 1 then it's approved, 0 then it's rejected, and -1 then it's in review */
+        if (dataObject[i]["review"].toString() == "1") {
+            td2.innerText = "Approved";
+        } else if (dataObject[i]["review"].toString() == "0") {
+            td2.innerText = "Rejected";
+        } else {
+            td2.innerText = "In Review";
+        }
+/*        td3.innerText = dataObject[i]["addURContentID"].toString();*/
         td4.innerText = dataObject[i]["firstName"];
         td5.innerText = dataObject[i]["middleName"];
         td6.innerText = dataObject[i]["lastName"];
         td8.innerText = dataObject[i]["imageCategory"];
 
-        tr.append(td1, td2, td3, td4, td5, td6, td7, td8, td9);
+        tr.append(/*td1,*/ td2, /*td3,*/ td4, td5, td6, td7, td8, td9);
         td7.append(a);
         a.append(img);
     } 
@@ -213,7 +214,6 @@ function reviewRow(index: string) {
     reviewUrContentId.value = index;
 
     showFormDiv();
-    /*    const pMsg = document.getElementById("pMsg");*/
 }
 
 interface MyDataTwo {

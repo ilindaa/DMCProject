@@ -162,7 +162,7 @@ body {
 }
 
 /* Links */
-a {
+a, .nav-link:hover, .navbar-brand:hover, .dropdown-item:hover {
     text-decoration: none;
 }
 

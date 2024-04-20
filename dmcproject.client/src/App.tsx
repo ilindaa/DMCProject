@@ -139,8 +139,10 @@ function updateBodyDiv(formId: string) {
     const dbDisplayTitle = document.getElementById("dbDisplayTitle");
     const bodyDiv = document.getElementById("bodyDiv");
     const mainModal = document.getElementById("mainModal");
+    const button = document.querySelector(".newSearch");
 
     mainModal.style.display = "none";
+    button.innerText = "Show Search";
 
     displayTitle.classList.add("underNav");
     dbDisplayTitle.classList.add("underNav");
@@ -243,7 +245,7 @@ const AppContent: FC = () => {
         xButton.addEventListener("click", hideImageModal);
 
         /* Art Ref. Tool modal */
-        button.innerText = "Show Search";
+        button.innerText = "Hide Search";
         button.classList.add("btn", "btn-secondary", "newSearch");
         navbar.append(button);
 
