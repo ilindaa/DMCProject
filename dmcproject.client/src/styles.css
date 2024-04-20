@@ -73,7 +73,6 @@ ul {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    text-align: center;
 }
 
 .columnUl > li, ulListUR > li {
@@ -82,10 +81,21 @@ ul {
     align-items: center;
 }
 
+/* Zoom-in */
+.imgWrap {
+    overflow: hidden;
+}
+
+.imgWrap:hover img {
+    transform: scale(1.3);
+    transform-origin: 50% 50%;
+}
+
 /* Image max-height and max-width */
 .card-img-top {
     max-width: 20rem;
     cursor: zoom-in;
+    transition: transform .4s;
 }
 
 .admin-img {
@@ -151,12 +161,12 @@ body {
     backdrop-filter: blur(12.5px);
 }
 
-/* Sign up and Register and Home Links */
-#signUpForm a, #loginForm a, .card-title > a {
+/* Links */
+a {
     text-decoration: none;
 }
 
-#signUpForm a:hover, #loginForm a:hover, .card-title > a:hover {
+a:hover {
     text-decoration: underline;
 }
 

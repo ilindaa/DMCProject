@@ -18,6 +18,10 @@ type Photo = {
     height: number;
     urls: { large: string; regular: string; raw: string; small: string };
     color: string | null;
+    description: string | null;
+    links: {
+        html: string;
+    };
     user: {
         username: string;
         name: string;
@@ -31,23 +35,30 @@ const api = createApi({
 });
 
 const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
-    const { user, urls } = photo;
+    const { description, links, user, urls } = photo;
 
     return (
         <Fragment>
             <Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src={urls.regular} onClick={(event: React.MouseEvent) => handleImageModal(event)} />
+                <div className="imgWrap">
+                    <Card.Img variant="top" src={urls.regular} onClick={(event: React.MouseEvent) => handleImageModal(event)} />
+                </div>
                 <Card.Body>
                     <Card.Title>
-                        <a
-                            className="credit"
-                            target="_blank"
-                            href={`https://unsplash.com/@${user.username}`}
-                        >
-                            {user.name}
-                        </a>
+                        {user.name}
                     </Card.Title>
+                    <Card.Text>
+                        {description}
+                    </Card.Text>
                 </Card.Body>
+                <Card.Footer className="text-muted">
+                    <Card.Link target="_blank" href={links.html}>
+                        <small>Source</small>
+                    </Card.Link>
+                    <Card.Link target="_blank" href={`https://unsplash.com/@${user.username}`}>
+                        <small>@{user.username}</small>
+                    </Card.Link>
+                </Card.Footer>
             </Card>
         </Fragment>
     );
@@ -155,17 +166,17 @@ function showImages(jsonData: string) {
             const li = document.createElement("li");
 
             const div = document.createElement("div");
+            const div4 = document.createElement("div");
             const img = document.createElement("img");
             const div2 = document.createElement("div");
             const div3 = document.createElement("div");
-            const p = document.createElement("p");
 
             li.classList.add("liUR");
             div.classList.add("card");
+            div4.classList.add("imgWrap");
             img.classList.add("card-img-top");
             div2.classList.add("card-body");
             div3.classList.add("card-title", "h5");
-            p.classList.add("credit");
 
             img.src = "https://localhost:7035/" + dataObject[i]["filePath"].toString();
             img.addEventListener("click", function (event: React.MouseEvent) {
@@ -173,16 +184,16 @@ function showImages(jsonData: string) {
             });
 
             if (dataObject[i]["middleName"] === null) {
-                p.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["lastName"].toString();
+                div3.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["lastName"].toString();
             } else {
-                p.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["middleName"].toString() + " " + dataObject[i]["lastName"].toString();
+                div3.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["middleName"].toString() + " " + dataObject[i]["lastName"].toString();
             }
 
             ulListUR.append(li);
             li.append(div);
-            div.append(img, div2);
+            div.append(div4, div2);
+            div4.append(img);
             div2.append(div3);
-            div3.append(p);
         }
     } else {
         const ulListUR = document.querySelector(".ulListUR");
