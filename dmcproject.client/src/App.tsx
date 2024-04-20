@@ -204,11 +204,14 @@ function clearUlListUR() {
 function hideUnhideModal() {
     const mainModal = document.getElementById("mainModal");
     const display = mainModal.style.display;
+    const button = document.querySelector(".newSearch");
 
     if (display == "block") {
         mainModal.style.display = "none";
+        button.innerText = "Show Search";
     } else {
         mainModal.style.display = "block";
+        button.innerText = "Hide Search";
     }
 }
 
@@ -229,8 +232,8 @@ const AppContent: FC = () => {
         xButton.addEventListener("click", hideImageModal);
 
         /* Art Ref. Tool modal */
-        button.innerText = "Hide/Unhide Tool";
-        button.classList.add("btn", "btn-secondary");
+        button.innerText = "Show Search";
+        button.classList.add("btn", "btn-secondary", "newSearch");
         navbar.append(button);
 
         button.addEventListener("click", hideUnhideModal);
@@ -322,7 +325,7 @@ const AppContent: FC = () => {
                                                 </Form.Group>
                                             </Form.Group>
                                             <Form.Group>
-                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                                <Button variant="primary" type="submit" className="w-100">Search</Button>
                                             </Form.Group>
                                         </Form>
                                     </div>
@@ -357,7 +360,7 @@ const AppContent: FC = () => {
                                                 </Form.Group>
                                             </Form.Group>
                                             <Form.Group>
-                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                                <Button variant="primary" type="submit" className="w-100">Search</Button>
                                             </Form.Group>
                                         </Form>
                                     </div>
@@ -392,7 +395,7 @@ const AppContent: FC = () => {
                                                 </Form.Group>
                                             </Form.Group>
                                             <Form.Group>
-                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                                <Button variant="primary" type="submit" className="w-100">Search</Button>
                                             </Form.Group>
                                         </Form>
                                     </div>
@@ -423,7 +426,7 @@ const AppContent: FC = () => {
                                                 </Form.Group>
                                             </Form.Group>
                                             <Form.Group>
-                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                                <Button variant="primary" type="submit" className="w-100">Search</Button>
                                             </Form.Group>
                                         </Form>
                                     </div>
@@ -456,7 +459,7 @@ const AppContent: FC = () => {
                                                 </Form.Group>
                                             </Form.Group>
                                             <Form.Group>
-                                                <Button variant="primary" type="submit" className="w-100">Submit</Button>
+                                                <Button variant="primary" type="submit" className="w-100">Search</Button>
                                             </Form.Group>
                                         </Form>
                                     </div>
