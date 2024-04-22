@@ -90,12 +90,12 @@ const Edit: FC = () => {
                 <thead>
                     <tr>
 {/*                        <th>AddURContentID</th>*/}
+                        <th></th>
                         <th>First Name</th>
                         <th>Middle Name</th>
                         <th>Last Name</th>
                         <th>Image</th>
                         <th>Image Category</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="dataTableBody">
@@ -103,7 +103,7 @@ const Edit: FC = () => {
             </Table>
         </div>
         <div className="centerDiv">
-        <div id="formDiv" className="formSize">
+        <div id="formDiv" className="formSize centerApproveEdit">
             <Modal.Dialog>
                 <Modal.Header>
                     <Modal.Title id="pAddId"></Modal.Title>
@@ -261,7 +261,7 @@ function createTable(jsonData: string) {
         const tr = document.createElement("tr");
         dataTableBody.appendChild(tr);
 
-        const td1 = document.createElement("td");
+/*        const td1 = document.createElement("td");*/
         const td2 = document.createElement("td");
         const td3 = document.createElement("td");
         const td4 = document.createElement("td");
@@ -286,7 +286,7 @@ function createTable(jsonData: string) {
         td4.innerText = dataObject[i]["lastName"];
         td6.innerText = dataObject[i]["imageCategory"];
 
-        tr.append(/*td1,*/ td2, td3, td4, td5, td6, td7);
+        tr.append(/*td1,*/ td7, td2, td3, td4, td5, td6);
         td5.append(a);
         a.append(img);
     }
@@ -300,6 +300,8 @@ function clearTable() {
 }
 
 function editRow(dataObject: MyData[], rowIndex: number, index: string) {
+    hideFormDiv();
+
     const editURContentForm = document.getElementById("editURContentForm");
     const pAddId = document.getElementById("pAddId");
     pAddId.innerText = "Editing AddURContentID: " + index;
@@ -307,7 +309,18 @@ function editRow(dataObject: MyData[], rowIndex: number, index: string) {
     console.log(editURContentForm);
     console.log("Edit, index: " + index);
     fillForm(dataObject, rowIndex, index);
+
+    setFormPosition(index);
     showFormDiv();
+}
+
+function setFormPosition(index: string) {
+    const button = document.querySelector("[data-index='" + index + "']") as HTMLButtonElement;
+    const buttonPosition = button.getBoundingClientRect();
+    const form = document.querySelector(".centerApproveEdit") as HTMLElement;
+
+    form.style.top = buttonPosition.bottom + 'px';
+    form.style.left = buttonPosition.left + 'px';
 }
 
 interface MyData {

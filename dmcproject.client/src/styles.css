@@ -17,6 +17,11 @@
     flex-direction: column;
 }
 
+/* Form center in Approve and Edit */
+.centerApproveEdit {
+    position: absolute;
+}
+
 /* Keep the form width size consistent */
 .formSize {
     width: 35rem;
@@ -148,17 +153,16 @@ ul {
     margin-top: 2rem;
 }
 
-html {
+html, body {
     height: 100vh;
 }
 
 body {
-    min-height: 100vh;
-    background: url("https://localhost:7035/wwwroot/Website/volodymyr-hryshchenko-vqfiIoRjXWU-unsplash.jpg") no-repeat center center;
+/*    min-height: 100vh;*/
+    background: url("https://localhost:7035/wwwroot/Website/volodymyr-hryshchenko-vqfiIoRjXWU-unsplash-blurred.jpg") no-repeat center center;
     background-attachment: fixed;
     background-size: cover;
     background-position: top;
-    backdrop-filter: blur(12.5px);
 }
 
 /* Links */
@@ -189,6 +193,12 @@ a:hover {
 
 .placeholderText {
     font-size: 1.25rem;
+}
+
+#alertNotif {
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 /* Top Button */

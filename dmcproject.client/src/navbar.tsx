@@ -19,7 +19,7 @@ function NavbarComponent() {
                           <Nav.Link href="/login">Login</Nav.Link>
                           <Nav.Link href="/sign-up">Sign Up</Nav.Link>
                           <Nav.Link href="/add-content">Add Content</Nav.Link>
-                          <NavDropdown title="Admin" id="basic-nav-dropdown">
+                          <NavDropdown title="Manage" id="basic-nav-dropdown">
                               <NavDropdown.Item href="/approve-content">Approve Content</NavDropdown.Item>
                               <NavDropdown.Divider />
                               <NavDropdown.Item href="/add-content">Add Content</NavDropdown.Item>

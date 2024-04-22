@@ -74,6 +74,7 @@ const Approve: FC = () => {
                 <thead>
                     <tr>
 {/*                        <th>ReviewURContentID</th>*/}
+                        <th></th>
                         <th>Review Status</th>
 {/*                        <th>AddURContentID</th>*/}
                         <th>First Name</th>
@@ -81,7 +82,6 @@ const Approve: FC = () => {
                         <th>Last Name</th>
                         <th>Image</th>
                         <th>Image Category</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="dataTableBody">
@@ -89,7 +89,7 @@ const Approve: FC = () => {
             </Table>
         </div>
         <div className="centerDiv">
-            <div id="formDiv" className="formSize">
+            <div id="formDiv" className="formSize centerApproveEdit">
                 <Modal.Dialog>
                     <Modal.Header>
                         <Modal.Title id="pReviewId"></Modal.Title>
@@ -193,7 +193,7 @@ function createTable(jsonData: string) {
         td6.innerText = dataObject[i]["lastName"];
         td8.innerText = dataObject[i]["imageCategory"];
 
-        tr.append(/*td1,*/ td2, /*td3,*/ td4, td5, td6, td7, td8, td9);
+        tr.append(/*td1,*/ td9, td2, /*td3,*/ td4, td5, td6, td7, td8);
         td7.append(a);
         a.append(img);
     } 
@@ -207,13 +207,25 @@ function clearTable() {
 }
 
 function reviewRow(index: string) {
+    hideFormDiv();
+
     const pReviewId = document.getElementById("pReviewId");
     pReviewId.innerText = "Reviewing ReviewURContentID: " + index;
 
     const reviewUrContentId = document.getElementById("reviewUrContentId") as HTMLInputElement;
     reviewUrContentId.value = index;
 
+    setFormPosition(index);
     showFormDiv();
+}
+
+function setFormPosition(index: string) {
+    const button = document.querySelector("[data-index='" + index + "']") as HTMLButtonElement;
+    const buttonPosition = button.getBoundingClientRect();
+    const form = document.querySelector(".centerApproveEdit") as HTMLElement;
+
+    form.style.top = buttonPosition.bottom + 'px';
+    form.style.left = buttonPosition.left + 'px';
 }
 
 interface MyDataTwo {

@@ -73,7 +73,7 @@ const AddURContentForm: FC = () => {
             <AlertDismissible variant="success" message="" />
             <h1 className="underNav">Add Content</h1>
             <div className="centerDiv columnDiv">
-                <p>Please fill out the correct information about the <strong>original owner of the image</strong>.<br />Then upload the image or provide a URL link to the image.<br /><strong><u>All submissions are moderated</u></strong>.</p>
+                <p>Please fill out the correct information about the <strong>original owner of the image</strong>.{/*<br />Then upload the image or provide a URL link to the image.*/}<br /><strong><u>All submissions will be moderated</u></strong>.</p>
                 <div className="formSize">
                     <Form id="addURContentForm">
                         <Form.Group className="mb-3" controlId="firstName">
