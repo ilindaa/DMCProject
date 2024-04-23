@@ -276,8 +276,7 @@ const AppContent: FC = () => {
                     }).then(data => {
                         // Clear the area where the images or placeholder text may go
                         clearUlListUR();
-                        if (data != "") {
-                            console.log(data);
+                        if (data != "[]") {
                             showImages(data);
                         } else {
                             const ulListUR = document.querySelector(".ulListUR");
