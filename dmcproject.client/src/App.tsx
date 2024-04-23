@@ -28,6 +28,11 @@ type Photo = {
     };
 };
 
+enum SearchOrderBy {
+    relevant = "relevant",
+    latest = "latest",
+}
+
 const api = createApi({
     // Don't forget to set your access token here!
     // See https://unsplash.com/developers
@@ -88,15 +93,14 @@ function hideImageModal() {
 const Body: React.FC<{ queryStr: string, orderByStr: string }> = ({ queryStr, orderByStr }) => {
     const [data, setPhotosResponse] = useState(null);
 
-    console.log("orderByStr: " + orderByStr);
     useEffect(() => {
         api.search
-            .getPhotos({ query: queryStr, per_page: 30, order_by: orderByStr })
+            .getPhotos({ query: queryStr, perPage: 30, orderBy: orderByStr as SearchOrderBy })
             .then(result => {
                 setPhotosResponse(result);
             })
             .catch(() => {
-                console.log("something went wrong!");
+                console.log("Something went wrong!");
             });
     }, []);
 
@@ -153,57 +157,46 @@ function updateBodyDiv(formId: string) {
 
     // Create a react element: Body FC with its parameters and add the child to the bodyDiv (parent)
     const body = createRoot(bodyDiv);
-    body.render(<Body queryStr={category as string} orderByStr={checkedOrderBy as string} />);
+    body.render(<Body queryStr={category as string} orderByStr={checkedOrderBy as SearchOrderBy} />);
 }
 
 /* Shows the images in the database, handles the creating elements and etc. */
 function showImages(jsonData: string) {
     const dataObject: MyDataThree[] = JSON.parse(jsonData);
 
-    clearUlListUR();
-
-    if (dataObject.length >= 1) {
-        for (let i = 0; i < dataObject.length; i++) {
-            const ulListUR = document.querySelector(".ulListUR");
-            const li = document.createElement("li");
-
-            const div = document.createElement("div");
-            const div4 = document.createElement("div");
-            const img = document.createElement("img");
-            const div2 = document.createElement("div");
-            const div3 = document.createElement("div");
-
-            li.classList.add("liUR");
-            div.classList.add("card");
-            div4.classList.add("imgWrap");
-            img.classList.add("card-img-top");
-            div2.classList.add("card-body");
-            div3.classList.add("card-title", "h5");
-
-            img.src = "https://localhost:7035/" + dataObject[i]["filePath"].toString();
-            img.addEventListener("click", function (event: React.MouseEvent) {
-                handleImageModal(event);
-            });
-
-            if (dataObject[i]["middleName"] === null) {
-                div3.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["lastName"].toString();
-            } else {
-                div3.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["middleName"].toString() + " " + dataObject[i]["lastName"].toString();
-            }
-
-            ulListUR.append(li);
-            li.append(div);
-            div.append(div4, div2);
-            div4.append(img);
-            div2.append(div3);
-        }
-    } else {
+    for (let i = 0; i < dataObject.length; i++) {
         const ulListUR = document.querySelector(".ulListUR");
-        const p = document.createElement("p");
-        p.classList.add("placeholderText");
-        p.innerText = "There are no approved user submissions yet. Please check again later!";
+        const li = document.createElement("li");
 
-        ulListUR.append(p);
+        const div = document.createElement("div");
+        const div4 = document.createElement("div");
+        const img = document.createElement("img");
+        const div2 = document.createElement("div");
+        const div3 = document.createElement("div");
+
+        li.classList.add("liUR");
+        div.classList.add("card");
+        div4.classList.add("imgWrap");
+        img.classList.add("card-img-top");
+        div2.classList.add("card-body");
+        div3.classList.add("card-title", "h5");
+
+        img.src = "https://localhost:7035/" + dataObject[i]["filePath"].toString();
+        img.addEventListener("click", function (event: React.MouseEvent) {
+            handleImageModal(event);
+        });
+
+        if (dataObject[i]["middleName"] === null) {
+            div3.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["lastName"].toString();
+        } else {
+            div3.innerText = dataObject[i]["firstName"].toString() + " " + dataObject[i]["middleName"].toString() + " " + dataObject[i]["lastName"].toString();
+        }
+
+        ulListUR.append(li);
+        li.append(div);
+        div.append(div4, div2);
+        div4.append(img);
+        div2.append(div3);
     }
 }
 
@@ -281,8 +274,19 @@ const AppContent: FC = () => {
                         console.log(response);
                         return response.text();
                     }).then(data => {
-                        console.log(data);
-                        showImages(data);
+                        // Clear the area where the images or placeholder text may go
+                        clearUlListUR();
+                        if (data != "") {
+                            console.log(data);
+                            showImages(data);
+                        } else {
+                            const ulListUR = document.querySelector(".ulListUR");
+                            const p = document.createElement("p");
+                            p.classList.add("placeholderText");
+                            p.innerText = "There are no approved user submissions yet. Please check again later!";
+
+                            ulListUR.append(p);
+                        }
                     })
                 } catch (error) {
                     console.log(error);
@@ -329,7 +333,7 @@ const AppContent: FC = () => {
                                                 </Form.Select>
                                             </Form.Group>
                                             <Form.Group className="mb-3">
-                                                <Form.Label>Image Order By</Form.Label>
+                                                <p className="imgOrderBy">Image Order By</p>
                                                 <Form.Group controlId="relevant0">
                                                     <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
                                                 </Form.Group>
@@ -364,7 +368,7 @@ const AppContent: FC = () => {
                                                 </Form.Select>
                                             </Form.Group>
                                             <Form.Group className="mb-3">
-                                                <Form.Label>Image Order By</Form.Label>
+                                                <p className="imgOrderBy">Image Order By</p>
                                                 <Form.Group controlId="relevant1">
                                                     <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
                                                 </Form.Group>
@@ -399,7 +403,7 @@ const AppContent: FC = () => {
                                                 </Form.Select>
                                             </Form.Group>
                                             <Form.Group className="mb-3">
-                                                <Form.Label>Image Order By</Form.Label>
+                                                <p className="imgOrderBy">Image Order By</p>
                                                 <Form.Group controlId="relevant2">
                                                     <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
                                                 </Form.Group>
@@ -430,7 +434,7 @@ const AppContent: FC = () => {
                                                 </Form.Select>
                                             </Form.Group>
                                             <Form.Group className="mb-3">
-                                                <Form.Label>Image Order By</Form.Label>
+                                                <p className="imgOrderBy">Image Order By</p>
                                                 <Form.Group controlId="relevant3">
                                                     <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
                                                 </Form.Group>
@@ -463,7 +467,7 @@ const AppContent: FC = () => {
                                                 </Form.Select>
                                             </Form.Group>
                                             <Form.Group className="mb-3">
-                                                <Form.Label>Image Order By</Form.Label>
+                                                <p className="imgOrderBy">Image Order By</p>
                                                 <Form.Group controlId="relevant4">
                                                     <Form.Check type="radio" label="Relevant" name="orderBy" value="relevant" defaultChecked required />
                                                 </Form.Group>

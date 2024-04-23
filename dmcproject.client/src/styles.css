@@ -153,7 +153,7 @@ ul {
     margin-top: 2rem;
 }
 
-html, body {
+html, body, #root {
     height: 100vh;
 }
 
@@ -199,6 +199,10 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 2;
+}
+
+.imgOrderBy {
+    margin-bottom: .5rem;
 }
 
 /* Top Button */
