@@ -151,36 +151,44 @@ const Edit: FC = () => {
                             <optgroup label="Backgrounds">
                                 <option value="Beach">Beach</option>
                                 <option value="Buildings">Buildings</option>
+                                <option value="Forest">Forest</option>
                                 <option value="Landscapes">Landscapes</option>
                                 <option value="Medieval">Medieval</option>
                                 <option value="Mountain">Mountain</option>
+                                <option value="Sky">Sky</option>
                                 <option value="Skyscrapers">Skyscrapers</option>
                                 <option value="Space">Space</option>
                                 <option value="Underwater">Underwater</option>
                             </optgroup>
                             <optgroup label="Still Life">
-                                <option value="3D Shapes">3D Shapes</option>
+                                <option value="Action Figure">Action Figure</option>
                                 <option value="Clothing">Clothing</option>
                                 <option value="Fabrics">Fabrics</option>
                                 <option value="Food">Food</option>
                                 <option value="Flowers">Flowers</option>
+                                <option value="Instruments">Instruments</option>
                                 <option value="Objects">Objects</option>
                                 <option value="Paintings">Paintings</option>
                                 <option value="Sculptures">Sculptures</option>
+                                <option value="Shapes">Shapes</option>
                             </optgroup>
                             <optgroup label="Art Concepts">
                                 <option value="Black and White">Black and White</option>
                                 <option value="Color">Color</option>
-                                <option value="Lighting">Dynamic Lighting</option>
+                                <option value="Composition">Composition</option>
+                                <option value="Design">Design</option>
+                                <option value="Dramatic Lighting">Dramatic Lighting</option>
+                                <option value="Illustration">Illustration</option>
                                 <option value="Perspective">Perspective</option>
                             </optgroup>
                             <optgroup label="Animals">
                                 <option value="Animals">Animals</option>
-                                <option value="Bird">Bird</option>
-                                <option value="Bug">Bug</option>
+                                <option value="Amphibians">Amphibians</option>
+                                <option value="Birds">Birds</option>
+                                <option value="Bugs">Bugs</option>
                                 <option value="Fish">Fish</option>
-                                <option value="Mammal">Mammal</option>
-                                <option value="Reptile">Reptile</option>
+                                <option value="Mammals">Mammals</option>
+                                <option value="Reptiles">Reptiles</option>
                             </optgroup>
                         </Form.Select>
                     </Form.Group>
