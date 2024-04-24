@@ -324,11 +324,15 @@ function editRow(dataObject: MyData[], rowIndex: number, index: string) {
 
 function setFormPosition(index: string) {
     const button = document.querySelector("[data-index='" + index + "']") as HTMLButtonElement;
-    const buttonPosition = button.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
     const form = document.querySelector(".centerApproveEdit") as HTMLElement;
 
-    form.style.top = buttonPosition.bottom + 'px';
-    form.style.left = buttonPosition.left + 'px';
+    const buttonHeight = button.offsetHeight;
+    const buttonTop = buttonRect.top + window.pageYOffset + buttonHeight;
+    const buttonLeft = buttonRect.left + window.pageXOffset;
+
+    form.style.top = buttonTop + 'px';
+    form.style.left = buttonLeft + 'px';
 }
 
 interface MyData {
